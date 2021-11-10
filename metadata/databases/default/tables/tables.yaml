@@ -30,5 +30,5 @@
 - "!include public_wallet.yaml"
 - "!include public_wallet_expense.yaml"
 - "!include public_wallet_transaction.yaml"
-- "!include public_wallet_transaction_source.yaml"
+- "!include public_wallet_transaction_reason.yaml"
 - "!include public_warehouse.yaml"

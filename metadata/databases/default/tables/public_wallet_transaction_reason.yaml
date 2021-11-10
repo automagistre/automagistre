@@ -1,5 +1,5 @@
 table:
-    name: wallet_transaction_source
+    name: wallet_transaction_reason
     schema: public
 is_enum: true
 select_permissions:

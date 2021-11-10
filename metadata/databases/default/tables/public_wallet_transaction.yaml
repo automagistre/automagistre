@@ -8,9 +8,9 @@ object_relationships:
     -   name: wallet
         using:
             foreign_key_constraint_on: wallet_id
-    -   name: wallet_transaction_source
+    -   name: wallet_transaction_reason
         using:
-            foreign_key_constraint_on: source
+            foreign_key_constraint_on: reason
 insert_permissions:
     -   permission:
             backend_only: false
@@ -29,9 +29,9 @@ insert_permissions:
             columns:
                 - amount
                 - currency
-                - description
-                - source
-                - source_id
+                - comment
+                - reason
+                - reason_id
                 - wallet_id
             set:
                 tenant_id: x-hasura-Tenant-Id
@@ -42,14 +42,14 @@ select_permissions:
             columns:
                 - amount
                 - currency
-                - description
+                - comment
                 - created_at
                 - updated_at
                 - id
-                - source_id
+                - reason_id
                 - tenant_id
                 - wallet_id
-                - source
+                - reason
             filter:
                 tenant_id:
                     _eq: X-Hasura-Tenant-Id
@@ -60,7 +60,7 @@ update_permissions:
             columns:
                 - amount
                 - currency
-                - description
+                - comment
                 - wallet_id
             filter:
                 _and:

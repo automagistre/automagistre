@@ -194,149 +194,8 @@ SELECT DISTINCT tp.user_id, t.group_id
            JOIN tenant t
            ON t.id = tp.tenant_id;
 
---- Wallet
 
-ALTER TABLE public.wallet ALTER COLUMN id SET DEFAULT gen_random_uuid();
-ALTER TABLE public.wallet ALTER COLUMN use_in_order SET DEFAULT FALSE;
-ALTER TABLE public.wallet ALTER COLUMN use_in_income SET DEFAULT FALSE;
-ALTER TABLE public.wallet ALTER COLUMN show_in_layout SET DEFAULT FALSE;
-ALTER TABLE public.wallet ALTER COLUMN default_in_manual_transaction SET DEFAULT FALSE;
-
-ALTER TABLE public.wallet_transaction ALTER COLUMN id SET DEFAULT gen_random_uuid();
-
-CREATE TABLE public.wallet_transaction_source
-    (
-        id text NOT NULL,
-        name text NOT NULL,
-        PRIMARY KEY (id)
-    );
-INSERT INTO public.wallet_transaction_source(id, name)
-VALUES (E'legacy', E'Какие то старые проводки'),
-       (E'order_prepay', E'Предоплата по заказу'),
-       (E'order_debit', E'Начисление по заказу'),
-       (E'payroll', E'Выдача зарплаты'),
-       (E'income_payment', E'Оплата за поставку'),
-       (E'expense', E'Списание по статье расходов'),
-       (E'operand_manual', E'Ручная проводка клиента'),
-       (E'initial', E'Начальный баланс')
-;
-ALTER TABLE public.wallet_transaction ALTER COLUMN source TYPE text USING CASE WHEN source = 0 THEN 'legacy'
-                                                                               WHEN source = 1 THEN 'order_prepay'
-                                                                               WHEN source = 2 THEN 'order_debit'
-                                                                               WHEN source = 3 THEN 'payroll'
-                                                                               WHEN source = 4 THEN 'income_payment'
-                                                                               WHEN source = 5 THEN 'expense'
-                                                                               WHEN source = 6 THEN 'operand_manual'
-                                                                               WHEN source = 7 THEN 'initial' END;
-
-ALTER TABLE public.wallet_transaction
-    ADD CONSTRAINT wallet_transaction_wallet_id_fkey
-        FOREIGN KEY (wallet_id) REFERENCES public.wallet (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE public.wallet_transaction
-    ADD CONSTRAINT wallet_transaction_tenant_id_fkey
-        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE public.wallet
-    ADD CONSTRAINT wallet_tenant_id_fkey
-        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE public.wallet_transaction
-    ADD CONSTRAINT wallet_transaction_source_fkey
-        FOREIGN KEY (source) REFERENCES public.wallet_transaction_source (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
---- Wallet Balance
-
-ALTER TABLE public.wallet
-    ADD COLUMN balance numeric(12, 2) DEFAULT 0;
-
-ALTER TABLE public.wallet
-    ADD COLUMN balance_at timestamptz DEFAULT NOW();
-
-ALTER TABLE public.wallet_transaction
-    RENAME amount_amount TO amount;
-ALTER TABLE public.wallet_transaction
-    RENAME amount_currency_code TO currency;
-
-ALTER TABLE public.wallet_transaction ALTER COLUMN amount TYPE numeric(12, 2) USING amount / 100;
-
-CREATE OR REPLACE FUNCTION set_wallet_balance(uuid) RETURNS void AS
-$$
-BEGIN
-    UPDATE wallet
-       SET balance = (SELECT SUM(amount) FROM public.wallet_transaction WHERE wallet_id = $1),
-           balance_at = NOW()
-     WHERE id = $1;
-END;
-$$ LANGUAGE plpgsql;
-CREATE OR REPLACE FUNCTION set_wallet_balance_trigger() RETURNS trigger AS
-$$
-BEGIN
-    IF new.wallet_id <> old.wallet_id THEN CALL set_wallet_balance(old.wallet_id); END IF;
-
-    CALL set_wallet_balance(new.wallet_id);
-
-    RETURN new;
-END;
-$$ LANGUAGE plpgsql;
-CREATE TRIGGER set_wallet_balance_trigger
-    AFTER INSERT OR DELETE OR UPDATE OF amount,wallet_id
-    ON public.wallet_transaction
-    FOR EACH ROW
-EXECUTE PROCEDURE set_wallet_balance_trigger();
-SELECT set_wallet_balance(id)
-  FROM wallet;
-
-SELECT public.timestampable('public.wallet');
-SELECT public.timestampable('public.wallet_transaction');
-
---- Expense
-
-ALTER TABLE public.expense RENAME TO wallet_expense;
-ALTER TABLE public.wallet_expense ALTER COLUMN id SET DEFAULT gen_random_uuid();
-
-ALTER TABLE public.wallet_expense
-    ADD CONSTRAINT wallet_expense_wallet_id_fkey
-        FOREIGN KEY (wallet_id) REFERENCES public.wallet (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-ALTER TABLE public.wallet_expense
-    ADD CONSTRAINT wallet_expense_tenant_id_fkey
-        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-ALTER TABLE public.wallet_expense ADD COLUMN comment text NULL;
-COMMENT ON COLUMN public.wallet_expense.wallet_id IS E'Счет списания по умолчанию';
-
-SELECT public.timestampable('public.wallet_expense');
-
---- Warehouse
-
-ALTER TABLE public.warehouse ALTER COLUMN id SET DEFAULT gen_random_uuid();
-ALTER TABLE public.warehouse
-    ADD COLUMN name text DEFAULT NULL;
-ALTER TABLE public.warehouse
-    ADD COLUMN code text DEFAULT NULL;
-ALTER TABLE public.warehouse
-    ADD COLUMN parent_id uuid DEFAULT NULL;
-UPDATE public.warehouse t
-   SET name = (SELECT sub.name FROM warehouse_name sub WHERE sub.warehouse_id = t.id ORDER BY sub.id DESC LIMIT 1);
-UPDATE public.warehouse t
-   SET code = (SELECT sub.code FROM warehouse_code sub WHERE sub.warehouse_id = t.id ORDER BY sub.id DESC LIMIT 1);
-UPDATE public.warehouse t
-   SET parent_id = (SELECT sub.warehouse_parent_id
-                      FROM warehouse_parent sub
-                     WHERE sub.warehouse_id = t.id
-                     ORDER BY sub.id DESC
-                     LIMIT 1);
-
-DROP TABLE warehouse_name;
-DROP TABLE warehouse_code;
-DROP TABLE warehouse_parent;
-
-ALTER TABLE public.warehouse
-    ADD CONSTRAINT warehouse_tenant_id_fkey
-        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-SELECT public.timestampable('public.warehouse');
-
---- Customer
+--- Contact
 
 CREATE TABLE public.legal_form_type
     (
@@ -363,7 +222,7 @@ VALUES (E'LLC', 'ООО', 'Общество с ограниченной отве
        (E'SP', 'ИП', 'Индивидуальный предприниматель', 'person'),
        (E'CJSC', 'ЗАО', 'Закрытое акционерное общество', 'organization'),
        (E'JSC', 'ОАО', 'Открытое акционерное общество', 'organization'),
-       (E'UNKNOWN', 'Неизвестно', 'Неизвестно', 'organization'),
+       (E'unknown', 'Неизвестно', 'Неизвестно', 'organization'),
        (E'NP', 'ФЛ', 'Физическое лицо', 'person'),
        (E'AO', 'АО', 'Акционерное общество', 'organization'),
        (E'PAO', 'ПАО', 'Публичное акционерное общество', 'organization'),
@@ -376,7 +235,7 @@ CREATE TABLE public.contact
         id uuid
             PRIMARY KEY DEFAULT gen_random_uuid(),
         legal_form text
-            REFERENCES public.legal_form (id) ON UPDATE CASCADE DEFAULT 'UNKNOWN',
+            REFERENCES public.legal_form (id) ON UPDATE CASCADE DEFAULT 'unknown',
         name jsonb DEFAULT '{}'::jsonb,
         telephone text DEFAULT NULL,
         email text DEFAULT NULL,
@@ -416,7 +275,7 @@ SELECT id,
             WHEN name LIKE 'ИП%' THEN 'SP'
             WHEN name LIKE 'ЗАО%' THEN 'CJSC'
             WHEN name LIKE 'ОАО%' THEN 'JSC'
-            ELSE 'UNKNOWN' END,
+            ELSE 'unknown' END,
        CASE WHEN name LIKE 'ИП%' THEN JSON_BUILD_OBJECT('firstname', INITCAP((STRING_TO_ARRAY(name, ' '))[3]),
                                                         'lastname', INITCAP((STRING_TO_ARRAY(name, ' '))[2]),
                                                         'middlename', INITCAP((STRING_TO_ARRAY(name, ' '))[4]))
@@ -469,10 +328,305 @@ UPDATE contact
 
 CREATE UNIQUE INDEX contact_unique_phone_idx ON public.contact (telephone, tenant_group_id);
 
+-- TODO
 -- DROP TABLE person;
 -- DROP TABLE organization;
 
 SELECT public.timestampable('public.contact');
+
+--- Wallet
+
+ALTER TABLE public.wallet ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.wallet ALTER COLUMN use_in_order SET DEFAULT FALSE;
+ALTER TABLE public.wallet ALTER COLUMN use_in_income SET DEFAULT FALSE;
+ALTER TABLE public.wallet ALTER COLUMN show_in_layout SET DEFAULT FALSE;
+ALTER TABLE public.wallet ALTER COLUMN default_in_manual_transaction SET DEFAULT FALSE;
+
+ALTER TABLE public.wallet
+    ADD CONSTRAINT wallet_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+--- Expense
+
+ALTER TABLE public.expense RENAME TO wallet_expense;
+ALTER TABLE public.wallet_expense ALTER COLUMN id SET DEFAULT gen_random_uuid();
+
+ALTER TABLE public.wallet_expense
+    ADD CONSTRAINT wallet_expense_wallet_id_fkey
+        FOREIGN KEY (wallet_id) REFERENCES public.wallet (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.wallet_expense
+    ADD CONSTRAINT wallet_expense_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.wallet_expense ADD COLUMN comment text NULL;
+COMMENT ON COLUMN public.wallet_expense.wallet_id IS E'Счет списания по умолчанию';
+
+SELECT public.timestampable('public.wallet_expense');
+
+--- Contact Transaction
+
+CREATE TABLE public.contact_transaction_reason
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.contact_transaction_reason(id, name)
+VALUES (E'order_prepay', E'Предоплата по заказу'),
+       (E'order_debit', E'Начисление по заказу'),
+       (E'order_payment', E'Списание по заказу'),
+       (E'order_salary', E'Зарплата по заказу'),
+       (E'payroll', E'Выдача зарплаты'),
+       (E'income_debit', E'Начисление по поставке'),
+       (E'income_payment', E'Оплата за поставку'),
+       (E'salary', E'Начисление ежемесячного оклада'),
+       (E'penalty', E'Штраф'),
+       (E'manual', E'Ручная проводка'),
+       (E'manual_without_wallet', E'Ручная проводка')
+;
+
+ALTER TABLE customer_transaction ALTER source TYPE text USING CASE WHEN source = 1 THEN 'order_prepay'
+                                                                   WHEN source = 2 THEN 'order_debit'
+                                                                   WHEN source = 3 THEN 'order_payment'
+                                                                   WHEN source = 4 THEN 'order_salary'
+                                                                   WHEN source = 5 THEN 'payroll'
+                                                                   WHEN source = 6 THEN 'income_debit'
+                                                                   WHEN source = 7 THEN 'income_payment'
+                                                                   WHEN source = 8 THEN 'salary'
+                                                                   WHEN source = 9 THEN 'penalty'
+                                                                   WHEN source = 10 THEN 'manual'
+                                                                   WHEN source = 11 THEN 'manual_without_wallet'
+                                                                   ELSE 'unknown' END
+;
+
+CREATE TABLE contact_transaction
+    (
+        id uuid DEFAULT gen_random_uuid() NOT NULL
+            CONSTRAINT contact_transaction_pkey
+                PRIMARY KEY,
+        contact_id uuid NOT NULL
+            CONSTRAINT contact_transaction_contact_id_fkey REFERENCES contact ON UPDATE RESTRICT ON DELETE RESTRICT,
+        reason text NOT NULL
+            CONSTRAINT contact_transaction_reason_fkey REFERENCES contact_transaction_reason ON UPDATE RESTRICT ON DELETE RESTRICT,
+        reason_id uuid NOT NULL,
+        comment text,
+        tenant_id uuid NOT NULL
+            CONSTRAINT contact_transaction_tenant_id_fkey REFERENCES tenant ON UPDATE RESTRICT ON DELETE RESTRICT,
+        amount numeric(12, 2),
+        currency varchar(3) NOT NULL,
+        CHECK ( FALSE ) NO INHERIT
+    );
+
+CREATE TABLE contact_transaction_order
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.orders (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+    )
+INHERITS (contact_transaction);
+
+CREATE TABLE contact_transaction_income
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.income (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+    )
+INHERITS (contact_transaction);
+
+
+--- Wallet Transaction
+
+CREATE TABLE public.wallet_transaction_reason
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.wallet_transaction_reason(id, name)
+VALUES (E'legacy', E'Какие то старые проводки'),
+       (E'order_prepay', E'Предоплата по заказу'),
+       (E'order_debit', E'Начисление по заказу'),
+       (E'payroll', E'Выдача зарплаты'),
+       (E'income_payment', E'Оплата за поставку'),
+       (E'expense', E'Списание по статье расходов'),
+       (E'operand_manual', E'Ручная проводка клиента'),
+       (E'initial', E'Начальный баланс')
+;
+ALTER TABLE public.wallet_transaction ALTER COLUMN source TYPE text USING CASE WHEN source = 0 THEN 'legacy'
+                                                                               WHEN source = 1 THEN 'order_prepay'
+                                                                               WHEN source = 2 THEN 'order_debit'
+                                                                               WHEN source = 3 THEN 'payroll'
+                                                                               WHEN source = 4 THEN 'income_payment'
+                                                                               WHEN source = 5 THEN 'expense'
+                                                                               WHEN source = 6 THEN 'operand_manual'
+                                                                               WHEN source = 7 THEN 'initial' END;
+
+ALTER TABLE public.wallet_transaction RENAME TO wt;
+ALTER TABLE public.wt DROP CONSTRAINT wallet_transaction_pkey;
+SELECT public.timestampable('public.wt');
+
+CREATE TABLE wallet_transaction
+    (
+        id uuid DEFAULT gen_random_uuid() NOT NULL
+            CONSTRAINT wallet_transaction_pkey
+                PRIMARY KEY,
+        wallet_id uuid NOT NULL
+            CONSTRAINT wallet_transaction_wallet_id_fkey REFERENCES wallet ON UPDATE RESTRICT ON DELETE RESTRICT,
+        reason text NOT NULL
+            CONSTRAINT wallet_transaction_reason_fkey REFERENCES wallet_transaction_reason ON UPDATE RESTRICT ON DELETE RESTRICT,
+        reason_id uuid NOT NULL,
+        comment text,
+        tenant_id uuid NOT NULL
+            CONSTRAINT wallet_transaction_tenant_id_fkey REFERENCES tenant ON UPDATE RESTRICT ON DELETE RESTRICT,
+        amount numeric(12, 2),
+        currency varchar(3) NOT NULL,
+        created_at timestamp WITH TIME ZONE DEFAULT NOW() NOT NULL,
+        updated_at timestamp WITH TIME ZONE DEFAULT NOW() NOT NULL,
+        CHECK ( FALSE ) NO INHERIT
+    );
+
+CREATE TABLE wallet_transaction_order
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.orders (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+    )
+INHERITS (wallet_transaction);
+
+CREATE TABLE wallet_transaction_contact
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+    )
+INHERITS (wallet_transaction);
+
+CREATE TABLE wallet_transaction_income
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.income (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+    )
+INHERITS (wallet_transaction);
+
+CREATE TABLE wallet_transaction_expense
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.wallet_expense (id) ON UPDATE RESTRICT ON DELETE RESTRICT
+    )
+INHERITS (wallet_transaction);
+
+--- Migrate Contact and Wallet transactions
+
+
+-- self::ORDER_PREPAY => OrderId::class,
+-- self::ORDER_DEBIT => OrderId::class,
+-- self::ORDER_PAYMENT => OrderId::class,
+-- self::ORDER_SALARY => OrderId::class,
+-- self::INCOME_DEBIT => IncomeId::class,
+-- self::INCOME_PAYMENT => IncomeId::class,
+
+-- self::SALARY => SalaryId::class,                 --- ???
+
+-- self::MANUAL_WITHOUT_WALLET => UserId::class,    --- ???
+-- self::PENALTY => UserId::class,                  --- employee_penalty ?
+
+-- self::PAYROLL => WalletId::class,                --- wallet_transaction
+-- self::MANUAL => WalletId::class,                 --- wallet_transaction
+
+---
+
+-- self::ORDER_PREPAY => OrderId::class,
+-- self::ORDER_DEBIT => OrderId::class,
+-- self::INCOME_PAYMENT => IncomeId::class,
+-- self::EXPENSE => ExpenseId::class,
+
+-- self::LEGACY => UserId::class,                   --- ???
+-- self::INITIAL => UserId::class,                  --- manual
+
+-- self::PAYROLL => OperandId::class,               --- contact_transaction
+-- self::OPERAND_MANUAL => OperandId::class,        --- contact_transaction
+
+INSERT INTO wallet_transaction_order (id, wallet_id, reason, reason_id, comment, tenant_id, amount, currency,
+                                      created_at, updated_at)
+SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount / 100, amount_currency_code, created_at, updated_at
+  FROM wt
+ WHERE source IN ('order_prepay', 'order_debit');
+
+INSERT INTO wallet_transaction_income (id, wallet_id, reason, reason_id, comment, tenant_id, amount, currency,
+                                       created_at, updated_at)
+SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount / 100, amount_currency_code, created_at, updated_at
+  FROM wt
+ WHERE source IN ('income_payment');
+
+INSERT INTO wallet_transaction_expense (id, wallet_id, reason, reason_id, comment, tenant_id, amount, currency,
+                                        created_at, updated_at)
+SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount / 100, amount_currency_code, created_at, updated_at
+  FROM wt
+ WHERE source IN ('expense');
+
+--- Wallet Balance
+
+ALTER TABLE public.wallet
+    ADD COLUMN balance numeric(12, 2) DEFAULT 0;
+
+ALTER TABLE public.wallet
+    ADD COLUMN balance_at timestamptz DEFAULT NOW();
+
+CREATE OR REPLACE FUNCTION set_wallet_balance(uuid) RETURNS void AS
+$$
+BEGIN
+    UPDATE wallet
+       SET balance = (SELECT SUM(amount) FROM public.wallet_transaction WHERE wallet_id = $1),
+           balance_at = NOW()
+     WHERE id = $1;
+END;
+$$ LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION set_wallet_balance_trigger() RETURNS trigger AS
+$$
+BEGIN
+    IF new.wallet_id <> old.wallet_id THEN CALL set_wallet_balance(old.wallet_id); END IF;
+
+    CALL set_wallet_balance(new.wallet_id);
+
+    RETURN new;
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER set_wallet_balance_trigger
+    AFTER INSERT OR DELETE OR UPDATE OF amount,wallet_id
+    ON public.wallet_transaction
+    FOR EACH ROW
+EXECUTE PROCEDURE set_wallet_balance_trigger();
+SELECT set_wallet_balance(id)
+  FROM wallet;
+
+SELECT public.timestampable('public.wallet');
+
+CREATE TRIGGER set_wallet_transaction_updated_at
+    BEFORE UPDATE
+    ON wallet_transaction
+    FOR EACH ROW
+EXECUTE PROCEDURE set_current_timestamp_updated_at();
+
+COMMENT ON TRIGGER set_wallet_transaction_updated_at ON wallet_transaction IS 'trigger to set value of column "updated_at" to current timestamp on row update';
+
+--- Warehouse
+
+ALTER TABLE public.warehouse ALTER COLUMN id SET DEFAULT gen_random_uuid();
+ALTER TABLE public.warehouse
+    ADD COLUMN name text DEFAULT NULL;
+ALTER TABLE public.warehouse
+    ADD COLUMN code text DEFAULT NULL;
+ALTER TABLE public.warehouse
+    ADD COLUMN parent_id uuid DEFAULT NULL;
+UPDATE public.warehouse t
+   SET name = (SELECT sub.name FROM warehouse_name sub WHERE sub.warehouse_id = t.id ORDER BY sub.id DESC LIMIT 1);
+UPDATE public.warehouse t
+   SET code = (SELECT sub.code FROM warehouse_code sub WHERE sub.warehouse_id = t.id ORDER BY sub.id DESC LIMIT 1);
+UPDATE public.warehouse t
+   SET parent_id = (SELECT sub.warehouse_parent_id
+                      FROM warehouse_parent sub
+                     WHERE sub.warehouse_id = t.id
+                     ORDER BY sub.id DESC
+                     LIMIT 1);
+
+DROP TABLE warehouse_name;
+DROP TABLE warehouse_code;
+DROP TABLE warehouse_parent;
+
+ALTER TABLE public.warehouse
+    ADD CONSTRAINT warehouse_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+SELECT public.timestampable('public.warehouse');
 
 --- Vehicle
 
