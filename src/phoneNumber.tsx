@@ -15,7 +15,6 @@ export const PhoneNumberInput = (props: InputProps & Omit<TextInputProps, 'sourc
 
 PhoneNumberInput.defaultProps = {
     label: 'Телефон',
-    addLabel: true,
 }
 
 interface PhoneNumberFieldProps {
@@ -45,7 +44,6 @@ export const PhoneNumberField = (props: PhoneNumberFieldProps) => {
 
 PhoneNumberField.defaultProps = {
     label: 'Телефон',
-    addLabel: true,
 }
 
 // TODO Валидация телефонов
