@@ -37,6 +37,15 @@ BEGIN
 END ;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION public.set_balance(target_table regclass, target_uuid uuid) RETURNS void AS
+$$
+BEGIN
+    EXECUTE 'UPDATE ' || target_table || '
+       SET balance = (SELECT SUM(amount) FROM public.money_transfer WHERE target_id = ''' || target_uuid || '''::uuid),
+           balance_at = NOW()
+     WHERE id = ''' || target_uuid || '''::uuid';
+END ;
+$$ LANGUAGE plpgsql;
 --- Drop views
 
 DROP VIEW public.appeal_view;
@@ -345,7 +354,9 @@ CREATE TABLE users
         id uuid NOT NULL
             PRIMARY KEY
     );
-INSERT INTO users (id) SELECT DISTINCT user_id FROM created_by;
+INSERT INTO users (id)
+SELECT DISTINCT user_id
+  FROM created_by;
 --- Wallet
 
 ALTER TABLE public.wallet ALTER COLUMN id SET DEFAULT gen_random_uuid();
@@ -596,7 +607,8 @@ SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount /
  WHERE source IN ('expense')
 ;
 INSERT INTO public.money_transfer_wallet_user (id, target_id, reason, reason_id, comment, tenant_id, amount, currency)
-SELECT id, wallet_id, source, (SELECT user_id FROM created_by cb WHERE cb.id = id LIMIT 1), description, tenant_id, amount_amount, amount_currency_code
+SELECT id, wallet_id, source, (SELECT user_id FROM created_by cb WHERE cb.id = id LIMIT 1), description, tenant_id,
+       amount_amount / 100, amount_currency_code
   FROM wallet_transaction
  WHERE source IN ('legacy', 'payroll', 'operand_manual', 'initial')
 ;
@@ -635,12 +647,13 @@ SELECT id, operand_id, source, (SELECT id FROM employee_penalty WHERE name = 'ol
  WHERE source IN ('penalty')
 ;
 INSERT INTO public.money_transfer_contact_user (id, target_id, reason, reason_id, comment, tenant_id, amount, currency)
-SELECT id, operand_id, source, (SELECT user_id FROM created_by cb WHERE cb.id = id LIMIT 1), description, tenant_id, amount_amount, amount_currency_code
+SELECT id, operand_id, source, (SELECT user_id FROM created_by cb WHERE cb.id = id LIMIT 1), description, tenant_id,
+       amount_amount / 100, amount_currency_code
   FROM customer_transaction
  WHERE source IN ('payroll', 'manual', 'manual_without_wallet')
 ;
 
---- Wallet Balance
+--- Balance
 
 ALTER TABLE public.wallet
     ADD COLUMN balance numeric(16, 2) DEFAULT 0;
@@ -648,31 +661,32 @@ ALTER TABLE public.wallet
 ALTER TABLE public.wallet
     ADD COLUMN balance_at timestamptz DEFAULT NOW();
 
-CREATE OR REPLACE FUNCTION set_wallet_balance(uuid) RETURNS void AS
+CREATE OR REPLACE FUNCTION public.set_money_transfer_balance_trigger() RETURNS trigger AS
 $$
 BEGIN
-    UPDATE wallet
-       SET balance = (SELECT SUM(amount) FROM public.money_transfer_wallet WHERE target_id = $1),
-           balance_at = NOW()
-     WHERE id = $1;
-END;
-$$ LANGUAGE plpgsql;
-CREATE OR REPLACE FUNCTION set_wallet_balance_trigger() RETURNS trigger AS
-$$
-BEGIN
-    IF new.target_id <> old.target_id THEN CALL set_wallet_balance(old.target_id); END IF;
+    IF new.target_id <> old.target_id THEN CALL set_balance(('public.' || new.target)::regclass, old.target_id); END IF;
 
-    CALL set_wallet_balance(new.target_id);
+    CALL set_balance(('public.' || new.target)::regclass, new.target_id);
 
     RETURN new;
 END;
 $$ LANGUAGE plpgsql;
-CREATE TRIGGER set_wallet_balance_trigger
-    AFTER INSERT OR DELETE OR UPDATE OF amount,target_id
-    ON public.money_transfer_wallet
-    FOR EACH ROW
-EXECUTE PROCEDURE set_wallet_balance_trigger();
-SELECT set_wallet_balance(id)
+
+CREATE OR REPLACE PROCEDURE public.create_balance_trigger(regclass) AS
+$$
+BEGIN
+    EXECUTE 'CREATE TRIGGER set_balance_on_' || $1 || '_trigger
+                AFTER INSERT OR DELETE OR UPDATE OF amount,target_id ON ' || $1 || ' FOR EACH ROW
+                EXECUTE PROCEDURE set_money_transfer_balance_trigger()';
+END ;
+$$ LANGUAGE plpgsql;
+
+CALL public.create_balance_trigger('public.money_transfer_wallet_expense');
+CALL public.create_balance_trigger('public.money_transfer_wallet_income');
+CALL public.create_balance_trigger('public.money_transfer_wallet_order');
+CALL public.create_balance_trigger('public.money_transfer_wallet_user');
+
+SELECT set_balance('public.wallet', id)
   FROM public.wallet;
 
 SELECT public.timestampable('public.wallet');

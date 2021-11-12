@@ -45,7 +45,7 @@ services:
             HASURA_GRAPHQL_DATABASE_URL: postgres://automagistre:automagistre@postgres:5432/automagistre
             HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://hasura:hasura@postgres:5432/automagistre
             HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
-            HASURA_GRAPHQL_STRINGIFY_NUMERIC_TYPES: 'true'
+            HASURA_GRAPHQL_STRINGIFY_NUMERIC_TYPES: 'false'
         networks:
             - default
             - traefik
