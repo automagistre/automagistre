@@ -56,14 +56,12 @@ up-postgres:
 		&& psql -c \" \
 			CREATE USER automagistre WITH PASSWORD 'automagistre'; \
 			GRANT ALL PRIVILEGES ON DATABASE automagistre TO automagistre; \
+			CREATE USER hasura WITH PASSWORD 'hasura'; \
+			GRANT ALL PRIVILEGES ON DATABASE automagistre TO hasura; \
 		\" \
 		"
 
 up-hasura:
-	$(DEBUG_ECHO) docker-compose exec postgres psql -c " \
-		CREATE USER hasura WITH PASSWORD 'hasura'; \
-		GRANT ALL PRIVILEGES ON DATABASE automagistre TO hasura; \
-		"
 	$(DEBUG_ECHO) docker-compose up -d --force-recreate hasura
 	$(DEBUG_ECHO) docker-compose exec hasura sh -c "until nc -z 127.0.0.1 80; do sleep 0.1; done"
 
