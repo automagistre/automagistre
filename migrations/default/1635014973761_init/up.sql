@@ -362,26 +362,68 @@ COMMENT ON COLUMN public.wallet_expense.wallet_id IS E'Счет списания
 
 SELECT public.timestampable('public.wallet_expense');
 
---- Contact Transaction
+--- Transaction
 
-CREATE TABLE public.contact_transaction_reason
+CREATE TABLE public.transaction_reason
     (
         id text NOT NULL,
         name text NOT NULL,
         PRIMARY KEY (id)
     );
-INSERT INTO public.contact_transaction_reason(id, name)
-VALUES (E'order_prepay', E'Предоплата по заказу'),
-       (E'order_debit', E'Начисление по заказу'),
-       (E'order_payment', E'Списание по заказу'),
-       (E'order_salary', E'Зарплата по заказу'),
-       (E'payroll', E'Выдача зарплаты'),
-       (E'income_debit', E'Начисление по поставке'),
-       (E'income_payment', E'Оплата за поставку'),
-       (E'salary', E'Начисление ежемесячного оклада'),
-       (E'penalty', E'Штраф'),
-       (E'manual', E'Ручная проводка'),
-       (E'manual_without_wallet', E'Ручная проводка')
+INSERT INTO public.transaction_reason(id, name)
+VALUES
+       --- order_prepay(order, wallet, amount, currency)
+       --- wallet debit
+       --- contact debit
+       (E'order_prepay', E'Предоплата по заказу'),      -- C
+       (E'order_prepay', E'Предоплата по заказу'),      -- W
+
+       --- order_close(order, payment)
+       --- wallet debit (payment)
+       --- contact debit (payment)
+       --- contact credit (order total)
+       --- contact debit (employee salary)
+       (E'order_debit', E'Начисление по заказу'),       -- C
+       (E'order_debit', E'Начисление по заказу'),       -- W
+       (E'order_payment', E'Списание по заказу'),       -- C
+       (E'order_salary', E'Зарплата по заказу'),        -- C
+
+       --- employee_payroll(contact, amount, comment)
+       --- wallet credit
+       --- contact credit
+       (E'payroll', E'Выдача зарплаты'),                -- C
+       (E'payroll', E'Выдача зарплаты'),                -- W
+
+       --- wallet_expense(expense, wallet, amount, comment)
+       --- wallet credit
+       (E'expense', E'Списание по статье расходов'),    -- W
+
+       --- employee_penalty(contact, amount, comment)
+       --- contact credit
+       (E'penalty', E'Штраф'),                          -- C
+
+       --- employee_salary(contact, amount, comment)
+       --- contact debit
+       (E'salary', E'Начисление ежемесячного оклада'),  -- C
+
+       --- wallet_manual(wallet, amount, comment)
+       --- contact_manual(contact, amount, comment)
+       (E'manual', E'Ручная проводка'),                 -- C
+       (E'operand_manual', E'Ручная проводка клиента'), -- W
+       (E'manual_without_wallet', E'Ручная проводка'),  -- C
+
+       --- income_accrue(income)
+       --- contact debit
+       (E'income_debit', E'Начисление по поставке'),    -- C
+
+       --- income_pay(income, wallet, amount)
+       --- wallet credit
+       --- contact credit
+       (E'income_payment', E'Оплата за поставку'),      -- C
+       (E'income_payment', E'Оплата за поставку'),      -- W
+
+       (E'legacy', E'Какие то старые проводки'),        -- W
+       (E'initial', E'Начальный баланс')                -- W
 ;
 
 ALTER TABLE customer_transaction ALTER source TYPE text USING CASE WHEN source = 1 THEN 'order_prepay'
