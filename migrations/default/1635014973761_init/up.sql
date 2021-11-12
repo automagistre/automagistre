@@ -338,6 +338,14 @@ CREATE UNIQUE INDEX contact_unique_user_idx ON public.contact (user_id, tenant_g
 
 SELECT public.timestampable('public.contact');
 
+--- Users
+
+CREATE TABLE users
+    (
+        id uuid NOT NULL
+            PRIMARY KEY
+    );
+INSERT INTO users (id) SELECT DISTINCT user_id FROM created_by;
 --- Wallet
 
 ALTER TABLE public.wallet ALTER COLUMN id SET DEFAULT gen_random_uuid();
@@ -508,21 +516,22 @@ CREATE TABLE public.money_transfer_contact_order
 INHERITS (money_transfer_contact);
 
 
---- TODO tables for user transactions
--- CREATE TABLE public.money_transfer_wallet_user
---     (
---         FOREIGN KEY (reason_id) REFERENCES public.contact (user_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
---         CHECK ( target = 'wallet' )
---     )
--- INHERITS (money_transfer_wallet);
--- ALTER TABLE public.money_transfer_wallet_user ALTER target SET DEFAULT 'wallet';
--- CREATE TABLE public.money_transfer_contact_user
---     (
---         FOREIGN KEY (reason_id) REFERENCES public.contact (user_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
---         CHECK ( target = 'contact' )
---     )
--- INHERITS (money_transfer_contact);
--- ALTER TABLE public.money_transfer_contact_user ALTER target SET DEFAULT 'contact';
+CREATE TABLE public.money_transfer_wallet_user
+    (
+        FOREIGN KEY (target_id) REFERENCES public.wallet (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        FOREIGN KEY (reason_id) REFERENCES public.users (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( target = 'wallet' )
+    )
+INHERITS (money_transfer);
+ALTER TABLE public.money_transfer_wallet_user ALTER target SET DEFAULT 'wallet';
+CREATE TABLE public.money_transfer_contact_user
+    (
+        FOREIGN KEY (target_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        FOREIGN KEY (reason_id) REFERENCES public.users (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( target = 'contact' )
+    )
+INHERITS (money_transfer);
+ALTER TABLE public.money_transfer_contact_user ALTER target SET DEFAULT 'contact';
 
 
 CREATE TABLE public.money_transfer_wallet_income
@@ -594,12 +603,11 @@ SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount /
   FROM wallet_transaction
  WHERE source IN ('expense')
 ;
--- INSERT INTO public.money_transfer_wallet_user (id, target_id, reason, reason_id, comment, tenant_id, amount, currency)
--- SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount, currency
---   FROM wallet_transaction
---  WHERE source IN ('legacy', 'payroll', 'operand_manual')
--- ;
---- TODO Migrate user (manual)
+INSERT INTO public.money_transfer_wallet_user (id, target_id, reason, reason_id, comment, tenant_id, amount, currency)
+SELECT id, wallet_id, source, (SELECT user_id FROM created_by cb WHERE cb.id = id LIMIT 1), description, tenant_id, amount_amount, amount_currency_code
+  FROM wallet_transaction
+ WHERE source IN ('legacy', 'payroll', 'operand_manual', 'initial')
+;
 
 ALTER TABLE customer_transaction ALTER source TYPE text USING CASE WHEN source = 1 THEN 'order_prepay'
                                                                    WHEN source = 2 THEN 'order_debit'
@@ -634,12 +642,11 @@ SELECT id, operand_id, source, (SELECT id FROM employee_penalty WHERE name = 'ol
   FROM customer_transaction
  WHERE source IN ('penalty')
 ;
--- INSERT INTO public.money_transfer_contact_user (id, target_id, reason, reason_id, comment, tenant_id, amount, currency)
--- SELECT id, operand_id, source, source_id, description, tenant_id, amount_amount, amount_currency_code
---   FROM customer_transaction
---  WHERE source IN ('payroll', 'manual', 'manual_without_wallet')
--- ;
---- TODO Migrate user (manual)
+INSERT INTO public.money_transfer_contact_user (id, target_id, reason, reason_id, comment, tenant_id, amount, currency)
+SELECT id, operand_id, source, (SELECT user_id FROM created_by cb WHERE cb.id = id LIMIT 1), description, tenant_id, amount_amount, amount_currency_code
+  FROM customer_transaction
+ WHERE source IN ('payroll', 'manual', 'manual_without_wallet')
+;
 
 --- Wallet Balance
 
