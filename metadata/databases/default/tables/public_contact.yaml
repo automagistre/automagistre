@@ -59,16 +59,18 @@ select_permissions:
     -   permission:
             allow_aggregations: true
             columns:
+                - balance
+                - balance_at
+                - contractor
+                - created_at
+                - email
                 - id
                 - legal_form
                 - name
-                - telephone
-                - email
-                - contractor
-                - supplier
                 - requisites
+                - supplier
+                - telephone
                 - tenant_group_id
-                - created_at
                 - updated_at
             filter:
                 _and:
