@@ -43,7 +43,7 @@ services:
                     size: 64mb
 
     hasura:
-        image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
+        image: hasura/graphql-engine:v2.1.0-beta.2.cli-migrations-v3
         labels:
             ru.grachevko.dhu: 'api-next.automagistre.local'
         command:
@@ -67,7 +67,7 @@ services:
                     - api-next.automagistre.local
 
     hasura-console:
-        image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
+        image: hasura/graphql-engine:v2.1.0-beta.2.cli-migrations-v3
         extra_hosts:
             - api-console.automagistre.local:0.0.0.0
         labels:
