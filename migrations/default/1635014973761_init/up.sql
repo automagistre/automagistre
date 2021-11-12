@@ -265,7 +265,7 @@ SELECT id, 'NP', JSON_BUILD_OBJECT('firstname', firstname, 'lastname', lastname,
        contractor, seller, tenant_group_id
   FROM person;
 
-UPDATE organization
+UPDATE public.organization
    SET name = REPLACE(name, '.', ' ')
  WHERE name LIKE 'ИП%';
 
@@ -292,41 +292,45 @@ SELECT DISTINCT p.id, o.id, o.tenant_group_id
            JOIN public.organization o
            ON o.telephone = p.telephone AND o.tenant_group_id = p.tenant_group_id;
 
-UPDATE contact
+UPDATE public.contact
    SET telephone = NULL
  WHERE id IN (SELECT DISTINCT o.id
                 FROM public.person p
                          JOIN public.organization o
                          ON o.telephone = p.telephone);
 
-INSERT INTO contact (id, telephone, tenant_group_id)
+INSERT INTO public.contact (id, telephone, tenant_group_id)
 VALUES ('c2bebe04-9dd6-4f2b-9d32-e069451073bd',
         (SELECT telephone FROM contact WHERE id = '1ea87f90-c050-60fe-9ffc-02420a000547' LIMIT 1),
         '1ec13d33-3f41-6cf0-b012-02420a000f18');
-INSERT INTO contact_relation (source_id, target_id, tenant_group_id)
+INSERT INTO public.contact_relation (source_id, target_id, tenant_group_id)
 VALUES ('c2bebe04-9dd6-4f2b-9d32-e069451073bd', '1ea87f90-c050-60fe-9ffc-02420a000547',
         '1ec13d33-3f41-6cf0-b012-02420a000f18');
-INSERT INTO contact_relation (source_id, target_id, tenant_group_id)
+INSERT INTO public.contact_relation (source_id, target_id, tenant_group_id)
 VALUES ('c2bebe04-9dd6-4f2b-9d32-e069451073bd', '1ea87f90-c063-60d2-9183-02420a000547',
         '1ec13d33-3f41-6cf0-b012-02420a000f18');
 
-INSERT INTO contact (id, telephone, tenant_group_id)
+INSERT INTO public.contact (id, telephone, tenant_group_id)
 VALUES ('f5a34863-9036-40de-a639-e2afc06e2962',
         (SELECT telephone FROM contact WHERE id = '1ea87f90-c06c-679a-99a2-02420a000547' LIMIT 1),
         '1ec13d33-3f41-6cf0-b012-02420a000f18');
-INSERT INTO contact_relation (source_id, target_id, tenant_group_id)
+INSERT INTO public.contact_relation (source_id, target_id, tenant_group_id)
 VALUES ('f5a34863-9036-40de-a639-e2afc06e2962', '1ea87f90-c06c-679a-99a2-02420a000547',
         '1ec13d33-3f41-6cf0-b012-02420a000f18');
-INSERT INTO contact_relation (source_id, target_id, tenant_group_id)
+INSERT INTO public.contact_relation (source_id, target_id, tenant_group_id)
 VALUES ('f5a34863-9036-40de-a639-e2afc06e2962', '1eb64ae7-f469-6572-9559-0242ac120038',
         '1ec13d33-3f41-6cf0-b012-02420a000f18');
 
-UPDATE contact
+UPDATE public.contact
    SET telephone = NULL
  WHERE id IN ('1ea87f90-c050-60fe-9ffc-02420a000547', '1ea87f90-c063-60d2-9183-02420a000547',
               '1ea87f90-c06c-679a-99a2-02420a000547', '1eb64ae7-f469-6572-9559-0242ac120038');
 
 CREATE UNIQUE INDEX contact_unique_phone_idx ON public.contact (telephone, tenant_group_id);
+
+
+ALTER TABLE public.contact ADD user_id uuid DEFAULT NULL;
+CREATE UNIQUE INDEX contact_unique_user_idx ON public.contact (user_id, tenant_group_id);
 
 -- TODO
 -- DROP TABLE person;
@@ -362,73 +366,244 @@ COMMENT ON COLUMN public.wallet_expense.wallet_id IS E'Счет списания
 
 SELECT public.timestampable('public.wallet_expense');
 
---- Transaction
+--- Employee Penalty
 
-CREATE TABLE public.transaction_reason
+CREATE TABLE public.employee_penalty
+    (
+        id uuid NOT NULL DEFAULT gen_random_uuid()
+            PRIMARY KEY,
+        name text NOT NULL,
+        amount numeric(16, 2),
+        comment text DEFAULT NULL,
+        is_active boolean DEFAULT TRUE
+    );
+SELECT public.timestampable('public.employee_penalty');
+
+INSERT INTO public.employee_penalty(name, amount, is_active)
+VALUES (E'old', 0, FALSE)
+;
+
+--- Money Transfer
+
+CREATE TABLE public.money_transfer_target
     (
         id text NOT NULL,
         name text NOT NULL,
         PRIMARY KEY (id)
     );
-INSERT INTO public.transaction_reason(id, name)
-VALUES
-       --- order_prepay(order, wallet, amount, currency)
-       --- wallet debit
-       --- contact debit
-       (E'order_prepay', E'Предоплата по заказу'),      -- C
-       (E'order_prepay', E'Предоплата по заказу'),      -- W
-
-       --- order_close(order, payment)
-       --- wallet debit (payment)
-       --- contact debit (payment)
-       --- contact credit (order total)
-       --- contact debit (employee salary)
-       (E'order_debit', E'Начисление по заказу'),       -- C
-       (E'order_debit', E'Начисление по заказу'),       -- W
-       (E'order_payment', E'Списание по заказу'),       -- C
-       (E'order_salary', E'Зарплата по заказу'),        -- C
-
-       --- employee_payroll(contact, amount, comment)
-       --- wallet credit
-       --- contact credit
-       (E'payroll', E'Выдача зарплаты'),                -- C
-       (E'payroll', E'Выдача зарплаты'),                -- W
-
-       --- wallet_expense(expense, wallet, amount, comment)
-       --- wallet credit
-       (E'expense', E'Списание по статье расходов'),    -- W
-
-       --- employee_penalty(contact, amount, comment)
-       --- contact credit
-       (E'penalty', E'Штраф'),                          -- C
-
-       --- employee_salary(contact, amount, comment)
-       --- contact debit
-       (E'salary', E'Начисление ежемесячного оклада'),  -- C
-
-       --- wallet_manual(wallet, amount, comment)
-       --- contact_manual(contact, amount, comment)
-       (E'manual', E'Ручная проводка'),                 -- C
-       (E'operand_manual', E'Ручная проводка клиента'), -- W
-       (E'manual_without_wallet', E'Ручная проводка'),  -- C
-
-       --- income_accrue(income)
-       --- contact debit
-       (E'income_debit', E'Начисление по поставке'),    -- C
-
-       --- income_pay(income, wallet, amount)
-       --- wallet credit
-       --- contact credit
-       (E'income_payment', E'Оплата за поставку'),      -- C
-       (E'income_payment', E'Оплата за поставку'),      -- W
-
-       (E'legacy', E'Какие то старые проводки'),        -- W
-       (E'initial', E'Начальный баланс')                -- W
+INSERT INTO public.money_transfer_target(id, name)
+VALUES (E'wallet', E'Счёт'),
+       (E'contact', E'Контакт')
 ;
+CREATE TABLE public.money_transfer_reason
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.money_transfer_reason(id, name)
+VALUES
+    --- order_prepay(order, wallet, amount, currency)
+    --- wallet debit
+    --- contact debit
+    (E'order_prepay', E'Предоплата по заказу'),      -- C
+    (E'order_prepay', E'Предоплата по заказу'),      -- W
+
+    --- order_close(order, payment)
+    --- wallet debit (payment)
+    --- contact debit (payment)
+    --- contact credit (order total)
+    --- contact debit (employee salary)
+    (E'order_debit', E'Начисление по заказу'),       -- C
+    (E'order_debit', E'Начисление по заказу'),       -- W
+    (E'order_credit', E'Списание по заказу'),        -- C
+    (E'order_salary', E'Зарплата по заказу'),        -- C
+
+    --- employee_payroll(contact, amount, comment)
+    --- wallet credit
+    --- contact credit
+    (E'payroll', E'Выдача зарплаты'),                -- C
+    (E'payroll', E'Выдача зарплаты'),                -- W
+
+    --- wallet_expense(expense, wallet, amount, comment)
+    --- wallet credit
+    (E'expense', E'Списание по статье расходов'),    -- W
+
+    --- employee_penalty(contact, amount, comment)
+    --- contact credit
+    (E'penalty', E'Штраф'),                          -- C
+
+    --- employee_salary(contact, amount, comment)
+    --- contact debit
+    (E'salary', E'Начисление ежемесячного оклада'),  -- C
+
+    --- wallet_manual(wallet, amount, comment)
+    --- contact_manual(contact, amount, comment)
+    (E'manual', E'Ручная проводка'),                 -- C
+    (E'operand_manual', E'Ручная проводка клиента'), -- W
+    (E'manual_without_wallet', E'Ручная проводка'),  -- C
+
+    --- income_accrue(income)
+    --- contact debit
+    (E'income_debit', E'Начисление по поставке'),    -- C
+
+    --- income_pay(income, wallet, amount)
+    --- wallet credit
+    --- contact credit
+    (E'income_payment', E'Оплата за поставку'),      -- C
+    (E'income_payment', E'Оплата за поставку'),      -- W
+
+    (E'legacy', E'Какие то старые проводки'),        -- W
+    (E'initial', E'Начальный баланс')                -- W
+    ON CONFLICT DO NOTHING
+;
+
+CREATE TABLE public.money_transfer
+    (
+        id uuid DEFAULT gen_random_uuid() NOT NULL
+            CONSTRAINT money_transaction_pkey
+                PRIMARY KEY,
+        target text NOT NULL
+            CONSTRAINT money_transfer_target_fkey REFERENCES money_transfer_target ON UPDATE CASCADE ON DELETE RESTRICT,
+        target_id uuid NOT NULL,
+        reason text NOT NULL
+            CONSTRAINT money_transfer_reason_fkey REFERENCES money_transfer_reason ON UPDATE CASCADE ON DELETE RESTRICT,
+        reason_id uuid NOT NULL,
+        comment text DEFAULT NULL,
+        tenant_id uuid NOT NULL
+            CONSTRAINT money_transfer_tenant_id_fkey REFERENCES tenant ON UPDATE RESTRICT ON DELETE RESTRICT,
+        amount numeric(16, 2),
+        currency varchar(3) NOT NULL,
+        CHECK ( FALSE ) NO INHERIT
+    );
+
+CREATE TABLE public.money_transfer_wallet
+    (
+        FOREIGN KEY (target_id) REFERENCES public.wallet (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( FALSE ) NO INHERIT
+    )
+INHERITS (money_transfer);
+ALTER TABLE public.money_transfer_wallet ALTER target SET DEFAULT 'wallet';
+
+CREATE TABLE public.money_transfer_contact
+    (
+        FOREIGN KEY (target_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( FALSE ) NO INHERIT
+    )
+INHERITS (money_transfer);
+ALTER TABLE public.money_transfer_contact ALTER target SET DEFAULT 'contact';
+
+
+CREATE TABLE public.money_transfer_wallet_order
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.orders (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( target = 'wallet' )
+    )
+INHERITS (money_transfer_wallet);
+CREATE TABLE public.money_transfer_contact_order
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.orders (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( target = 'contact' )
+    )
+INHERITS (money_transfer_contact);
+
+
+--- TODO tables for user transactions
+-- CREATE TABLE public.money_transfer_wallet_user
+--     (
+--         FOREIGN KEY (reason_id) REFERENCES public.contact (user_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+--         CHECK ( target = 'wallet' )
+--     )
+-- INHERITS (money_transfer_wallet);
+-- ALTER TABLE public.money_transfer_wallet_user ALTER target SET DEFAULT 'wallet';
+-- CREATE TABLE public.money_transfer_contact_user
+--     (
+--         FOREIGN KEY (reason_id) REFERENCES public.contact (user_id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+--         CHECK ( target = 'contact' )
+--     )
+-- INHERITS (money_transfer_contact);
+-- ALTER TABLE public.money_transfer_contact_user ALTER target SET DEFAULT 'contact';
+
+
+CREATE TABLE public.money_transfer_wallet_income
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.income (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( target = 'wallet' )
+    )
+INHERITS (money_transfer_wallet);
+ALTER TABLE public.money_transfer_wallet_income ALTER target SET DEFAULT 'wallet';
+CREATE TABLE public.money_transfer_contact_income
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.income (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( target = 'contact' )
+    )
+INHERITS (money_transfer_contact);
+ALTER TABLE public.money_transfer_contact_income ALTER target SET DEFAULT 'contact';
+
+
+CREATE TABLE public.money_transfer_contact_employee_salary
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.employee_salary (id) ON UPDATE RESTRICT ON DELETE RESTRICT, --- TODO employee_salary_history with version_id
+        CHECK ( target = 'contact' )
+    )
+INHERITS (money_transfer_contact);
+ALTER TABLE public.money_transfer_contact_employee_salary ALTER target SET DEFAULT 'contact';
+
+
+CREATE TABLE public.money_transfer_contact_employee_penalty
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.employee_penalty (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( target = 'contact' )
+    )
+INHERITS (money_transfer_contact);
+ALTER TABLE public.money_transfer_contact_employee_penalty ALTER target SET DEFAULT 'contact';
+
+
+CREATE TABLE public.money_transfer_wallet_expense
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.wallet_expense (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( target = 'wallet' )
+    )
+INHERITS (money_transfer_wallet);
+ALTER TABLE public.money_transfer_wallet_expense ALTER target SET DEFAULT 'wallet';
+
+--- Migrate Transactions to Money Transfer
+
+ALTER TABLE public.wallet_transaction ALTER COLUMN source TYPE text USING CASE WHEN source = 0 THEN 'legacy'
+                                                                               WHEN source = 1 THEN 'order_prepay'
+                                                                               WHEN source = 2 THEN 'order_debit'
+                                                                               WHEN source = 3 THEN 'payroll'
+                                                                               WHEN source = 4 THEN 'income_payment'
+                                                                               WHEN source = 5 THEN 'expense'
+                                                                               WHEN source = 6 THEN 'operand_manual'
+                                                                               WHEN source = 7 THEN 'initial' END;
+
+INSERT INTO public.money_transfer_wallet_order (id, target_id, reason, reason_id, comment, tenant_id, amount, currency)
+SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount / 100, amount_currency_code
+  FROM wallet_transaction
+ WHERE source IN ('order_prepay', 'order_debit')
+;
+INSERT INTO public.money_transfer_wallet_income (id, target_id, reason, reason_id, comment, tenant_id, amount, currency)
+SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount / 100, amount_currency_code
+  FROM wallet_transaction
+ WHERE source IN ('income_payment')
+;
+INSERT INTO public.money_transfer_wallet_expense (id, target_id, reason, reason_id, comment, tenant_id, amount,
+                                                  currency)
+SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount / 100, amount_currency_code
+  FROM wallet_transaction
+ WHERE source IN ('expense')
+;
+-- INSERT INTO public.money_transfer_wallet_user (id, target_id, reason, reason_id, comment, tenant_id, amount, currency)
+-- SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount, currency
+--   FROM wallet_transaction
+--  WHERE source IN ('legacy', 'payroll', 'operand_manual')
+-- ;
+--- TODO Migrate user (manual)
 
 ALTER TABLE customer_transaction ALTER source TYPE text USING CASE WHEN source = 1 THEN 'order_prepay'
                                                                    WHEN source = 2 THEN 'order_debit'
-                                                                   WHEN source = 3 THEN 'order_payment'
+                                                                   WHEN source = 3 THEN 'order_credit'
                                                                    WHEN source = 4 THEN 'order_salary'
                                                                    WHEN source = 5 THEN 'payroll'
                                                                    WHEN source = 6 THEN 'income_debit'
@@ -440,165 +615,36 @@ ALTER TABLE customer_transaction ALTER source TYPE text USING CASE WHEN source =
                                                                    ELSE 'unknown' END
 ;
 
-CREATE TABLE contact_transaction
-    (
-        id uuid DEFAULT gen_random_uuid() NOT NULL
-            CONSTRAINT contact_transaction_pkey
-                PRIMARY KEY,
-        contact_id uuid NOT NULL
-            CONSTRAINT contact_transaction_contact_id_fkey REFERENCES contact ON UPDATE RESTRICT ON DELETE RESTRICT,
-        reason text NOT NULL
-            CONSTRAINT contact_transaction_reason_fkey REFERENCES contact_transaction_reason ON UPDATE RESTRICT ON DELETE RESTRICT,
-        reason_id uuid NOT NULL,
-        comment text,
-        tenant_id uuid NOT NULL
-            CONSTRAINT contact_transaction_tenant_id_fkey REFERENCES tenant ON UPDATE RESTRICT ON DELETE RESTRICT,
-        amount numeric(12, 2),
-        currency varchar(3) NOT NULL,
-        CHECK ( FALSE ) NO INHERIT
-    );
-
-CREATE TABLE contact_transaction_order
-    (
-        FOREIGN KEY (reason_id) REFERENCES public.orders (id) ON UPDATE RESTRICT ON DELETE RESTRICT
-    )
-INHERITS (contact_transaction);
-
-CREATE TABLE contact_transaction_income
-    (
-        FOREIGN KEY (reason_id) REFERENCES public.income (id) ON UPDATE RESTRICT ON DELETE RESTRICT
-    )
-INHERITS (contact_transaction);
-
-
---- Wallet Transaction
-
-CREATE TABLE public.wallet_transaction_reason
-    (
-        id text NOT NULL,
-        name text NOT NULL,
-        PRIMARY KEY (id)
-    );
-INSERT INTO public.wallet_transaction_reason(id, name)
-VALUES (E'legacy', E'Какие то старые проводки'),
-       (E'order_prepay', E'Предоплата по заказу'),
-       (E'order_debit', E'Начисление по заказу'),
-       (E'payroll', E'Выдача зарплаты'),
-       (E'income_payment', E'Оплата за поставку'),
-       (E'expense', E'Списание по статье расходов'),
-       (E'operand_manual', E'Ручная проводка клиента'),
-       (E'initial', E'Начальный баланс')
+INSERT INTO public.money_transfer_contact_order (id, target_id, reason, reason_id, comment, tenant_id, amount, currency)
+SELECT id, operand_id, source, source_id, description, tenant_id, amount_amount / 100, amount_currency_code
+  FROM customer_transaction
+ WHERE source IN ('order_prepay', 'order_debit', 'order_credit', 'order_salary')
 ;
-ALTER TABLE public.wallet_transaction ALTER COLUMN source TYPE text USING CASE WHEN source = 0 THEN 'legacy'
-                                                                               WHEN source = 1 THEN 'order_prepay'
-                                                                               WHEN source = 2 THEN 'order_debit'
-                                                                               WHEN source = 3 THEN 'payroll'
-                                                                               WHEN source = 4 THEN 'income_payment'
-                                                                               WHEN source = 5 THEN 'expense'
-                                                                               WHEN source = 6 THEN 'operand_manual'
-                                                                               WHEN source = 7 THEN 'initial' END;
-
-ALTER TABLE public.wallet_transaction RENAME TO wt;
-ALTER TABLE public.wt DROP CONSTRAINT wallet_transaction_pkey;
-SELECT public.timestampable('public.wt');
-
-CREATE TABLE wallet_transaction
-    (
-        id uuid DEFAULT gen_random_uuid() NOT NULL
-            CONSTRAINT wallet_transaction_pkey
-                PRIMARY KEY,
-        wallet_id uuid NOT NULL
-            CONSTRAINT wallet_transaction_wallet_id_fkey REFERENCES wallet ON UPDATE RESTRICT ON DELETE RESTRICT,
-        reason text NOT NULL
-            CONSTRAINT wallet_transaction_reason_fkey REFERENCES wallet_transaction_reason ON UPDATE RESTRICT ON DELETE RESTRICT,
-        reason_id uuid NOT NULL,
-        comment text,
-        tenant_id uuid NOT NULL
-            CONSTRAINT wallet_transaction_tenant_id_fkey REFERENCES tenant ON UPDATE RESTRICT ON DELETE RESTRICT,
-        amount numeric(12, 2),
-        currency varchar(3) NOT NULL,
-        created_at timestamp WITH TIME ZONE DEFAULT NOW() NOT NULL,
-        updated_at timestamp WITH TIME ZONE DEFAULT NOW() NOT NULL,
-        CHECK ( FALSE ) NO INHERIT
-    );
-
-CREATE TABLE wallet_transaction_order
-    (
-        FOREIGN KEY (reason_id) REFERENCES public.orders (id) ON UPDATE RESTRICT ON DELETE RESTRICT
-    )
-INHERITS (wallet_transaction);
-
-CREATE TABLE wallet_transaction_contact
-    (
-        FOREIGN KEY (reason_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT
-    )
-INHERITS (wallet_transaction);
-
-CREATE TABLE wallet_transaction_income
-    (
-        FOREIGN KEY (reason_id) REFERENCES public.income (id) ON UPDATE RESTRICT ON DELETE RESTRICT
-    )
-INHERITS (wallet_transaction);
-
-CREATE TABLE wallet_transaction_expense
-    (
-        FOREIGN KEY (reason_id) REFERENCES public.wallet_expense (id) ON UPDATE RESTRICT ON DELETE RESTRICT
-    )
-INHERITS (wallet_transaction);
-
---- Migrate Contact and Wallet transactions
-
-
--- self::ORDER_PREPAY => OrderId::class,
--- self::ORDER_DEBIT => OrderId::class,
--- self::ORDER_PAYMENT => OrderId::class,
--- self::ORDER_SALARY => OrderId::class,
--- self::INCOME_DEBIT => IncomeId::class,
--- self::INCOME_PAYMENT => IncomeId::class,
-
--- self::SALARY => SalaryId::class,                 --- ???
-
--- self::MANUAL_WITHOUT_WALLET => UserId::class,    --- ???
--- self::PENALTY => UserId::class,                  --- employee_penalty ?
-
--- self::PAYROLL => WalletId::class,                --- wallet_transaction
--- self::MANUAL => WalletId::class,                 --- wallet_transaction
-
----
-
--- self::ORDER_PREPAY => OrderId::class,
--- self::ORDER_DEBIT => OrderId::class,
--- self::INCOME_PAYMENT => IncomeId::class,
--- self::EXPENSE => ExpenseId::class,
-
--- self::LEGACY => UserId::class,                   --- ???
--- self::INITIAL => UserId::class,                  --- manual
-
--- self::PAYROLL => OperandId::class,               --- contact_transaction
--- self::OPERAND_MANUAL => OperandId::class,        --- contact_transaction
-
-INSERT INTO wallet_transaction_order (id, wallet_id, reason, reason_id, comment, tenant_id, amount, currency,
-                                      created_at, updated_at)
-SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount / 100, amount_currency_code, created_at, updated_at
-  FROM wt
- WHERE source IN ('order_prepay', 'order_debit');
-
-INSERT INTO wallet_transaction_income (id, wallet_id, reason, reason_id, comment, tenant_id, amount, currency,
-                                       created_at, updated_at)
-SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount / 100, amount_currency_code, created_at, updated_at
-  FROM wt
- WHERE source IN ('income_payment');
-
-INSERT INTO wallet_transaction_expense (id, wallet_id, reason, reason_id, comment, tenant_id, amount, currency,
-                                        created_at, updated_at)
-SELECT id, wallet_id, source, source_id, description, tenant_id, amount_amount / 100, amount_currency_code, created_at, updated_at
-  FROM wt
- WHERE source IN ('expense');
+INSERT INTO public.money_transfer_contact_income (id, target_id, reason, reason_id, comment, tenant_id, amount,
+                                                  currency)
+SELECT id, operand_id, source, source_id, description, tenant_id, amount_amount / 100, amount_currency_code
+  FROM customer_transaction
+ WHERE source IN ('income_debit', 'income_payment')
+;
+--- TODO Migrate Salary after add employee_salary_history
+INSERT INTO public.money_transfer_contact_employee_penalty (id, target_id, reason, reason_id, comment, tenant_id,
+                                                            amount, currency)
+SELECT id, operand_id, source, (SELECT id FROM employee_penalty WHERE name = 'old'), description, tenant_id,
+       amount_amount / 100, amount_currency_code
+  FROM customer_transaction
+ WHERE source IN ('penalty')
+;
+-- INSERT INTO public.money_transfer_contact_user (id, target_id, reason, reason_id, comment, tenant_id, amount, currency)
+-- SELECT id, operand_id, source, source_id, description, tenant_id, amount_amount, amount_currency_code
+--   FROM customer_transaction
+--  WHERE source IN ('payroll', 'manual', 'manual_without_wallet')
+-- ;
+--- TODO Migrate user (manual)
 
 --- Wallet Balance
 
 ALTER TABLE public.wallet
-    ADD COLUMN balance numeric(12, 2) DEFAULT 0;
+    ADD COLUMN balance numeric(16, 2) DEFAULT 0;
 
 ALTER TABLE public.wallet
     ADD COLUMN balance_at timestamptz DEFAULT NOW();
@@ -607,7 +653,7 @@ CREATE OR REPLACE FUNCTION set_wallet_balance(uuid) RETURNS void AS
 $$
 BEGIN
     UPDATE wallet
-       SET balance = (SELECT SUM(amount) FROM public.wallet_transaction WHERE wallet_id = $1),
+       SET balance = (SELECT SUM(amount) FROM public.money_transfer_wallet WHERE target_id = $1),
            balance_at = NOW()
      WHERE id = $1;
 END;
@@ -615,30 +661,22 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION set_wallet_balance_trigger() RETURNS trigger AS
 $$
 BEGIN
-    IF new.wallet_id <> old.wallet_id THEN CALL set_wallet_balance(old.wallet_id); END IF;
+    IF new.target_id <> old.target_id THEN CALL set_wallet_balance(old.target_id); END IF;
 
-    CALL set_wallet_balance(new.wallet_id);
+    CALL set_wallet_balance(new.target_id);
 
     RETURN new;
 END;
 $$ LANGUAGE plpgsql;
 CREATE TRIGGER set_wallet_balance_trigger
-    AFTER INSERT OR DELETE OR UPDATE OF amount,wallet_id
-    ON public.wallet_transaction
+    AFTER INSERT OR DELETE OR UPDATE OF amount,target_id
+    ON public.money_transfer_wallet
     FOR EACH ROW
 EXECUTE PROCEDURE set_wallet_balance_trigger();
 SELECT set_wallet_balance(id)
-  FROM wallet;
+  FROM public.wallet;
 
 SELECT public.timestampable('public.wallet');
-
-CREATE TRIGGER set_wallet_transaction_updated_at
-    BEFORE UPDATE
-    ON wallet_transaction
-    FOR EACH ROW
-EXECUTE PROCEDURE set_current_timestamp_updated_at();
-
-COMMENT ON TRIGGER set_wallet_transaction_updated_at ON wallet_transaction IS 'trigger to set value of column "updated_at" to current timestamp on row update';
 
 --- Warehouse
 
@@ -1119,7 +1157,7 @@ ALTER TABLE public.mc_part
     ADD CONSTRAINT mc_part_tenant_id_fkey
         FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-ALTER TABLE public.mc_part ALTER COLUMN quantity TYPE numeric(10, 2) USING quantity / 100;
+ALTER TABLE public.mc_part ALTER COLUMN quantity TYPE numeric(16, 2) USING quantity / 100;
 
 --- MC Work
 
@@ -1127,7 +1165,7 @@ ALTER TABLE public.mc_work
     ADD CONSTRAINT mc_work_tenant_id_fkey
         FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-ALTER TABLE public.mc_work ALTER COLUMN price_amount TYPE numeric(10, 2) USING price_amount / 100;
+ALTER TABLE public.mc_work ALTER COLUMN price_amount TYPE numeric(16, 2) USING price_amount / 100;
 
 --- MC Timestampable
 
