@@ -661,6 +661,12 @@ ALTER TABLE public.wallet
 ALTER TABLE public.wallet
     ADD COLUMN balance_at timestamptz DEFAULT NOW();
 
+ALTER TABLE public.contact
+    ADD COLUMN balance numeric(16, 2) DEFAULT 0;
+
+ALTER TABLE public.contact
+    ADD COLUMN balance_at timestamptz DEFAULT NOW();
+
 CREATE OR REPLACE FUNCTION public.set_money_transfer_balance_trigger() RETURNS trigger AS
 $$
 BEGIN
@@ -686,8 +692,16 @@ CALL public.create_balance_trigger('public.money_transfer_wallet_income');
 CALL public.create_balance_trigger('public.money_transfer_wallet_order');
 CALL public.create_balance_trigger('public.money_transfer_wallet_user');
 
+CALL public.create_balance_trigger('public.money_transfer_contact_employee_penalty');
+CALL public.create_balance_trigger('public.money_transfer_contact_employee_salary');
+CALL public.create_balance_trigger('public.money_transfer_contact_income');
+CALL public.create_balance_trigger('public.money_transfer_contact_order');
+CALL public.create_balance_trigger('public.money_transfer_contact_user');
+
 SELECT set_balance('public.wallet', id)
   FROM public.wallet;
+SELECT set_balance('public.contact', id)
+  FROM public.contact;
 
 SELECT public.timestampable('public.wallet');
 

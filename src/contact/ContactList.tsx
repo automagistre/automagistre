@@ -1,6 +1,7 @@
 import {BooleanField, Datagrid, List, ListProps} from 'react-admin'
 import LegalFormReferenceField from '../legal_form/LegalFormReferenceField'
 import LegalFormReferenceInput from '../legal_form/LegalFormReferenceInput'
+import {MoneyField} from '../money'
 import {PhoneNumberField} from '../phoneNumber'
 import ContactNameField from './ContactNameField'
 
@@ -20,6 +21,7 @@ const ContactList = (props: ListProps) => {
                 <LegalFormReferenceField/>
                 <ContactNameField/>
                 <PhoneNumberField/>
+                <MoneyField source="balance" label="Баланс"/>
                 <BooleanField source="contractor" label="Подрядчик"/>
                 <BooleanField source="supplier" label="Поставщик"/>
             </Datagrid>
