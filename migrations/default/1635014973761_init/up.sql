@@ -485,35 +485,22 @@ CREATE TABLE public.money_transfer
         CHECK ( FALSE ) NO INHERIT
     );
 
-CREATE TABLE public.money_transfer_wallet
-    (
-        FOREIGN KEY (target_id) REFERENCES public.wallet (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-        CHECK ( FALSE ) NO INHERIT
-    )
-INHERITS (money_transfer);
-ALTER TABLE public.money_transfer_wallet ALTER target SET DEFAULT 'wallet';
-
-CREATE TABLE public.money_transfer_contact
-    (
-        FOREIGN KEY (target_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-        CHECK ( FALSE ) NO INHERIT
-    )
-INHERITS (money_transfer);
-ALTER TABLE public.money_transfer_contact ALTER target SET DEFAULT 'contact';
-
-
 CREATE TABLE public.money_transfer_wallet_order
     (
+        FOREIGN KEY (target_id) REFERENCES public.wallet (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         FOREIGN KEY (reason_id) REFERENCES public.orders (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         CHECK ( target = 'wallet' )
     )
-INHERITS (money_transfer_wallet);
+INHERITS (money_transfer);
+ALTER TABLE public.money_transfer_wallet_order ALTER target SET DEFAULT 'wallet';
 CREATE TABLE public.money_transfer_contact_order
     (
+        FOREIGN KEY (target_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         FOREIGN KEY (reason_id) REFERENCES public.orders (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         CHECK ( target = 'contact' )
     )
-INHERITS (money_transfer_contact);
+INHERITS (money_transfer);
+ALTER TABLE public.money_transfer_contact_order ALTER target SET DEFAULT 'contact';
 
 
 CREATE TABLE public.money_transfer_wallet_user
@@ -536,44 +523,49 @@ ALTER TABLE public.money_transfer_contact_user ALTER target SET DEFAULT 'contact
 
 CREATE TABLE public.money_transfer_wallet_income
     (
+        FOREIGN KEY (target_id) REFERENCES public.wallet (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         FOREIGN KEY (reason_id) REFERENCES public.income (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         CHECK ( target = 'wallet' )
     )
-INHERITS (money_transfer_wallet);
+INHERITS (money_transfer);
 ALTER TABLE public.money_transfer_wallet_income ALTER target SET DEFAULT 'wallet';
 CREATE TABLE public.money_transfer_contact_income
     (
+        FOREIGN KEY (target_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         FOREIGN KEY (reason_id) REFERENCES public.income (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         CHECK ( target = 'contact' )
     )
-INHERITS (money_transfer_contact);
+INHERITS (money_transfer);
 ALTER TABLE public.money_transfer_contact_income ALTER target SET DEFAULT 'contact';
 
 
 CREATE TABLE public.money_transfer_contact_employee_salary
     (
+        FOREIGN KEY (target_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         FOREIGN KEY (reason_id) REFERENCES public.employee_salary (id) ON UPDATE RESTRICT ON DELETE RESTRICT, --- TODO employee_salary_history with version_id
         CHECK ( target = 'contact' )
     )
-INHERITS (money_transfer_contact);
+INHERITS (money_transfer);
 ALTER TABLE public.money_transfer_contact_employee_salary ALTER target SET DEFAULT 'contact';
 
 
 CREATE TABLE public.money_transfer_contact_employee_penalty
     (
+        FOREIGN KEY (target_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         FOREIGN KEY (reason_id) REFERENCES public.employee_penalty (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         CHECK ( target = 'contact' )
     )
-INHERITS (money_transfer_contact);
+INHERITS (money_transfer);
 ALTER TABLE public.money_transfer_contact_employee_penalty ALTER target SET DEFAULT 'contact';
 
 
 CREATE TABLE public.money_transfer_wallet_expense
     (
+        FOREIGN KEY (target_id) REFERENCES public.wallet (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         FOREIGN KEY (reason_id) REFERENCES public.wallet_expense (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
         CHECK ( target = 'wallet' )
     )
-INHERITS (money_transfer_wallet);
+INHERITS (money_transfer);
 ALTER TABLE public.money_transfer_wallet_expense ALTER target SET DEFAULT 'wallet';
 
 --- Migrate Transactions to Money Transfer
