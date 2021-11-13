@@ -86,5 +86,5 @@ delete_permissions:
                                     -   user_id:
                                             _eq: X-Hasura-User-Id
                     -   accrued_at:
-                            _eq: "NULL"
+                            _is_null: true
         role: manager

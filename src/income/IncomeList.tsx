@@ -1,5 +1,16 @@
 import {Chip} from '@mui/material'
-import {Datagrid, DateField, EditButton, FieldProps, List, ListProps, NumberField, useRecordContext} from 'react-admin'
+import {
+    Datagrid,
+    DateField,
+    DeleteButton,
+    DeleteButtonProps,
+    EditButton,
+    FieldProps,
+    List,
+    ListProps,
+    NumberField,
+    useRecordContext,
+} from 'react-admin'
 import ContactReferenceField from '../contact/ContactReferenceField'
 import {MoneyField} from '../money'
 import {Income} from '../types'
@@ -16,6 +27,7 @@ const IncomeList = (props: ListProps) => (
             <NumberField source="items" label="Позиций"/>
             <DateField source="accrued_at" label="Оприходован" showTime={true}/>
             <EditButton/>
+            <DeleteButtonIfNotAccrued/>
         </Datagrid>
     </List>
 )
@@ -28,6 +40,16 @@ const IncomeStatusField = (props: FieldProps<Income>) => {
     }
 
     return <Chip label="Оприходован" size="small" color="info"/>
+}
+
+
+const DeleteButtonIfNotAccrued = (props: DeleteButtonProps) => {
+    const income = useRecordContext<Income>()
+
+    if (income.accrued_at) {
+        return null
+    }
+    return <DeleteButton {...props}/>
 }
 
 export default IncomeList
