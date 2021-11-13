@@ -1,4 +1,4 @@
-import {Edit, EditProps, SimpleForm, TextInput} from 'react-admin'
+import {Edit, EditProps, required, SimpleForm, TextInput} from 'react-admin'
 import {CommentInput} from '../comment'
 import ContactReferenceField from '../contact/ContactReferenceField'
 import SupplierReferenceInput from '../contact/SupplierReferenceInput'
@@ -13,7 +13,9 @@ const IncomeEdit = (props: EditProps) => {
     return (
         <Edit {...props} title={<IncomeTitle/>}>
             <SimpleForm>
-                <SupplierReferenceInput/>
+                <SupplierReferenceInput
+                    validate={required()}
+                />
                 <TextInput
                     source="document"
                     label="Документ"

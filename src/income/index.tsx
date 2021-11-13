@@ -1,12 +1,12 @@
 import {faBook} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {EditGuesser} from 'react-admin'
+import IncomeCreate from './IncomeCreate'
 import IncomeEdit from './IncomeEdit'
 import IncomeList from './IncomeList'
 
 const income = {
     list: IncomeList,
-    create: EditGuesser,
+    create: IncomeCreate,
     edit: IncomeEdit,
     icon: <FontAwesomeIcon icon={faBook}/>,
 }

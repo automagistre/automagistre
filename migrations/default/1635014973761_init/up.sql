@@ -1391,6 +1391,8 @@ SELECT public.timestampable('public.part_transfer');
 
 --- Income
 
+ALTER TABLE public.income ALTER COLUMN id SET DEFAULT gen_random_uuid();
+
 ALTER TABLE public.income DROP old_id;
 ALTER TABLE public.income ADD amount numeric(16, 2) NOT NULL DEFAULT 0;
 ALTER TABLE public.income ADD accrued_at timestamptz DEFAULT NULL;
@@ -1413,6 +1415,8 @@ ALTER TABLE public.income
 SELECT public.timestampable('public.income');
 
 --- Income Part
+
+ALTER TABLE public.income_part ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 ALTER TABLE public.income_part ALTER COLUMN quantity TYPE numeric(10, 2) USING quantity / 100;
 ALTER TABLE public.income_part ALTER COLUMN price_amount TYPE numeric(16, 2) USING price_amount / 100;
@@ -1491,3 +1495,7 @@ EXECUTE PROCEDURE public.set_income_items_trigger();
 
 SELECT public.set_income_items(id)
   FROM income;
+
+--- Income Drop
+
+DROP TABLE public.income_accrue;
