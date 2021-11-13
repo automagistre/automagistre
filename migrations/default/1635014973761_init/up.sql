@@ -1394,6 +1394,7 @@ SELECT public.timestampable('public.part_transfer');
 ALTER TABLE public.income DROP old_id;
 ALTER TABLE public.income ADD amount numeric(16, 2) NOT NULL DEFAULT 0;
 ALTER TABLE public.income ADD accrued_at timestamptz DEFAULT NULL;
+ALTER TABLE public.income ADD comment text DEFAULT NULL;
 
 UPDATE public.income
    SET amount = v.amount,
@@ -1408,6 +1409,8 @@ UPDATE public.income
 ALTER TABLE public.income
     ADD CONSTRAINT income_tenant_id_fkey
         FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+SELECT public.timestampable('public.income');
 
 --- Income Part
 
@@ -1429,6 +1432,7 @@ ALTER TABLE public.income_part
     ADD CONSTRAINT income_part_tenant_id_fkey
         FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
+SELECT public.timestampable('public.income_part');
 
 --- Income Amount
 
@@ -1458,3 +1462,32 @@ CREATE TRIGGER set_income_amount_on_insert_or_update
     ON public.income_part
     FOR EACH ROW
 EXECUTE PROCEDURE public.set_income_amount_trigger();
+
+--- Income Items
+
+ALTER TABLE public.income ADD items int DEFAULT 0;
+
+CREATE OR REPLACE FUNCTION public.set_income_items(income_id uuid) RETURNS void AS
+$$
+BEGIN
+    UPDATE public.income
+       SET items = (SELECT COUNT(id) FROM income_part ip WHERE ip.income_id = $1)
+     WHERE income.id = $1;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION public.set_income_items_trigger() RETURNS trigger AS
+$$
+BEGIN
+    PERFORM public.set_income_items(new.income_id);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER set_income_items_trigger
+    AFTER INSERT OR DELETE
+    ON public.income_part
+    FOR EACH ROW
+EXECUTE PROCEDURE public.set_income_items_trigger();
+
+SELECT public.set_income_items(id)
+  FROM income;

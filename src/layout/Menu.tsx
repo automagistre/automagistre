@@ -14,14 +14,15 @@ import {useState} from 'react'
 import {DashboardMenuItem, MenuItemLink, MenuProps, ReduxState} from 'react-admin'
 import {useSelector} from 'react-redux'
 import contacts from '../contact'
+import income from '../income'
 import legalForms from '../legal_form'
 
 import manufacturers from '../manufacturer'
 import mcEquipments from '../mc_equipment'
 import mcWorks from '../mc_work'
+import moneyTransfers from '../money_transfer'
 import parts from '../part'
 import partTransfers from '../part_transfer'
-import moneyTransfers from '../part_transfer'
 import {AppState} from '../types'
 import vehicles from '../vehicle_body'
 import wallets from '../wallet'
@@ -119,6 +120,15 @@ const Menu = ({dense = false}: MenuProps) => {
                     }}
                     primaryText="Движения"
                     leftIcon={partTransfers.icon}
+                    dense={dense}
+                />
+                <MenuItemLink
+                    to={{
+                        pathname: '/income',
+                        state: {_scrollToTop: true},
+                    }}
+                    primaryText="Приходы"
+                    leftIcon={income.icon}
                     dense={dense}
                 />
             </SubMenu>

@@ -26,6 +26,7 @@ insert_permissions:
                                     -   user_id:
                                             _eq: X-Hasura-User-Id
             columns:
+                - comment
                 - document
                 - supplier_id
             set:
@@ -37,9 +38,13 @@ select_permissions:
             columns:
                 - accrued_at
                 - amount
+                - comment
+                - created_at
                 - document
                 - id
+                - items
                 - supplier_id
+                - updated_at
             filter:
                 _and:
                     -   tenant:
@@ -54,6 +59,7 @@ update_permissions:
     -   permission:
             check: null
             columns:
+                - comment
                 - document
                 - supplier_id
             filter:

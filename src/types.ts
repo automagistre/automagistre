@@ -132,3 +132,7 @@ export interface PartTransfer extends Record, Timestampable, Commentable {
     reason: 'manual' | 'income' | 'order' | string,
     reason_id: Identifier,
 }
+
+export interface Income extends Record, Timestampable, Commentable {
+    accrued_at?: Date,
+}

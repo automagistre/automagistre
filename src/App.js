@@ -29,8 +29,9 @@ import mcParts from "./mc_part";
 import mcWorks from "./mc_work";
 import orders from "./order";
 import walletExpense from "./wallet_expense";
-import moneyTransfers from "./part_transfer";
+import moneyTransfers from "./money_transfer";
 import partTransfers from "./part_transfer";
+import income from "./income";
 
 // TODO Convert to tsx
 
@@ -109,6 +110,7 @@ const Resources = () => {
         >
             <Resource name="contact" {...contacts}/>
             <Resource name="contact_relation"/>
+            <Resource name="income" {...income}/>
             <Resource name="legal_form" {...legalForms}/>
             <Resource name="legal_form_type"/>
             <Resource name="manufacturer" {...manufacturers} />

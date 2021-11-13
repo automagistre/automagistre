@@ -2,14 +2,7 @@ import {AutocompleteInput, ReferenceInput, ReferenceInputProps} from 'react-admi
 import {Contact} from '../types'
 import ContactNameField from './ContactNameField'
 
-interface Props {
-    source?: string;
-}
-
-const ContactReferenceInput = (
-    props: Props &
-        Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>,
-) => (
+const ContactReferenceInput = (props: Omit<Omit<ReferenceInputProps, 'source'>, 'reference' | 'children'>) => (
     <ReferenceInput
         {...props}
         source="contact_id"
