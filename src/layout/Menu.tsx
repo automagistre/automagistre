@@ -205,7 +205,7 @@ const Menu = ({dense = false}: MenuProps) => {
             <SubMenu
                 handleToggle={() => handleToggle('menuMc')}
                 isOpen={state.menuMc}
-                name="Справочники"
+                name="Калькулятор"
                 icon={<FontAwesomeIcon icon={faMap}/>}
                 dense={dense}
             >
