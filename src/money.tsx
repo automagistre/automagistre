@@ -7,6 +7,7 @@ export const MoneyInput = (props: NumberInputProps) => {
 }
 
 MoneyInput.defaultProps = {
+    source: 'amount',
     label: 'Сумма',
 }
 
@@ -18,5 +19,6 @@ export const MoneyField = (props: NumberFieldProps) => {
 }
 
 MoneyField.defaultProps = {
+    source: 'amount',
     label: 'Сумма',
 }

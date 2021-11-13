@@ -9,7 +9,7 @@ const MoneyTransferList = (props: ListProps) => (
     >
         <Datagrid rowClick="edit">
             <TextField source="target" label="Получатель"/>
-            <MoneyField source="amount"/>
+            <MoneyField/>
             <MoneyTransferReasonReferenceField/>
             {/* TODO generate description */}
             <DateField source="created_at" label="Создан" showTime={true}/>
