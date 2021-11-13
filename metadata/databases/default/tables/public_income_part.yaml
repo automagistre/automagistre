@@ -1,18 +1,16 @@
 table:
-    name: income
+    name: income_part
     schema: public
 object_relationships:
+    -   name: income
+        using:
+            foreign_key_constraint_on: income_id
+    -   name: part
+        using:
+            foreign_key_constraint_on: part_id
     -   name: tenant
         using:
             foreign_key_constraint_on: tenant_id
-array_relationships:
-    -   name: income_parts
-        using:
-            foreign_key_constraint_on:
-                column: income_id
-                table:
-                    name: income_part
-                    schema: public
 insert_permissions:
     -   permission:
             backend_only: false
@@ -25,9 +23,14 @@ insert_permissions:
                                             _eq: X-Hasura-Tenant-Id
                                     -   user_id:
                                             _eq: X-Hasura-User-Id
+                    -   income:
+                            accrued_at:
+                                _is_null: true
             columns:
-                - document
-                - supplier_id
+                - amount
+                - income_id
+                - part_id
+                - quantity
             set:
                 tenant_id: x-hasura-Tenant-Id
         role: manager
@@ -35,11 +38,11 @@ select_permissions:
     -   permission:
             allow_aggregations: true
             columns:
-                - accrued_at
                 - amount
-                - document
                 - id
-                - supplier_id
+                - income_id
+                - part_id
+                - quantity
             filter:
                 _and:
                     -   tenant:
@@ -54,8 +57,10 @@ update_permissions:
     -   permission:
             check: null
             columns:
-                - document
-                - supplier_id
+                - amount
+                - income_id
+                - part_id
+                - quantity
             filter:
                 _and:
                     -   tenant:
@@ -65,8 +70,11 @@ update_permissions:
                                             _eq: X-Hasura-Tenant-Id
                                     -   user_id:
                                             _eq: X-Hasura-User-Id
-                    -   accrued_at:
-                            _is_null: true
+                    -   income:
+                            accrued_at:
+                                _is_null: true
+            set:
+                tenant_id: x-hasura-Tenant-Id
         role: manager
 delete_permissions:
     -   permission:
@@ -79,6 +87,7 @@ delete_permissions:
                                             _eq: X-Hasura-Tenant-Id
                                     -   user_id:
                                             _eq: X-Hasura-User-Id
-                    -   accrued_at:
-                            _eq: "NULL"
+                    -   income:
+                            accrued_at:
+                                _is_null: true
         role: manager

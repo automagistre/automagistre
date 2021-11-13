@@ -1,6 +1,7 @@
 - "!include public_contact.yaml"
 - "!include public_contact_relation.yaml"
 - "!include public_income.yaml"
+- "!include public_income_part.yaml"
 - "!include public_legal_form.yaml"
 - "!include public_legal_form_type.yaml"
 - "!include public_manufacturer.yaml"

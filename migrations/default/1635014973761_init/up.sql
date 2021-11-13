@@ -1387,3 +1387,44 @@ SELECT id, part_id, source_id, description, tenant_id, quantity / 100
  WHERE source_type = 3;
 
 SELECT public.timestampable('public.part_transfer');
+
+
+--- Income
+
+ALTER TABLE public.income DROP old_id;
+ALTER TABLE public.income ADD amount numeric(16, 2) NOT NULL DEFAULT 0;
+ALTER TABLE public.income ADD accrued_at timestamptz DEFAULT NULL;
+
+UPDATE public.income
+   SET amount = v.amount,
+       accrued_at = v.created_at
+  FROM (SELECT ia.income_id, ia.amount_amount / 100 AS amount, cb.created_at
+          FROM income_accrue ia
+                   JOIN created_by cb
+                   ON cb.id = ia.id) v
+ WHERE id = v.income_id
+;
+
+ALTER TABLE public.income
+    ADD CONSTRAINT income_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+--- Income Part
+
+ALTER TABLE public.income_part ALTER COLUMN quantity TYPE numeric(10, 2) USING quantity / 100;
+ALTER TABLE public.income_part ALTER COLUMN price_amount TYPE numeric(16, 2) USING price_amount / 100;
+ALTER TABLE public.income_part RENAME price_amount TO amount;
+ALTER TABLE public.income_part DROP price_currency_code;
+
+ALTER TABLE public.income_part
+    ADD CONSTRAINT income_part_income_id_fkey
+        FOREIGN KEY (income_id) REFERENCES public.income (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE public.income_part
+    ADD CONSTRAINT income_part_part_id_fkey
+        FOREIGN KEY (part_id) REFERENCES public.part (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE public.income_part DROP CONSTRAINT fk_834566e8640ed2c0;
+
+ALTER TABLE public.income_part
+    ADD CONSTRAINT income_part_tenant_id_fkey
+        FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
