@@ -480,7 +480,7 @@ VALUES
 CREATE TABLE public.money_transfer
     (
         id uuid DEFAULT gen_random_uuid() NOT NULL
-            CONSTRAINT money_transaction_pkey
+            CONSTRAINT money_transfer_pkey
                 PRIMARY KEY,
         target text NOT NULL
             CONSTRAINT money_transfer_target_fkey REFERENCES money_transfer_target ON UPDATE CASCADE ON DELETE RESTRICT,
