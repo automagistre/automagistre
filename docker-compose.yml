@@ -17,7 +17,7 @@ services:
         user: ${UID:-1000}:${GID:-1000}
 
     postgres:
-        image: postgres:14.0-alpine
+        image: postgres:14.1-alpine
         labels:
             ru.grachevko.dhu: 'postgres-next.automagistre.local'
         volumes:
