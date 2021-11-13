@@ -1,7 +1,6 @@
 table:
     name: money_transfer_reason
     schema: public
-is_enum: true
 select_permissions:
     -   permission:
             columns:

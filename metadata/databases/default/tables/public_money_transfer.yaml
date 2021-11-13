@@ -14,12 +14,14 @@ select_permissions:
             columns:
                 - amount
                 - comment
+                - created_at
                 - currency
                 - id
                 - reason
                 - reason_id
                 - target
                 - target_id
+                - updated_at
             filter:
                 _and:
                     -   tenant:

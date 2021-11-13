@@ -704,6 +704,7 @@ SELECT set_balance('public.contact', id)
   FROM public.contact;
 
 SELECT public.timestampable('public.wallet');
+SELECT public.timestampable('public.money_transfer');
 
 --- Warehouse
 

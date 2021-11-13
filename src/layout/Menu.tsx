@@ -12,6 +12,7 @@ import legalForms from '../legal_form'
 import manufacturers from '../manufacturer'
 import mcEquipments from '../mc_equipment'
 import mcWorks from '../mc_work'
+import moneyTransfers from '../money_transfer'
 import parts from '../part'
 import {AppState} from '../types'
 import vehicles from '../vehicle_body'
@@ -83,6 +84,15 @@ const Menu = ({dense = false}: MenuProps) => {
                     }}
                     primaryText="Расходы"
                     leftIcon={walletExpense.icon}
+                    dense={dense}
+                />
+                <MenuItemLink
+                    to={{
+                        pathname: '/money_transfer',
+                        state: {_scrollToTop: true},
+                    }}
+                    primaryText="Проводки"
+                    leftIcon={moneyTransfers.icon}
                     dense={dense}
                 />
             </SubMenu>
