@@ -6,9 +6,17 @@ export const MoneyInput = (props: NumberInputProps) => {
     />
 }
 
+MoneyInput.defaultProps = {
+    label: 'Сумма',
+}
+
 export const MoneyField = (props: NumberFieldProps) => {
     return <NumberField
         {...props}
         options={{style: 'currency', currency: 'RUB'}}
     />
+}
+
+MoneyField.defaultProps = {
+    label: 'Сумма',
 }
