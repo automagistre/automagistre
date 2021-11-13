@@ -1,4 +1,5 @@
 import {Datagrid, DateField, List, ListProps, TextField} from 'react-admin'
+import {MoneyField} from '../money'
 import MoneyTransferReasonReferenceField from './MoneyTransferReasonReferenceField'
 
 const MoneyTransferList = (props: ListProps) => (
@@ -8,6 +9,7 @@ const MoneyTransferList = (props: ListProps) => (
     >
         <Datagrid rowClick="edit">
             <TextField source="target" label="Получатель"/>
+            <MoneyField source="amount"/>
             <MoneyTransferReasonReferenceField/>
             {/* TODO generate description */}
             <DateField source="created_at" label="Создан" showTime={true}/>
