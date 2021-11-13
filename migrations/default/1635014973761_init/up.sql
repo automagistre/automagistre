@@ -1428,3 +1428,33 @@ ALTER TABLE public.income_part DROP CONSTRAINT fk_834566e8640ed2c0;
 ALTER TABLE public.income_part
     ADD CONSTRAINT income_part_tenant_id_fkey
         FOREIGN KEY (tenant_id) REFERENCES public.tenant (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--- Income Amount
+
+CREATE OR REPLACE FUNCTION public.set_income_amount(income_id uuid) RETURNS void AS
+$$
+BEGIN
+    UPDATE public.income
+       SET amount = (SELECT SUM(sub.amount)
+                       FROM (SELECT ip.amount * ip.quantity AS amount FROM income_part ip WHERE ip.income_id = $1) sub)
+     WHERE income.id = $1;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION public.set_income_amount_trigger() RETURNS trigger AS
+$$
+BEGIN
+    IF new.income_id <> old.income_id THEN PERFORM public.set_income_amount(old.income_id); END IF;
+
+    PERFORM public.set_income_amount(new.income_id);
+
+    RETURN new;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER set_income_amount_on_insert_or_update
+    AFTER INSERT OR UPDATE OF amount, quantity, income_id
+    ON public.income_part
+    FOR EACH ROW
+EXECUTE PROCEDURE public.set_income_amount_trigger();
