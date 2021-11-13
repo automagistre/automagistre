@@ -127,3 +127,8 @@ export interface OrderStatus extends Record {
     name: string,
     color: 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
 }
+
+export interface PartTransfer extends Record, Timestampable, Commentable {
+    reason: 'manual' | 'income' | 'order' | string,
+    reason_id: Identifier,
+}

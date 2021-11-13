@@ -13,6 +13,7 @@
 - "!include public_order_status.yaml"
 - "!include public_orders.yaml"
 - "!include public_part.yaml"
+- "!include public_part_transfer.yaml"
 - "!include public_part_vehicle_body.yaml"
 - "!include public_tenant.yaml"
 - "!include public_tenant_group.yaml"

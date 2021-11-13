@@ -1316,3 +1316,74 @@ ALTER TABLE public.orders
         FOREIGN KEY (worker_id) REFERENCES public.contact (id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 SELECT public.timestampable('public.orders');
+
+--- Part Transfer
+
+CREATE TABLE public.part_transfer_reason
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.part_transfer_reason(id, name)
+VALUES (E'manual', E'Ручная проводка'),
+       (E'income', E'Поступление по приходу'),
+       (E'order', E'Списание по заказу')
+;
+
+CREATE TABLE public.part_transfer
+    (
+        id uuid DEFAULT gen_random_uuid() NOT NULL
+            CONSTRAINT part_transfer_pkey
+                PRIMARY KEY,
+        part_id uuid NOT NULL
+            CONSTRAINT part_transfer_part_fkey REFERENCES part (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        reason text NOT NULL
+            CONSTRAINT part_transfer_reason_fkey REFERENCES part_transfer_reason ON UPDATE CASCADE ON DELETE RESTRICT,
+        reason_id uuid NOT NULL,
+        comment text DEFAULT NULL,
+        tenant_id uuid NOT NULL
+            CONSTRAINT part_transfer_tenant_id_fkey REFERENCES tenant ON UPDATE RESTRICT ON DELETE RESTRICT,
+        quantity numeric(10, 2),
+        CHECK ( FALSE ) NO INHERIT
+    );
+
+CREATE TABLE public.part_transfer_user
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.users (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( reason = 'manual' )
+    )
+INHERITS (part_transfer);
+ALTER TABLE public.part_transfer_user ALTER reason SET DEFAULT 'manual';
+
+CREATE TABLE public.part_transfer_income
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.income_part (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( reason = 'income' )
+    )
+INHERITS (part_transfer);
+ALTER TABLE public.part_transfer_income ALTER reason SET DEFAULT 'income';
+
+CREATE TABLE public.part_transfer_order
+    (
+        FOREIGN KEY (reason_id) REFERENCES public.orders (id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+        CHECK ( reason = 'order' )
+    )
+INHERITS (part_transfer);
+ALTER TABLE public.part_transfer_order ALTER reason SET DEFAULT 'order';
+
+
+INSERT INTO public.part_transfer_user (id, part_id, reason_id, comment, tenant_id, quantity)
+SELECT id, part_id, source_id, description, tenant_id, quantity / 100
+  FROM motion
+ WHERE source_type = 1;
+INSERT INTO public.part_transfer_income (id, part_id, reason_id, comment, tenant_id, quantity)
+SELECT id, part_id, source_id, description, tenant_id, quantity / 100
+  FROM motion
+ WHERE source_type = 2;
+INSERT INTO public.part_transfer_order (id, part_id, reason_id, comment, tenant_id, quantity)
+SELECT id, part_id, source_id, description, tenant_id, quantity / 100
+  FROM motion
+ WHERE source_type = 3;
+
+SELECT public.timestampable('public.part_transfer');

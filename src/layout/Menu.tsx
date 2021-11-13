@@ -1,4 +1,11 @@
-import {faBookOpen, faFileInvoiceDollar, faMap, faPiggyBank, faUsers} from '@fortawesome/free-solid-svg-icons'
+import {
+    faBookOpen,
+    faFileInvoiceDollar,
+    faMap,
+    faPiggyBank,
+    faUsers,
+    faWarehouse,
+} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {Theme} from '@mui/material/styles'
 import {makeStyles} from '@mui/styles'
@@ -12,8 +19,9 @@ import legalForms from '../legal_form'
 import manufacturers from '../manufacturer'
 import mcEquipments from '../mc_equipment'
 import mcWorks from '../mc_work'
-import moneyTransfers from '../money_transfer'
 import parts from '../part'
+import partTransfers from '../part_transfer'
+import moneyTransfers from '../part_transfer'
 import {AppState} from '../types'
 import vehicles from '../vehicle_body'
 import wallets from '../wallet'
@@ -21,7 +29,7 @@ import walletExpense from '../wallet_expense'
 
 import SubMenu from './SubMenu'
 
-type MenuName = 'menuCatalog' | 'menuFinance' | 'menuCustomers' | 'menuMc';
+type MenuName = 'menuCatalog' | 'menuFinance' | 'menuCustomers' | 'menuMc' | 'menuStorage';
 
 const Menu = ({dense = false}: MenuProps) => {
     const tenant = useSelector((state: AppState) => state.tenant)
@@ -30,6 +38,7 @@ const Menu = ({dense = false}: MenuProps) => {
         menuFinance: true,
         menuCustomers: true,
         menuMc: true,
+        menuStorage: true,
     })
     const open = useSelector((state: ReduxState) => state.admin.ui.sidebarOpen)
     useSelector((state: AppState) => state.theme) // force rerender on theme change
@@ -93,6 +102,23 @@ const Menu = ({dense = false}: MenuProps) => {
                     }}
                     primaryText="Проводки"
                     leftIcon={moneyTransfers.icon}
+                    dense={dense}
+                />
+            </SubMenu>
+            <SubMenu
+                handleToggle={() => handleToggle('menuStorage')}
+                isOpen={state.menuStorage}
+                name="Склад"
+                icon={<FontAwesomeIcon icon={faWarehouse}/>}
+                dense={dense}
+            >
+                <MenuItemLink
+                    to={{
+                        pathname: '/part_transfer',
+                        state: {_scrollToTop: true},
+                    }}
+                    primaryText="Движения"
+                    leftIcon={partTransfers.icon}
                     dense={dense}
                 />
             </SubMenu>
