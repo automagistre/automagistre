@@ -32,6 +32,7 @@ import walletExpense from "./wallet_expense";
 import moneyTransfers from "./money_transfer";
 import partTransfers from "./part_transfer";
 import income from "./income";
+import incomePart from "./income_part";
 
 // TODO Convert to tsx
 
@@ -111,6 +112,7 @@ const Resources = () => {
             <Resource name="contact" {...contacts}/>
             <Resource name="contact_relation"/>
             <Resource name="income" {...income}/>
+            <Resource name="income_part" {...incomePart}/>
             <Resource name="legal_form" {...legalForms}/>
             <Resource name="legal_form_type"/>
             <Resource name="manufacturer" {...manufacturers} />

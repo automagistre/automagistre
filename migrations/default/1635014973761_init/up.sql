@@ -1422,6 +1422,7 @@ ALTER TABLE public.income_part ALTER COLUMN quantity TYPE numeric(10, 2) USING q
 ALTER TABLE public.income_part ALTER COLUMN price_amount TYPE numeric(16, 2) USING price_amount / 100;
 ALTER TABLE public.income_part RENAME price_amount TO amount;
 ALTER TABLE public.income_part DROP price_currency_code;
+ALTER TABLE public.income_part ADD comment text DEFAULT NULL;
 
 ALTER TABLE public.income_part
     ADD CONSTRAINT income_part_income_id_fkey
@@ -1484,6 +1485,8 @@ CREATE OR REPLACE FUNCTION public.set_income_items_trigger() RETURNS trigger AS
 $$
 BEGIN
     PERFORM public.set_income_items(new.income_id);
+
+    RETURN new;
 END;
 $$ LANGUAGE plpgsql;
 

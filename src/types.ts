@@ -136,3 +136,9 @@ export interface PartTransfer extends Record, Timestampable, Commentable {
 export interface Income extends Record, Timestampable, Commentable {
     accrued_at?: Date,
 }
+
+export interface IncomePart extends Record, Timestampable, Commentable {
+    income_id: string,
+    part_id: string,
+    quantity: number,
+}

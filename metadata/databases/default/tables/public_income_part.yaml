@@ -28,6 +28,7 @@ insert_permissions:
                                 _is_null: true
             columns:
                 - amount
+                - comment
                 - income_id
                 - part_id
                 - quantity
@@ -39,10 +40,13 @@ select_permissions:
             allow_aggregations: true
             columns:
                 - amount
+                - comment
+                - created_at
                 - id
                 - income_id
                 - part_id
                 - quantity
+                - updated_at
             filter:
                 _and:
                     -   tenant:
@@ -58,6 +62,7 @@ update_permissions:
             check: null
             columns:
                 - amount
+                - comment
                 - income_id
                 - part_id
                 - quantity

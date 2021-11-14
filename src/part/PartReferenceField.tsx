@@ -1,26 +1,23 @@
-import {ReferenceField, ReferenceFieldProps, TextField} from 'react-admin'
+import {ReferenceField, ReferenceFieldProps} from 'react-admin'
+import PartNameField from './PartNameField'
 
-interface Props {
-    source?: string;
+const PartReferenceField = (props: Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>) => {
+    const rest = props as ReferenceFieldProps
+
+    return (
+        <ReferenceField
+            {...rest}
+        >
+            <PartNameField/>
+        </ReferenceField>
+    )
 }
-
-const PartReferenceField = (
-    props: Props &
-        Omit<Omit<ReferenceFieldProps, 'source'>, 'reference' | 'children'>,
-) => (
-    <ReferenceField
-        source="part_id"
-        reference="part"
-        {...props}
-    >
-        <TextField source="name"/>
-    </ReferenceField>
-)
 
 PartReferenceField.defaultProps = {
     label: 'Запчасть',
+    reference: 'part',
     source: 'part_id',
-    addLabel: true,
+    link: false,
 }
 
 export default PartReferenceField

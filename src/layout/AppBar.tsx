@@ -49,7 +49,7 @@ const CustomAppBar = (props: any) => {
                 variant="h6"
                 color="inherit"
                 className={classes.title}
-                id="react-admin-title"
+                id="react-admin-title" // TODO Move title to content card
             />
             <span className={classes.spacer}/>
             {tenant && <Button onClick={() => redirect('/switch')}>{tenant.name}</Button>}

@@ -1,8 +1,10 @@
 import {NumberField, NumberFieldProps, NumberInput, NumberInputProps} from 'react-admin'
 
-export const MoneyInput = (props: NumberInputProps) => {
+export const MoneyInput = (props: Omit<NumberInputProps, 'source'>) => {
+    const rest = props as NumberInputProps
+
     return <NumberInput
-        {...props}
+        {...rest}
     />
 }
 

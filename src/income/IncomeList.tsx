@@ -4,7 +4,6 @@ import {
     DateField,
     DeleteButton,
     DeleteButtonProps,
-    EditButton,
     FieldProps,
     List,
     ListProps,
@@ -20,13 +19,12 @@ const IncomeList = (props: ListProps) => (
           title="Приходы"
           sort={{field: 'created_at', order: 'DESC'}}
     >
-        <Datagrid>
+        <Datagrid rowClick="edit">
             <ContactReferenceField source="supplier_id"/>
             <IncomeStatusField label="Статус"/>
             <MoneyField/>
             <NumberField source="items" label="Позиций"/>
             <DateField source="accrued_at" label="Оприходован" showTime={true}/>
-            <EditButton/>
             <DeleteButtonIfNotAccrued/>
         </Datagrid>
     </List>
