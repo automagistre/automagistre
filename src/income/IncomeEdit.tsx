@@ -1,4 +1,4 @@
-import {gql, useApolloClient} from '@apollo/client'
+import {ApolloError, gql, useApolloClient} from '@apollo/client'
 import {Box, Button, Typography} from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -126,7 +126,7 @@ const AccrueButton = () => {
 
                 refresh()
             })
-            .catch(e => notify(e.message, 'error'))
+            .catch((e: ApolloError) => e.graphQLErrors.map(err => notify(err.extensions.internal.error.message, 'error')))
     }
 
     return (
