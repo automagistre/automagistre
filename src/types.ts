@@ -130,7 +130,7 @@ export interface OrderStatus extends Record {
 
 export interface PartTransfer extends Record, Timestampable, Commentable {
     reason: 'manual' | 'income' | 'order' | string,
-    reason_id: Identifier,
+    reason_id: string,
 }
 
 export interface Income extends Record, Timestampable, Commentable {

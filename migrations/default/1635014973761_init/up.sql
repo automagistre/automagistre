@@ -1502,3 +1502,38 @@ SELECT public.set_income_items(id)
 --- Income Drop
 
 DROP TABLE public.income_accrue;
+
+--- Income Accrue
+
+CREATE OR REPLACE FUNCTION public.set_income_items_trigger() RETURNS trigger AS
+$$
+BEGIN
+    PERFORM public.set_income_items(new.income_id);
+
+    RETURN new;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION public.income_accrue(income_id text) RETURNS setof income AS
+$$
+DECLARE
+    incomeid uuid;
+BEGIN
+    incomeid := income_id::uuid;
+
+    IF (SELECT EXISTS(SELECT 1 FROM public.income WHERE id = incomeid AND accrued_at IS NOT NULL)) THEN
+        RAISE EXCEPTION 'Income %s already accrued', incomeid;
+    END IF;
+
+    INSERT INTO part_transfer_income(part_id, reason_id, tenant_id, quantity)
+    SELECT part_id, income_part.id, income_part.tenant_id, quantity
+      FROM income_part
+     WHERE income_part.income_id = incomeid;
+
+    UPDATE income SET accrued_at = NOW() WHERE id = incomeid;
+
+    RETURN QUERY SELECT * FROM income WHERE id = incomeid;
+END ;
+$$ LANGUAGE plpgsql
+VOLATILE;

@@ -1,3 +1,4 @@
+import {gql, useApolloClient} from '@apollo/client'
 import {Box, Button, Typography} from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -14,6 +15,9 @@ import {
     TextField,
     TextInput,
     useEditContext,
+    useNotify,
+    useRecordContext,
+    useRefresh,
 } from 'react-admin'
 import {Link} from 'react-router-dom'
 import {CommentInput} from '../comment'
@@ -52,6 +56,7 @@ const IncomeEditContent = () => {
                                     <TextField source="document"/>
                                 </Typography>
                             </Box>
+                            {!record.accrued_at && <AccrueButton/>}
                         </Box>
                         <TabbedForm record={record} save={save}>
                             <FormTab label="Редактировать">
@@ -96,6 +101,36 @@ const IncomeEditContent = () => {
                 </Card>
             </Box>
         </Box>
+    )
+}
+
+const AccrueButton = () => {
+    const record = useRecordContext<Income>()
+    const refresh = useRefresh()
+    const apolloClient = useApolloClient()
+    const notify = useNotify()
+
+    const handleAccrue = () => {
+        const INCOME_ACCRUE = gql`
+            mutation Income($incomeId: String!) {
+              income_accrue(args: {income_id: $incomeId}) {
+                id
+              }
+            }
+            `
+
+        apolloClient
+            .mutate({mutation: INCOME_ACCRUE, variables: {incomeId: record.id}})
+            .then(() => {
+                notify('Оприходовано', 'success')
+
+                refresh()
+            })
+            .catch(e => notify(e.message, 'error'))
+    }
+
+    return (
+        <Button variant="contained" color="success" onClick={handleAccrue}>Оприходовать</Button>
     )
 }
 

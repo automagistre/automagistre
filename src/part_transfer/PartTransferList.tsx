@@ -1,7 +1,8 @@
-import {Datagrid, DateField, FieldProps, List, ListProps, useRecordContext} from 'react-admin'
+import {Datagrid, DateField, FieldProps, List, ListProps, useRecordContext, useReference} from 'react-admin'
 import OrderReferenceField from '../order/OrderReferenceField'
 import PartReferenceField from '../part/PartReferenceField'
 import {PartTransfer} from '../types'
+import IncomeReferenceField from './IncomeReferenceField'
 import {QuantityField} from './QuantityField'
 
 const PartTransferList = (props: ListProps) => (
@@ -20,14 +21,13 @@ const PartTransferList = (props: ListProps) => (
 
 const DescriptionField = (props: FieldProps<PartTransfer>) => {
     const record = useRecordContext(props)
-    console.log(record.reason)
 
     if (record.reason === 'order') {
         return <OrderReferenceField source="reason_id"/>
     }
 
     if (record.reason === 'income') {
-        return <span>Приход</span> // TODO
+        return <DescriptionIncome {...props}/>
     }
 
     if (record.reason === 'manual') {
@@ -37,6 +37,19 @@ const DescriptionField = (props: FieldProps<PartTransfer>) => {
     console.error(`Unexpected part_transfer reason: ${record.reason}`)
 
     return null
+}
+
+const DescriptionIncome = (props: FieldProps<PartTransfer>) => {
+    const record = useRecordContext(props)
+
+    const {loaded, referenceRecord} = useReference({
+        id: record.reason_id,
+        reference: 'income_part',
+    })
+
+    if (!loaded) return <span>Приход</span>
+
+    return <IncomeReferenceField record={referenceRecord}/>
 }
 
 export default PartTransferList
