@@ -1518,22 +1518,22 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION public.income_accrue(income_id text) RETURNS setof income AS
 $$
 DECLARE
-    incomeid uuid;
+    income public.income;
 BEGIN
-    incomeid := income_id::uuid;
+    SELECT * INTO income FROM public.income WHERE id = $1::uuid;
 
-    IF (SELECT EXISTS(SELECT 1 FROM public.income WHERE id = incomeid AND accrued_at IS NOT NULL)) THEN
-        RAISE EXCEPTION 'Income %s already accrued', incomeid;
+    IF income.accrued_at IS NOT NULL THEN
+        RAISE EXCEPTION USING MESSAGE=format('Income %s already accrued', income.id);
     END IF;
 
     INSERT INTO part_transfer_income(part_id, reason_id, tenant_id, quantity)
     SELECT part_id, income_part.id, income_part.tenant_id, quantity
       FROM income_part
-     WHERE income_part.income_id = incomeid;
+     WHERE income_part.income_id = income.id;
 
-    UPDATE income SET accrued_at = NOW() WHERE id = incomeid;
+    UPDATE income SET accrued_at = NOW() WHERE id = income.id;
 
-    RETURN QUERY SELECT * FROM income WHERE id = incomeid;
+    RETURN QUERY SELECT * FROM income WHERE id = income.id;
 END ;
 $$ LANGUAGE plpgsql
 VOLATILE;
