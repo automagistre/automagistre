@@ -86,13 +86,14 @@ services:
         user: ${UID:-1000}:${GID:-1000}
 
     n8n:
-        image: n8nio/n8n:0.148.0
+        image: n8nio/n8n:0.149.0
         labels:
             ru.grachevko.dhu: 'n8n.automagistre.local'
         environment:
             N8N_ENCRYPTION_KEY: Iucahjohyah6eiY9
             N8N_PORT: 80
             N8N_DIAGNOSTICS_ENABLED: 'false'
+            N8N_LOG_LEVEL: 'console'
         volumes:
             - ./var/n8n:/home/node/.n8n
         networks:
