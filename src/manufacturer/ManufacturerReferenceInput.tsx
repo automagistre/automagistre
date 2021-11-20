@@ -21,7 +21,6 @@ const ManufacturerReferenceInput = (
 ManufacturerReferenceInput.defaultProps = {
     label: 'Производитель',
     source: 'manufacturer_id',
-    addLabel: true,
 }
 
 export default ManufacturerReferenceInput

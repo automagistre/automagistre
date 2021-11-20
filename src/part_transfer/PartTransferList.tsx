@@ -11,7 +11,7 @@ const PartTransferList = (props: ListProps) => (
           sort={{field: 'created_at', order: 'DESC'}}
     >
         <Datagrid>
-            <PartReferenceField/>
+            <PartReferenceField link={true}/>
             <QuantityField/>
             <DescriptionField label="Описание"/>
             <DateField source="created_at" label="Создан" showTime={true}/>

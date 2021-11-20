@@ -1,4 +1,3 @@
-import {ApolloError, gql, useApolloClient} from '@apollo/client'
 import {Box, Button, Typography} from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -15,9 +14,8 @@ import {
     TextField,
     TextInput,
     useEditContext,
-    useNotify,
+    useMutation,
     useRecordContext,
-    useRefresh,
 } from 'react-admin'
 import {Link} from 'react-router-dom'
 import {CommentInput} from '../comment'
@@ -106,31 +104,15 @@ const IncomeEditContent = () => {
 
 const AccrueButton = () => {
     const record = useRecordContext<Income>()
-    const refresh = useRefresh()
-    const apolloClient = useApolloClient()
-    const notify = useNotify()
 
-    const handleAccrue = () => {
-        const INCOME_ACCRUE = gql`
-            mutation Income($incomeId: String!) {
-              income_accrue(args: {income_id: $incomeId}) {
-                id
-              }
-            }
-            `
-
-        apolloClient
-            .mutate({mutation: INCOME_ACCRUE, variables: {incomeId: record.id}})
-            .then(() => {
-                notify('Оприходовано', 'success')
-
-                refresh()
-            })
-            .catch((e: ApolloError) => e.graphQLErrors.map(err => notify(err.extensions.internal.error.message, 'error')))
-    }
+    const [approve, {loading}] = useMutation({
+        type: 'update',
+        resource: 'income',
+        payload: {id: record.id, data: {status_id: 'accrued'}},
+    })
 
     return (
-        <Button variant="contained" color="success" onClick={handleAccrue}>Оприходовать</Button>
+        <Button variant="contained" color="success" onClick={approve} disabled={loading}>Оприходовать</Button>
     )
 }
 

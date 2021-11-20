@@ -134,6 +134,7 @@ export interface PartTransfer extends Record, Timestampable, Commentable {
 }
 
 export interface Income extends Record, Timestampable, Commentable {
+    status: 'open' | 'accrued',
     accrued_at?: Date,
 }
 
@@ -141,4 +142,9 @@ export interface IncomePart extends Record, Timestampable, Commentable {
     income_id: string,
     part_id: string,
     quantity: number,
+}
+
+export interface IncomeStatus extends Record {
+    name: string,
+    color: 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
 }

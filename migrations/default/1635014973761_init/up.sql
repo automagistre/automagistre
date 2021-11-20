@@ -195,7 +195,8 @@ ALTER TABLE public.tenant_group_permission DROP COLUMN id;
 UPDATE public.tenant_group
    SET name = CASE WHEN identifier = 'demo' THEN 'Демо'
                    WHEN identifier = 'automagistre' THEN 'Автомагистр'
-                   WHEN identifier = 'shavlev' THEN 'Щавлев В.А.' END;
+                   WHEN identifier = 'shavlev' THEN 'Щавлев В.А.' END
+ WHERE TRUE;
 
 INSERT INTO public.tenant_group_permission (user_id, tenant_group_id)
 SELECT DISTINCT tp.user_id, t.group_id
@@ -700,8 +701,7 @@ CALL public.create_balance_trigger('public.money_transfer_contact_user');
 
 SELECT set_balance('public.wallet', id)
   FROM public.wallet;
-SELECT set_balance('public.contact', id)
-  FROM public.contact;
+-- SELECT set_balance('public.contact', id) FROM public.contact; -- TODO uncomment on release
 
 SELECT public.timestampable('public.wallet');
 SELECT public.timestampable('public.money_transfer');
@@ -1505,35 +1505,48 @@ DROP TABLE public.income_accrue;
 
 --- Income Accrue
 
-CREATE OR REPLACE FUNCTION public.set_income_items_trigger() RETURNS trigger AS
+CREATE TABLE public.income_status
+    (
+        id text NOT NULL,
+        name text NOT NULL,
+        color text NOT NULL,
+        PRIMARY KEY (id)
+    );
+INSERT INTO public.income_status(id, name, color)
+VALUES (E'open', E'Открыт', 'warning'),
+       (E'accrued', E'Оприходован', 'info')
+;
+
+
+ALTER TABLE public.income ADD status_id text DEFAULT 'open'
+    REFERENCES income_status (id);
+UPDATE public.income
+   SET status_id = 'accrued'
+ WHERE income.accrued_at IS NOT NULL;
+
+
+CREATE OR REPLACE FUNCTION public.income_accrue_trigger() RETURNS trigger AS
 $$
 BEGIN
-    PERFORM public.set_income_items(new.income_id);
+    IF old.status_id = 'accrued' THEN
+        RAISE EXCEPTION USING MESSAGE = FORMAT('Income %s already accrued', income.id);
+    END IF;
+
+    IF new.status_id = 'accrued' THEN
+        new.accrued_at = NOW();
+
+        INSERT INTO part_transfer_income(part_id, reason_id, tenant_id, quantity)
+        SELECT part_id, income_part.id, income_part.tenant_id, quantity
+          FROM income_part
+         WHERE income_part.income_id = old.id;
+    END IF;
 
     RETURN new;
 END;
 $$ LANGUAGE plpgsql;
 
-
-CREATE OR REPLACE FUNCTION public.income_accrue(income_id text) RETURNS setof income AS
-$$
-DECLARE
-    income public.income;
-BEGIN
-    SELECT * INTO income FROM public.income WHERE id = $1::uuid;
-
-    IF income.accrued_at IS NOT NULL THEN
-        RAISE EXCEPTION USING MESSAGE = FORMAT('Income %s already accrued', income.id);
-    END IF;
-
-    INSERT INTO part_transfer_income(part_id, reason_id, tenant_id, quantity)
-    SELECT part_id, income_part.id, income_part.tenant_id, quantity
-      FROM income_part
-     WHERE income_part.income_id = income.id;
-
-    UPDATE income t SET accrued_at = NOW() WHERE t.id = income.id;
-
-    RETURN QUERY SELECT * FROM income t WHERE t.id = income.id;
-END;
-$$ LANGUAGE plpgsql
-VOLATILE;
+CREATE TRIGGER income_accrue
+    BEFORE UPDATE OF status_id
+    ON public.income
+    FOR EACH ROW
+EXECUTE PROCEDURE public.income_accrue_trigger();

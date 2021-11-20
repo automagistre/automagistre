@@ -81,7 +81,7 @@ const Resources = () => {
                             id
                             identifier
                             name
-                            }
+                        }
                     }
                 }
             `
@@ -113,6 +113,7 @@ const Resources = () => {
             <Resource name="contact_relation"/>
             <Resource name="income" {...income}/>
             <Resource name="income_part" {...incomePart}/>
+            <Resource name="income_status"/>
             <Resource name="legal_form" {...legalForms}/>
             <Resource name="legal_form_type"/>
             <Resource name="manufacturer" {...manufacturers} />

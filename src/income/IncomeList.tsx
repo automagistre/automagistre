@@ -1,10 +1,8 @@
-import {Chip} from '@mui/material'
 import {
     Datagrid,
     DateField,
     DeleteButton,
     DeleteButtonProps,
-    FieldProps,
     List,
     ListProps,
     NumberField,
@@ -13,6 +11,7 @@ import {
 import ContactReferenceField from '../contact/ContactReferenceField'
 import {MoneyField} from '../money'
 import {Income} from '../types'
+import IncomeStatusReferenceField from './IncomeStatusReferenceField'
 
 const IncomeList = (props: ListProps) => (
     <List {...props}
@@ -21,7 +20,7 @@ const IncomeList = (props: ListProps) => (
     >
         <Datagrid rowClick="edit">
             <ContactReferenceField source="supplier_id"/>
-            <IncomeStatusField label="Статус"/>
+            <IncomeStatusReferenceField/>
             <MoneyField/>
             <NumberField source="items" label="Позиций"/>
             <DateField source="accrued_at" label="Оприходован" showTime={true}/>
@@ -29,17 +28,6 @@ const IncomeList = (props: ListProps) => (
         </Datagrid>
     </List>
 )
-
-const IncomeStatusField = (props: FieldProps<Income>) => {
-    const record = useRecordContext(props)
-
-    if (!record.accrued_at) {
-        return <Chip label="Открыт" size="small" color="warning"/>
-    }
-
-    return <Chip label="Оприходован" size="small" color="info"/>
-}
-
 
 const DeleteButtonIfNotAccrued = (props: DeleteButtonProps) => {
     const income = useRecordContext<Income>()

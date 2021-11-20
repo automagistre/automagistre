@@ -43,6 +43,7 @@ select_permissions:
                 - document
                 - id
                 - items
+                - status_id
                 - supplier_id
                 - updated_at
             filter:
@@ -61,6 +62,7 @@ update_permissions:
             columns:
                 - comment
                 - document
+                - status_id
                 - supplier_id
             filter:
                 _and:

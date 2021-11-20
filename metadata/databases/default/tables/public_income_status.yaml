@@ -1,0 +1,12 @@
+table:
+    name: income_status
+    schema: public
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - color
+                - id
+                - name
+            filter: { }
+        role: manager
