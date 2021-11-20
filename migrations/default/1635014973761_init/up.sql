@@ -1523,7 +1523,7 @@ BEGIN
     SELECT * INTO income FROM public.income WHERE id = $1::uuid;
 
     IF income.accrued_at IS NOT NULL THEN
-        RAISE EXCEPTION USING MESSAGE=format('Income %s already accrued', income.id);
+        RAISE EXCEPTION USING MESSAGE = FORMAT('Income %s already accrued', income.id);
     END IF;
 
     INSERT INTO part_transfer_income(part_id, reason_id, tenant_id, quantity)
@@ -1531,9 +1531,9 @@ BEGIN
       FROM income_part
      WHERE income_part.income_id = income.id;
 
-    UPDATE income SET accrued_at = NOW() WHERE id = income.id;
+    UPDATE income t SET accrued_at = NOW() WHERE t.id = income.id;
 
-    RETURN QUERY SELECT * FROM income WHERE id = income.id;
-END ;
+    RETURN QUERY SELECT * FROM income t WHERE t.id = income.id;
+END;
 $$ LANGUAGE plpgsql
 VOLATILE;

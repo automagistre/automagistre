@@ -55,7 +55,7 @@ services:
             - --admin-internal-errors=true
         environment:
             HASURA_GRAPHQL_DATABASE_URL: postgres://automagistre:automagistre@postgres:5432/automagistre
-            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://hasura:hasura@postgres:5432/automagistre
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://hasura:hasura@postgres:5432/hasura
             HASURA_GRAPHQL_DEV_MODE: 'true'
             HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
             HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
