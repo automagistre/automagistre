@@ -2,6 +2,7 @@
 /.idea/
 /docker-compose.override.yml
 /var/
+/schema.graphql
 
 # Node
 /node_modules

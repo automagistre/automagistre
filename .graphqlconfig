@@ -1,0 +1,16 @@
+{
+  "name": "Automagistre GraphQL Schema",
+  "schemaPath": "schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Default GraphQL Endpoint": {
+        "url": "http://api-next.automagistre.local/v1/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL",
+          "x-hasura-admin-secret": "admin"
+        },
+        "introspect": true
+      }
+    }
+  }
+}
