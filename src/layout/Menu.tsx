@@ -1,9 +1,18 @@
 import {
+    faBook,
     faBookOpen,
+    faCar,
+    faCogs,
+    faCoins,
     faFileInvoiceDollar,
+    faGavel,
+    faHandHoldingUsd,
+    faIndustry,
     faMap,
     faPiggyBank,
+    faRecycle,
     faUsers,
+    faWallet,
     faWarehouse,
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -13,20 +22,7 @@ import classnames from 'classnames'
 import {useState} from 'react'
 import {DashboardMenuItem, MenuItemLink, MenuProps, ReduxState} from 'react-admin'
 import {useSelector} from 'react-redux'
-import contacts from '../contact'
-import income from '../income'
-import legalForms from '../legal_form'
-
-import manufacturers from '../manufacturer'
-import mcEquipments from '../mc_equipment'
-import mcWorks from '../mc_work'
-import moneyTransfers from '../money_transfer'
-import parts from '../part'
-import partTransfers from '../part_transfer'
 import {AppState} from '../types'
-import vehicles from '../vehicle_body'
-import wallets from '../wallet'
-import walletExpense from '../wallet_expense'
 
 import SubMenu from './SubMenu'
 
@@ -84,7 +80,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Счета"
-                    leftIcon={wallets.icon}
+                    leftIcon={<FontAwesomeIcon icon={faWallet}/>}
                     dense={dense}
                 />
                 <MenuItemLink
@@ -93,7 +89,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Расходы"
-                    leftIcon={walletExpense.icon}
+                    leftIcon={<FontAwesomeIcon icon={faHandHoldingUsd}/>}
                     dense={dense}
                 />
                 <MenuItemLink
@@ -102,7 +98,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Проводки"
-                    leftIcon={moneyTransfers.icon}
+                    leftIcon={<FontAwesomeIcon icon={faCoins}/>}
                     dense={dense}
                 />
             </SubMenu>
@@ -119,7 +115,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Движения"
-                    leftIcon={partTransfers.icon}
+                    leftIcon={<FontAwesomeIcon icon={faRecycle}/>}
                     dense={dense}
                 />
                 <MenuItemLink
@@ -128,7 +124,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Приходы"
-                    leftIcon={income.icon}
+                    leftIcon={<FontAwesomeIcon icon={faBook}/>}
                     dense={dense}
                 />
             </SubMenu>
@@ -145,7 +141,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Контакты"
-                    leftIcon={contacts.icon}
+                    leftIcon={<FontAwesomeIcon icon={faUsers}/>}
                     dense={dense}
                 />
                 <MenuItemLink
@@ -154,7 +150,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Автомобили"
-                    leftIcon={vehicles.icon}
+                    leftIcon={<FontAwesomeIcon icon={faCar}/>}
                     dense={dense}
                 />
             </SubMenu>
@@ -171,7 +167,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Правовые формы"
-                    leftIcon={legalForms.icon}
+                    leftIcon={<FontAwesomeIcon icon={faGavel}/>}
                     dense={dense}
                 />
                 <MenuItemLink
@@ -180,7 +176,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Производители"
-                    leftIcon={manufacturers.icon}
+                    leftIcon={<FontAwesomeIcon icon={faIndustry}/>}
                     dense={dense}
                 />
                 <MenuItemLink
@@ -189,7 +185,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Кузова"
-                    leftIcon={vehicles.icon}
+                    leftIcon={<FontAwesomeIcon icon={faCar}/>}
                     dense={dense}
                 />
                 <MenuItemLink
@@ -198,7 +194,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Запчасти"
-                    leftIcon={parts.icon}
+                    leftIcon={<FontAwesomeIcon icon={faCogs}/>}
                     dense={dense}
                 />
             </SubMenu>
@@ -215,7 +211,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Работы"
-                    leftIcon={mcWorks.icon}
+                    leftIcon={<FontAwesomeIcon icon={faMap}/>}
                     dense={dense}
                 />
                 <MenuItemLink
@@ -224,7 +220,7 @@ const Menu = ({dense = false}: MenuProps) => {
                         state: {_scrollToTop: true},
                     }}
                     primaryText="Комплектации"
-                    leftIcon={mcEquipments.icon}
+                    leftIcon={<FontAwesomeIcon icon={faMap}/>}
                     dense={dense}
                 />
             </SubMenu>

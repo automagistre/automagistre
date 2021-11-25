@@ -1,73 +1,66 @@
-import React, {useEffect, useState} from 'react';
-import buildHasuraProvider from 'ra-data-hasura';
-import {AdminContext, AdminUI, Resource, useRedirect} from 'react-admin';
-import polyglotI18nProvider from 'ra-i18n-polyglot';
-import russianMessages from 'ra-language-russian';
-import {ApolloClient, ApolloProvider, createHttpLink, gql, InMemoryCache, useApolloClient} from '@apollo/client';
-import Keycloak from "keycloak-js";
-import useAuthProvider from "./authProvider";
-import {ReactKeycloakProvider} from "@react-keycloak/web";
-import {setContext} from "@apollo/client/link/context";
-import {Dashboard} from "./dashboard/Dashboard";
-import manufacturers from './manufacturer';
-import vehicles from './vehicle';
-import vehicleBodies from './vehicle_body';
-import parts from './part';
-import tenants from './tenant';
-import wallets from './wallet';
-import contacts from './contact';
-import legalForms from './legal_form';
-import themeReducer from './themeReducer';
-import customRoutes from './routes';
-import {useDispatch, useSelector} from "react-redux";
-import {CHANGE_TENANT, changeTenant} from "./tenant/actions";
-import MyLayout from "./layout/Layout";
-import vehicleBodyTypes from "./vehicle_body_type";
-import mcEquipments from "./mc_equipment";
-import mcLines from "./mc_line";
-import mcParts from "./mc_part";
-import mcWorks from "./mc_work";
-import orders from "./order";
-import walletExpense from "./wallet_expense";
-import moneyTransfers from "./money_transfer";
-import partTransfers from "./part_transfer";
-import income from "./income";
-import incomePart from "./income_part";
-
-// TODO Convert to tsx
+import {ApolloClient, ApolloProvider, createHttpLink, gql, InMemoryCache, useApolloClient} from '@apollo/client'
+import {setContext} from '@apollo/client/link/context'
+import {ReactKeycloakProvider} from '@react-keycloak/web'
+import Keycloak from 'keycloak-js'
+// @ts-ignore
+import buildHasuraProvider from 'ra-data-hasura'
+import polyglotI18nProvider from 'ra-i18n-polyglot'
+// @ts-ignore
+import russianMessages from 'ra-language-russian'
+import {useEffect, useState} from 'react'
+import {AdminContext, AdminUI, Loading, Resource, TranslationProvider, useRedirect} from 'react-admin'
+import {useDispatch, useSelector} from 'react-redux'
+import useAuthProvider from './authProvider'
+import contacts from './contact'
+import {Dashboard} from './dashboard/Dashboard'
+import income from './income'
+import incomePart from './income_part'
+import MyLayout from './layout/Layout'
+import legalForms from './legal_form'
+import manufacturers from './manufacturer'
+import mcEquipments from './mc_equipment'
+import mcLines from './mc_line'
+import mcParts from './mc_part'
+import mcWorks from './mc_work'
+import moneyTransfers from './money_transfer'
+import orders from './order'
+import parts from './part'
+import partTransfers from './part_transfer'
+import customRoutes from './routes'
+import tenants from './tenant'
+import {CHANGE_TENANT, changeTenant} from './tenant/actions'
+import themeReducer from './themeReducer'
+import {AppState, TenantState} from './types'
+import vehicles from './vehicle'
+import vehicleBodies from './vehicle_body'
+import vehicleBodyTypes from './vehicle_body_type'
+import wallets from './wallet'
+import walletExpense from './wallet_expense'
 
 let keycloakConfig = {
     url: 'https://sso.automagistre.ru/auth',
     realm: 'automagistre',
     clientId: 'crm-next-oauth',
-    onLoad: "login-required",
-};
+    onLoad: 'login-required',
+}
 
-const keycloak = Keycloak(keycloakConfig);
+const keycloak = Keycloak(keycloakConfig)
 
-const onTokenExpired = () => {
-    keycloak
-        .updateToken(30)
-        .catch(() => {
-            console.error("failed to refresh token");
-        });
-};
-
-const i18nProvider = polyglotI18nProvider(() => russianMessages, 'ru');
+const i18nProvider = polyglotI18nProvider(() => russianMessages, 'ru')
 
 
 const Resources = () => {
-    const tenant = useSelector(state => state.tenant)
-    const redirect = useRedirect();
-    const apolloClient = useApolloClient();
-    const dispatch = useDispatch();
+    const tenant = useSelector((state: AppState) => state.tenant)
+    const redirect = useRedirect()
+    const apolloClient = useApolloClient()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (tenant) {
             return
         }
 
-        const pair = window.location.pathname.split('/').slice(1, 3);
+        const pair = window.location.pathname.split('/').slice(1, 3)
         if (pair.length === 2) {
             const [groupIdentifier, tenantIdentifier] = pair
 
@@ -145,11 +138,11 @@ const Resources = () => {
 }
 
 const AdminWithKeycloak = () => {
-    const keycloakAuthProvider = useAuthProvider();
+    const keycloakAuthProvider = useAuthProvider()
 
-    const [dataProvider, setDataProvider] = useState(null);
-    const [tenant, setTenant] = useState(null);
-    const [apollo, setApollo] = useState(null);
+    const [dataProvider, setDataProvider] = useState(null)
+    const [tenant, setTenant] = useState<TenantState | null>(null)
+    const [apollo, setApollo] = useState<ApolloClient<any> | null>(null)
 
     useEffect(() => {
         const httpLink = createHttpLink({
@@ -157,7 +150,7 @@ const AdminWithKeycloak = () => {
                 + '//api-next.'
                 + window.location.hostname.split('.').splice(-2).join('.')
                 + '/v1/graphql',
-        });
+        })
 
         const authLink = setContext((_, {headers}) => {
             return {
@@ -168,7 +161,7 @@ const AdminWithKeycloak = () => {
                     ...(tenant && {'X-Hasura-Tenant-Id': tenant.id}),
                 },
             }
-        });
+        })
 
         const clientWithAuth = new ApolloClient({
             link: authLink.concat(httpLink),
@@ -178,29 +171,33 @@ const AdminWithKeycloak = () => {
         (async () => {
             const dataProvider = await buildHasuraProvider({
                 client: clientWithAuth,
-            });
+            })
             setApollo(clientWithAuth)
-            setDataProvider(() => dataProvider);
-        })();
-    }, [tenant]);
+            setDataProvider(() => dataProvider)
+        })()
+    }, [tenant])
 
-    if (!dataProvider) return <p>Загрузка...</p>;
+    if (!dataProvider || !apollo) return (
+        <TranslationProvider i18nProvider={i18nProvider}>
+            <Loading/>
+        </TranslationProvider>
+    )
 
     return (
         <ApolloProvider client={apollo}>
             <AdminContext
                 customReducers={{
                     theme: themeReducer,
-                    tenant: (previousState = null, action) => {
+                    tenant: (previousState = null, action: { type: string; payload: TenantState; }) => {
                         if (action.type === CHANGE_TENANT) {
                             setTimeout(() => setTenant(action.payload), 0)
 
-                            window.history.replaceState(null, "Автомагистр - CRM ", `/${action.payload.group.identifier}/${action.payload.identifier}`)
+                            window.history.replaceState(null, 'Автомагистр - CRM ', `/${action.payload.group.identifier}/${action.payload.identifier}`)
 
-                            return action.payload;
+                            return action.payload
                         }
 
-                        return previousState;
+                        return previousState
                     },
                 }}
                 dataProvider={dataProvider}
@@ -210,20 +207,20 @@ const AdminWithKeycloak = () => {
                 <Resources/>
             </AdminContext>
         </ApolloProvider>
-    );
-};
+    )
+}
 
 const App = () => {
     return (
         <ReactKeycloakProvider
             authClient={keycloak}
-            LoadingComponent={<div></div>}
+            LoadingComponent={<div/>}
             initOptions={keycloakConfig}
-            onTokenExpired={onTokenExpired}
+            autoRefreshToken={true}
         >
             <AdminWithKeycloak/>
         </ReactKeycloakProvider>
-    );
-};
+    )
+}
 
-export default App;
+export default App
