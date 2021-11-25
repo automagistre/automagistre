@@ -192,7 +192,7 @@ const AdminWithKeycloak = () => {
                         if (action.type === CHANGE_TENANT) {
                             setTimeout(() => setTenant(action.payload), 0)
 
-                            window.history.replaceState(null, 'Автомагистр - CRM ', `/${action.payload.group.identifier}/${action.payload.identifier}`)
+                            window.history.replaceState(null, 'Автомагистр - CRM ', `/${action.payload.group.identifier}/${action.payload.identifier}${window.location.hash}`)
 
                             return action.payload
                         }
