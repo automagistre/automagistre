@@ -4,6 +4,8 @@ WORKDIR /data
 
 FROM node-base AS node
 
+ENV NODE_ENV production
+
 COPY package.json package-lock.json ./
 
 RUN --mount=type=cache,target=/var/cache/npm \
