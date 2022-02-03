@@ -47,6 +47,11 @@ services:
         image: redis:6.2.5-alpine
         labels:
             ru.grachevko.dhu: 'redis.automagistre.local'
+        volumes:
+            -   type: tmpfs
+                target: /data
+                tmpfs:
+                    size: 64mb
 
     host.docker.internal:
         image: alpine/socat:1.7.3.4-r0
@@ -85,7 +90,7 @@ services:
             HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
             HASURA_GRAPHQL_DEV_MODE: 'true'
             HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
-            HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://auth.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
+            HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://sso.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
             HASURA_GRAPHQL_ADMIN_SECRET: admin
         labels:
             ru.grachevko.dhu: 'api.automagistre.local'

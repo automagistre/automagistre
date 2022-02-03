@@ -57,7 +57,7 @@ final class OrderTOPartType extends AbstractType
                 $choices = [$part];
 
                 if ($hasAnalog) {
-                    $choices = [...$choices, ...$analogs];
+                    $choices = [...$choices, ...array_values($analogs)];
                 }
 
                 $partForm = $builder->create('partId', ChoiceType::class, [

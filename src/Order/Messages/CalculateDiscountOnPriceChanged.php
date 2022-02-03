@@ -20,6 +20,8 @@ final class CalculateDiscountOnPriceChanged implements MessageHandler
 
     public function __invoke(OrderItemPartPriceChanged|OrderItemPartCreated|PartPriceChanged $event): void
     {
+        $items = [];
+
         if ($event instanceof PartPriceChanged) {
             $items = $this->registry->manager()->createQueryBuilder()
                 ->select('t')
@@ -33,7 +35,11 @@ final class CalculateDiscountOnPriceChanged implements MessageHandler
                 ->getResult()
             ;
         } else {
-            $items = [$this->registry->get(OrderItemPart::class, $event->itemId)];
+            $item = $this->registry->find(OrderItemPart::class, $event->itemId);
+
+            if (null !== $item) {
+                $items = [$item];
+            }
         }
 
         /** @var OrderItemPart[] $items */

@@ -78,7 +78,7 @@ final class CarRecommendationPartTest extends EasyAdminTestCase
 
         $response = $client->getResponse();
 
-        self::assertRedirection($response, '/msk/?action=list&entity=Order&menuIndex=3&submenuIndex=-1');
+        self::assertSame(200, $response->getStatusCode());
     }
 
     /**

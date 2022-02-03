@@ -11,7 +11,6 @@ use App\Order\Enum\OrderStatus;
 use App\Part\Entity\Part;
 use App\Part\Entity\PartCross;
 use App\Part\Entity\PartId;
-use App\Part\Entity\PartView;
 use App\Storage\Entity\Motion;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
@@ -101,28 +100,6 @@ final class PartManager
             ->executeQuery('DELETE FROM part_cross_part WHERE part_cross_part.part_id = :partId', [
                 'partId' => $partId->toString(),
             ])
-        ;
-    }
-
-    /**
-     * @return array<string, PartView>
-     */
-    public function crossesInStock(PartId $partId): array
-    {
-        /** @var PartView $partView */
-        $partView = $this->registry->getBy(PartView::class, ['id' => $partId]);
-
-        return $this->registry->manager(PartView::class)
-            ->createQueryBuilder()
-            ->select('t')
-            ->from(PartView::class, 't', 't.id')
-            ->where('t.id IN (:ids)')
-            ->andWhere('t.id <> :id')
-            ->andWhere('t.quantity > 0')
-            ->getQuery()
-            ->setParameter('id', $partId)
-            ->setParameter('ids', $partView->analogs)
-            ->getResult()
         ;
     }
 }

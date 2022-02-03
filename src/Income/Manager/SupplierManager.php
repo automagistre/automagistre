@@ -8,6 +8,7 @@ use App\Customer\Entity\CustomerView;
 use App\Customer\Entity\OperandId;
 use App\Doctrine\Registry;
 use App\Income\Entity\Income;
+use LogicException;
 
 /**
  * @author Konstantin Grachev <me@grachevko.ru>
@@ -47,7 +48,7 @@ final class SupplierManager
                 break;
             }
 
-            $balance = $balance->subtract($income->getAccrue()->amount);
+            $balance = $balance->subtract($income->getAccrue()?->amount ?? throw new LogicException());
 
             $result[$income->toId()->toString()] = $income;
         }

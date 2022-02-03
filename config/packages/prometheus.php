@@ -22,8 +22,8 @@ return static function (ArtprimaPrometheusMetricsConfig $prometheus, ContainerCo
     }
 
     $prometheus->ignoredRoutes([
+        '_profiler',
         '_wdt',
-        'easyadmin',
         'metrics',
     ]);
 };

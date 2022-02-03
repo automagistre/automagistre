@@ -265,7 +265,8 @@ final class PartController extends AbstractController
 
         $paginator = new Pagerfanta(new QueryAdapter($qb, false, false));
         $paginator->setMaxPerPage(15);
-        $paginator->setCurrentPage($query->getInt('page', 1));
+        $currentPage = $query->getInt('page', 1);
+        $paginator->setCurrentPage($currentPage < 1 ? 1 : $currentPage);
 
         $vehicleId = $this->getIdentifierOrNull(VehicleId::class);
         $useCarModelInFormat = false === strpos($queryString, '+');
@@ -306,7 +307,7 @@ final class PartController extends AbstractController
             foreach ($currentPageResults as $part) {
                 $data[$part->toId()->toString()] = $normalizer($part);
 
-                $analogs = [...$analogs, ...$part->analogs->toArray()];
+                $analogs = [...$analogs, ...array_values($part->analogs->toArray())];
             }
         } else {
             $data = array_map($normalizer, $currentPageResults);

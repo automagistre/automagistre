@@ -1,7 +1,7 @@
 #
 # Composer
 #
-FROM composer:2.1.8 as composer
+FROM composer:2.2.5 as composer
 
 #
 # rector
@@ -11,7 +11,7 @@ FROM rector/rector:0.11.36 as rector
 #
 # PHP
 #
-FROM php:8.1-rc-fpm-alpine3.14 as php-raw
+FROM php:8.1.2-fpm-alpine3.15 as php-raw
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -226,7 +226,7 @@ HEALTHCHECK --interval=10s --timeout=5s --start-period=5s \
 #
 # nginx
 #
-FROM nginx:1.21.3-alpine as nginx-base
+FROM nginx:1.21.6-alpine as nginx-base
 
 WORKDIR /usr/local/app/public
 

@@ -22,7 +22,7 @@
             <div class="col-md-4">{{ form_widget(form.partOffer.quantity) }}</div>
             <div class="col-md-4">{{ form_widget(form.partOffer.price) }}</div>
             <div class="col-md-4">
-                {% if part.toId.equal(partId) %}
+                {% if part.toId.equals(partId) %}
                     <button type="submit" class="btn btn-success">Текущий выбор</button>
                 {% else %}
                     <button type="submit" class="btn btn-primary">Выбрать</button>

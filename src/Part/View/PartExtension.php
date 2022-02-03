@@ -14,6 +14,7 @@ use App\Part\Manager\PartManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use LogicException;
 use function number_format;
 
 /**
@@ -34,9 +35,6 @@ final class PartExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('part_crosses_in_stock', fn (
-                PartId $partId,
-            ): array => $this->partManager->crossesInStock($partId)),
             new TwigFunction('part_reserved_in_item', fn (
                 OrderItemPart $part,
             ): int => $this->reservationManager->reserved($part)),
@@ -46,7 +44,7 @@ final class PartExtension extends AbstractExtension
             new TwigFunction('part_by_id', fn (PartId $partId): Part => $this->partManager->byId($partId)),
             new TwigFunction(
                 'part_view',
-                fn (PartId $partId): PartView => $this->registry->getBy(PartView::class, ['id' => $partId]),
+                fn (PartId $partId): PartView => $this->registry->find(PartView::class, $partId) ?? throw new LogicException('Part not found.'),
             ),
         ];
     }
