@@ -8,11 +8,10 @@ use App\Doctrine\Registry;
 use App\Storage\Entity\WarehouseId;
 use App\Storage\Entity\WarehouseView;
 use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\DataTransformerInterface;
 
 final class WarehouseTransformer
 {
-    public static function create(Registry $registry): DataTransformerInterface
+    public static function create(Registry $registry): CallbackTransformer
     {
         return new CallbackTransformer(
             function (?WarehouseId $warehouseId) use ($registry): ?WarehouseView {

@@ -87,7 +87,7 @@ class Car extends TenantGroupEntity
      * @ORM\OneToMany(targetEntity=Recommendation::class, mappedBy="car", cascade={"persist"})
      * @ORM\OrderBy({"id": "ASC"})
      */
-    private ?Collection $recommendations;
+    private Collection $recommendations;
 
     /**
      * license plate.

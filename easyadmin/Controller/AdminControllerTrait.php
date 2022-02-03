@@ -7,6 +7,7 @@ namespace EasyCorp\Bundle\EasyAdminBundle\Controller;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Exception\EntityRemoveException;
@@ -106,7 +107,7 @@ trait AdminControllerTrait
             $id = $this->request->query->get('id');
             $entity = $this->request->attributes->get('easyadmin')['item'];
             $requiredPermission = $this->entity[$action]['item_permission'];
-            $userHasPermission = $this->get(AuthorizationChecker::class)->isGranted($requiredPermission, $entity);
+            $userHasPermission = $this->container->get(AuthorizationChecker::class)->isGranted($requiredPermission, $entity);
 
             if (false === $userHasPermission) {
                 throw new NoPermissionException([
@@ -131,7 +132,7 @@ trait AdminControllerTrait
     {
         $this->dispatch(EasyAdminEvents::PRE_INITIALIZE);
 
-        $this->config = $this->get(ConfigManager::class)->getBackendConfig();
+        $this->config = $this->container->get(ConfigManager::class)->getBackendConfig();
 
         if (0 === count($this->config['entities'])) {
             throw new NoEntitiesConfiguredException();
@@ -147,7 +148,7 @@ trait AdminControllerTrait
             throw new UndefinedEntityException(['entity_name' => $entityName]);
         }
 
-        $this->entity = $this->get(ConfigManager::class)->getEntityConfig($entityName);
+        $this->entity = $this->container->get(ConfigManager::class)->getEntityConfig($entityName);
 
         $action = $request->query->get('action', 'list');
 
@@ -161,7 +162,7 @@ trait AdminControllerTrait
             $request->query->set('sortDirection', $sortDirection);
         }
 
-        $this->em = $this->getDoctrine()->getManagerForClass($this->entity['class']);
+        $this->em = $this->container->get(ManagerRegistry::class)->getManagerForClass($this->entity['class']);
         $this->request = $request;
 
         $this->dispatch(EasyAdminEvents::POST_INITIALIZE);
@@ -179,7 +180,7 @@ trait AdminControllerTrait
         $subject = $arguments['paginator'] ?? $arguments['entity'];
         $event = new GenericEvent($subject, $arguments);
 
-        $this->get(EventDispatcherInterface::class)->dispatch($event, $eventName);
+        $this->container->get(EventDispatcherInterface::class)->dispatch($event, $eventName);
     }
 
     /**
@@ -190,7 +191,7 @@ trait AdminControllerTrait
      */
     protected function autocompleteAction()
     {
-        $results = $this->get(Autocomplete::class)->find(
+        $results = $this->container->get(Autocomplete::class)->find(
             $this->request->query->get('entity'),
             $this->request->query->get('query'),
             $this->request->query->getInt('page', 1),
@@ -423,7 +424,7 @@ trait AdminControllerTrait
             $queryParameters = array_replace($this->request->query->all(), ['action' => 'list']);
             unset($queryParameters['query']);
 
-            return $this->redirect($this->get('router')->generate('easyadmin', $queryParameters));
+            return $this->redirect($this->container->get('router')->generate('easyadmin', $queryParameters));
         }
 
         $searchableFields = $this->entity['search']['fields'];
@@ -478,7 +479,7 @@ trait AdminControllerTrait
 
     protected function createBatchForm(string $entityName): FormInterface
     {
-        return $this->get('form.factory')->createNamed('batch_form', EasyAdminBatchFormType::class, null, [
+        return $this->container->get('form.factory')->createNamed('batch_form', EasyAdminBatchFormType::class, null, [
             'action' => $this->generateUrl('easyadmin', ['action' => 'batch', 'entity' => $entityName]),
             'entity' => $entityName,
         ]);
@@ -540,7 +541,7 @@ trait AdminControllerTrait
             return;
         }
 
-        $filterRegistry = $this->get(FilterRegistry::class);
+        $filterRegistry = $this->container->get(FilterRegistry::class);
 
         $appliedFilters = [];
         foreach ($filtersForm as $filterForm) {
@@ -574,7 +575,7 @@ trait AdminControllerTrait
 
     protected function createFiltersForm(string $entityName): FormInterface
     {
-        return $this->get('form.factory')->createNamed('filters', EasyAdminFiltersFormType::class, null, [
+        return $this->container->get('form.factory')->createNamed('filters', EasyAdminFiltersFormType::class, null, [
             'method' => 'GET',
             'entity' => $entityName,
         ]);
@@ -637,11 +638,11 @@ trait AdminControllerTrait
     {
         $entityConfig = $this->entity;
 
-        if (!$this->get(PropertyAccessorInterface::class)->isWritable($entity, $property)) {
+        if (!$this->container->get(PropertyAccessorInterface::class)->isWritable($entity, $property)) {
             throw new RuntimeException(sprintf('The "%s" property of the "%s" entity is not writable.', $property, $entityConfig['name']));
         }
 
-        $this->get(PropertyAccessorInterface::class)->setValue($entity, $property, $value);
+        $this->container->get(PropertyAccessorInterface::class)->setValue($entity, $property, $value);
 
         $this->dispatch(EasyAdminEvents::PRE_UPDATE, [
             'entity' => $entity,
@@ -740,7 +741,7 @@ trait AdminControllerTrait
             'sort_direction' => $sortDirection,
         ]);
 
-        return $this->get(Paginator::class)->createOrmPaginator($queryBuilder, $page, $maxPerPage);
+        return $this->container->get(Paginator::class)->createOrmPaginator($queryBuilder, $page, $maxPerPage);
     }
 
     /**
@@ -755,7 +756,7 @@ trait AdminControllerTrait
      */
     protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
     {
-        return $this->get(QueryBuilderFactory::class)->createListQueryBuilder($this->entity, $sortField, $sortDirection, $dqlFilter);
+        return $this->container->get(QueryBuilderFactory::class)->createListQueryBuilder($this->entity, $sortField, $sortDirection, $dqlFilter);
     }
 
     /**
@@ -796,7 +797,7 @@ trait AdminControllerTrait
             'searchable_fields' => $searchableFields,
         ]);
 
-        return $this->get(Paginator::class)->createOrmPaginator($queryBuilder, $page, $maxPerPage);
+        return $this->container->get(Paginator::class)->createOrmPaginator($queryBuilder, $page, $maxPerPage);
     }
 
     /**
@@ -818,7 +819,7 @@ trait AdminControllerTrait
         $sortDirection = null,
         $dqlFilter = null,
     ) {
-        return $this->get(QueryBuilderFactory::class)->createSearchQueryBuilder($this->entity, $searchQuery, $sortField, $sortDirection, $dqlFilter);
+        return $this->container->get(QueryBuilderFactory::class)->createSearchQueryBuilder($this->entity, $searchQuery, $sortField, $sortDirection, $dqlFilter);
     }
 
     /**
@@ -857,7 +858,7 @@ trait AdminControllerTrait
     {
         $formOptions = $this->getEntityFormOptions($entity, $view);
 
-        return $this->get('form.factory')->createNamedBuilder(mb_strtolower($this->entity['name']), EasyAdminFormType::class, $entity, $formOptions);
+        return $this->container->get('form.factory')->createNamedBuilder(mb_strtolower($this->entity['name']), EasyAdminFormType::class, $entity, $formOptions);
     }
 
     /**
@@ -922,7 +923,7 @@ trait AdminControllerTrait
     protected function createDeleteForm($entityName, $entityId)
     {
         /** @var FormBuilder $formBuilder */
-        $formBuilder = $this->get('form.factory')->createNamedBuilder('delete_form')
+        $formBuilder = $this->container->get('form.factory')->createNamedBuilder('delete_form')
             ->setAction($this->generateUrl('easyadmin', [
                 'action' => 'delete',
                 'entity' => $entityName,
@@ -960,7 +961,7 @@ trait AdminControllerTrait
     {
         $homepageConfig = $this->config['homepage'];
 
-        $url = $homepageConfig['url'] ?? $this->get('router')->generate($homepageConfig['route'], $homepageConfig['params']);
+        $url = $homepageConfig['url'] ?? $this->container->get('router')->generate($homepageConfig['route'], $homepageConfig['params']);
 
         return $this->redirect($url);
     }

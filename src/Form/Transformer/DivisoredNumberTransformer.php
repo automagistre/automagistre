@@ -25,7 +25,7 @@ final class DivisoredNumberTransformer implements DataTransformerInterface
     /**
      * {@inheritDoc}
      */
-    public function transform($value): mixed
+    public function transform(mixed $value): mixed
     {
         if (null === $value) {
             return null;
@@ -41,7 +41,7 @@ final class DivisoredNumberTransformer implements DataTransformerInterface
     /**
      * {@inheritDoc}
      */
-    public function reverseTransform($value): mixed
+    public function reverseTransform(mixed $value): mixed
     {
         if (null === $value) {
             return null;

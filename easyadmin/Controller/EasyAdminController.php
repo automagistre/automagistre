@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyCorp\Bundle\EasyAdminBundle\Controller;
 
+use Doctrine\Persistence\ManagerRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\FilterRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Search\Autocomplete;
@@ -27,6 +28,7 @@ class EasyAdminController extends AbstractController
     {
         return array_merge(parent::getSubscribedServices(), [
             Autocomplete::class,
+            ManagerRegistry::class,
             ConfigManager::class,
             Paginator::class,
             QueryBuilderFactory::class,

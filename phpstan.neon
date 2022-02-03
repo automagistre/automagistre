@@ -12,7 +12,7 @@ parameters:
 #        - easyadmin
         - src
         - tests
-    excludes_analyse:
+    excludePaths:
         - %rootDir%/../../../src/Command/TestCommand.php
         - %rootDir%/../../../src/Controller/TestController.php
     symfony:

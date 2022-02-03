@@ -1,6 +1,7 @@
 services:
     cache.doctrine.query:
-        class: Symfony\Component\Cache\DoctrineProvider
+        class: Doctrine\Common\Cache\Psr6\DoctrineProvider
+        factory: [Doctrine\Common\Cache\Psr6\DoctrineProvider, wrap]
         arguments:
             - !service
                 class: Symfony\Component\Cache\Adapter\ApcuAdapter

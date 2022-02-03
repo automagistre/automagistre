@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.10.0@916b098b008f6de4543892b1e0651c1c3b92cbfa">
+<files psalm-version="4.19.0@a2ad69ae4f5ab1f7d225a8dc4e2ec2d9415ed599">
   <file src="config/packages/messenger.php">
     <UndefinedClass occurrences="1">
       <code>FrameworkConfig</code>
@@ -39,9 +39,6 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Car/Entity/Car.php">
-    <PossiblyNullReference occurrences="1">
-      <code>$this-&gt;recommendations</code>
-    </PossiblyNullReference>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Car</code>
     </PropertyNotSetInConstructor>
@@ -88,16 +85,57 @@
       <code>new DateTime('-1000 hour')</code>
     </QueryBuilderSetParameter>
   </file>
+  <file src="src/Doctrine/ORM/EventSubscriber/FixPostgreSQLDefaultSchemaListener.php">
+    <UndefinedClass occurrences="1">
+      <code>PostgreSqlSchemaManager</code>
+    </UndefinedClass>
+  </file>
+  <file src="src/EasyAdmin/Controller/AbstractController.php">
+    <InternalMethod occurrences="1">
+      <code>get</code>
+    </InternalMethod>
+  </file>
   <file src="src/EasyAdmin/Form/AutocompleteType.php">
+    <MoreSpecificImplementedParamType occurrences="2">
+      <code>$forms</code>
+      <code>$forms</code>
+    </MoreSpecificImplementedParamType>
+    <PossiblyInvalidArgument occurrences="2">
+      <code>$forms</code>
+      <code>$forms</code>
+    </PossiblyInvalidArgument>
     <PropertyTypeCoercion occurrences="2">
       <code>$view-&gt;vars</code>
       <code>$view-&gt;vars</code>
     </PropertyTypeCoercion>
   </file>
+  <file src="src/GraphQL/Buffer.php">
+    <InvalidPropertyAssignmentValue occurrences="1">
+      <code>$this-&gt;loaded</code>
+    </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="src/Identifier/DI/AutoTypeMappingCompilerPass.php">
+    <UndefinedDocblockClass occurrences="1">
+      <code>$metadata-&gt;getFieldMapping($fieldName)</code>
+    </UndefinedDocblockClass>
+  </file>
+  <file src="src/Identifier/Doctrine/AutoTypeMappingListener.php">
+    <UndefinedDocblockClass occurrences="1">
+      <code>$metadata-&gt;getFieldMapping($fieldName)</code>
+    </UndefinedDocblockClass>
+    <UnusedPsalmSuppress occurrences="1">
+      <code>PossiblyUndefinedArrayOffset</code>
+    </UnusedPsalmSuppress>
+  </file>
   <file src="src/Identifier/config.php">
     <UndefinedClass occurrences="1">
       <code>FrameworkConfig</code>
     </UndefinedClass>
+  </file>
+  <file src="src/Keycloak/Security/KeycloakUserProvider.php">
+    <TooFewArguments occurrences="1">
+      <code>new KeycloakUser(...$arguments)</code>
+    </TooFewArguments>
   </file>
   <file src="src/Manufacturer/Controller/ManufacturerController.php">
     <RedundantConditionGivenDocblockType occurrences="1">
@@ -111,6 +149,9 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/Order/Controller/OrderController.php">
+    <InternalMethod occurrences="1">
+      <code>get</code>
+    </InternalMethod>
     <PossiblyNullArgument occurrences="2">
       <code>$carId</code>
       <code>$equipmentId ?? $car-&gt;vehicleId</code>
@@ -131,6 +172,9 @@
     </QueryBuilderSetParameter>
   </file>
   <file src="src/Order/Controller/OrderItemController.php">
+    <InternalMethod occurrences="1">
+      <code>get</code>
+    </InternalMethod>
     <PossiblyNullReference occurrences="1">
       <code>getOrder</code>
     </PossiblyNullReference>
@@ -204,6 +248,11 @@
       <code>self::FORMATS</code>
     </PossiblyNullArrayOffset>
   </file>
+  <file src="src/Review/Google/Controller/OAuth2Controller.php">
+    <PossiblyFalseOperand occurrences="1">
+      <code>json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR)</code>
+    </PossiblyFalseOperand>
+  </file>
   <file src="src/Review/GraphQL/Type/ReviewType.php">
     <MissingClosureParamType occurrences="1">
       <code>$rootValue</code>
@@ -218,6 +267,23 @@
     <QueryBuilderSetParameter occurrences="1">
       <code>$partId</code>
     </QueryBuilderSetParameter>
+  </file>
+  <file src="src/Storage/Entity/MotionSource.php">
+    <ImpureMethodCall occurrences="3">
+      <code>income</code>
+      <code>manual</code>
+      <code>order</code>
+    </ImpureMethodCall>
+  </file>
+  <file src="src/Tenant/Doctrine/ORM/Query/GroupFilter.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isSubclassOf</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Tenant/Doctrine/ORM/Query/TenantFilter.php">
+    <PossiblyNullReference occurrences="1">
+      <code>isSubclassOf</code>
+    </PossiblyNullReference>
   </file>
   <file src="src/Tenant/config.php">
     <UndefinedClass occurrences="1">
@@ -235,5 +301,10 @@
     <QueryBuilderSetParameter occurrences="1">
       <code>$walletId</code>
     </QueryBuilderSetParameter>
+  </file>
+  <file src="tests/ConfigTest.php">
+    <PossiblyFalseArgument occurrences="1">
+      <code>realpath($path)</code>
+    </PossiblyFalseArgument>
   </file>
 </files>

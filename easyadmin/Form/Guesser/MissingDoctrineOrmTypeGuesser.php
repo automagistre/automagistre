@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EasyCorp\Bundle\EasyAdminBundle\Form\Guesser;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types as Type;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Bridge\Doctrine\Form\DoctrineOrmTypeGuesser;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -21,7 +21,7 @@ class MissingDoctrineOrmTypeGuesser extends DoctrineOrmTypeGuesser
     /**
      * {@inheritdoc}
      */
-    public function guessType($class, $property)
+    public function guessType($class, $property): ?TypeGuess
     {
         if (null !== $metadataAndName = $this->getMetadata($class)) {
             /** @var ClassMetadataInfo $metadata */
@@ -35,7 +35,7 @@ class MissingDoctrineOrmTypeGuesser extends DoctrineOrmTypeGuesser
                 case 'time_immutable': // available since Doctrine 2.6
                     return new TypeGuess(TimeType::class, [], Guess::HIGH_CONFIDENCE);
                 case Type::SIMPLE_ARRAY:
-                case Type::JSON_ARRAY:
+                case Type::ARRAY:
                     return new TypeGuess(CollectionType::class, [], Guess::MEDIUM_CONFIDENCE);
                 case 'json': // available since Doctrine 2.6.2
                     return new TypeGuess(TextareaType::class, [], Guess::MEDIUM_CONFIDENCE);

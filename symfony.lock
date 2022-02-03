@@ -65,7 +65,10 @@
         "version": "v1.5.0"
     },
     "composer/package-versions-deprecated": {
-        "version": "1.11.99.3"
+        "version": "1.11.99.5"
+    },
+    "composer/pcre": {
+        "version": "1.0.1"
     },
     "composer/semver": {
         "version": "3.2.4"
@@ -203,6 +206,9 @@
     "ergebnis/json-printer": {
         "version": "3.1.1"
     },
+    "ergebnis/json-schema-validator": {
+        "version": "2.0.0"
+    },
     "felixfbecker/advanced-json-rpc": {
         "version": "v3.2.0"
     },
@@ -263,9 +269,6 @@
     "guzzlehttp/psr7": {
         "version": "1.7.0"
     },
-    "guzzlehttp/uri-template": {
-        "version": "v0.2.0"
-    },
     "http-interop/http-factory-guzzle": {
         "version": "1.0.0"
     },
@@ -297,7 +300,7 @@
         "version": "4.1.2"
     },
     "league/oauth2-client": {
-        "version": "2.6.0"
+        "version": "2.2.1"
     },
     "league/uri-parser": {
         "version": "1.4.1"
@@ -605,10 +608,7 @@
         }
     },
     "stevenmaguire/oauth2-keycloak": {
-        "version": "2.2.2"
-    },
-    "symfony/amqp-messenger": {
-        "version": "v5.2.3"
+        "version": "3.0.0"
     },
     "symfony/asset": {
         "version": "v5.2.3"
@@ -659,9 +659,6 @@
         "version": "v2.2.0"
     },
     "symfony/doctrine-bridge": {
-        "version": "v5.2.3"
-    },
-    "symfony/doctrine-messenger": {
         "version": "v5.2.3"
     },
     "symfony/dom-crawler": {
@@ -831,9 +828,6 @@
             "config/packages/psr_http_message_bridge.yaml"
         ]
     },
-    "symfony/redis-messenger": {
-        "version": "v5.2.3"
-    },
     "symfony/requirements-checker": {
         "version": "2.0",
         "recipe": {
@@ -873,9 +867,6 @@
         "version": "v5.2.3"
     },
     "symfony/security-csrf": {
-        "version": "v5.2.3"
-    },
-    "symfony/security-guard": {
         "version": "v5.2.3"
     },
     "symfony/security-http": {

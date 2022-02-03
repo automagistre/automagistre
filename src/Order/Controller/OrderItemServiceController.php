@@ -214,10 +214,10 @@ final class OrderItemServiceController extends OrderItemController
                 continue;
             }
 
-            $key = ':search_'.$key;
+            $key = 'search_'.$key;
 
             $qb->andWhere($qb->expr()->or(
-                $qb->expr()->like('LOWER(service)', $key),
+                $qb->expr()->like('LOWER(service)', ':'.$key),
             ));
 
             $qb->setParameter($key, '%'.mb_strtolower($searchString).'%');

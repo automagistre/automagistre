@@ -21,7 +21,7 @@ final class CustomerPhoneNotExistsValidator extends ConstraintValidator
     /**
      * {@inheritdoc}
      */
-    public function validate($value, Constraint $constraint): void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof CustomerPhoneNotExists) {
             throw new UnexpectedTypeException($constraint, CustomerPhoneNotExists::class);

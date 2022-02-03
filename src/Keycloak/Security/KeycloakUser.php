@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Keycloak\Security;
 
 use App\Keycloak\Entity\UserId;
-use League\OAuth2\Client\Token\AccessTokenInterface;
+use League\OAuth2\Client\Token\AccessToken;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class KeycloakUser implements UserInterface
@@ -13,7 +13,7 @@ class KeycloakUser implements UserInterface
     public function __construct(
         public string $id,
         public string $username,
-        public AccessTokenInterface $accessToken,
+        public AccessToken $accessToken,
         public array $roles = [],
         public ?string $email = null,
         public ?string $firstname = null,

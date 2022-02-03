@@ -33,6 +33,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use LogicException;
+use Symfony\Component\Messenger\MessageBusInterface;
 use function array_keys;
 use function array_merge;
 use function assert;
@@ -379,5 +380,22 @@ abstract class AbstractController extends EasyAdminController
         ];
 
         return $this->renderTemplate('edit', $this->entity['templates']['edit'], $parameters);
+    }
+
+    protected function dispatchMessage(object $message): void
+    {
+        $this->container->get(MessageBusInterface::class)->dispatch($message);
+    }
+
+    /**
+     * @template T of object
+     *
+     * @psalm-param class-string<T> $service
+     *
+     * @psalm-return T
+     */
+    protected function get(string $service): object
+    {
+        return $this->container->get($service);
     }
 }

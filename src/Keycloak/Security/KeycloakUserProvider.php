@@ -7,8 +7,6 @@ namespace App\Keycloak\Security;
 use App\Keycloak\Constants;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
-use League\OAuth2\Client\Token\AccessTokenInterface;
-use LogicException;
 use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -88,12 +86,8 @@ final class KeycloakUserProvider implements UserProviderInterface
         return $this->loadUserByIdentifier($username);
     }
 
-    private function createFromToken(AccessTokenInterface $token): KeycloakUser
+    private function createFromToken(AccessToken $token): KeycloakUser
     {
-        if (!$token instanceof AccessToken) {
-            throw new LogicException(sprintf('%s expected, but %s given', AccessToken::class, $token::class));
-        }
-
         $user = $this->provider->getResourceOwner($token);
         $payload = $user->toArray();
 

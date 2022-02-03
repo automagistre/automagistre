@@ -35,7 +35,7 @@ class StringToFileTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function transform($value)
+    public function transform(mixed $value): mixed
     {
         if (null === $value || [] === $value) {
             return null;
@@ -55,7 +55,7 @@ class StringToFileTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function reverseTransform($value)
+    public function reverseTransform(mixed $value): mixed
     {
         if (null === $value || [] === $value) {
             return null;

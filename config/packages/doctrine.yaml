@@ -96,13 +96,15 @@ services:
         alias: App\Doctrine\ORM\Mapping\NamespaceNamingStrategy
 
     cache.doctrine.query:
-        class: Symfony\Component\Cache\DoctrineProvider
+        class: Doctrine\Common\Cache\Psr6\DoctrineProvider
+        factory: [Doctrine\Common\Cache\Psr6\DoctrineProvider, wrap]
         arguments:
             - !service
                 class: Symfony\Component\Cache\Adapter\ArrayAdapter
 
     cache.doctrine.result:
-        class: Symfony\Component\Cache\DoctrineProvider
+        class: Doctrine\Common\Cache\Psr6\DoctrineProvider
+        factory: [ Doctrine\Common\Cache\Psr6\DoctrineProvider, wrap ]
         arguments:
             - !service
                 class: Symfony\Component\Cache\Adapter\ArrayAdapter

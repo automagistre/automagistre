@@ -32,7 +32,6 @@ final class LinkPartCaseOnOrderClosedListenerTest extends KernelTestCase
             ['ROLE_ADMIN'],
             new InMemoryUser(username: '1ea9478c-eca4-6f96-a221-3ab8c77b35e5', password: 'pa$$word'),
         );
-        $token->setAuthenticated(true);
         /** @var TokenStorage $tokenStorage */
         $tokenStorage = $container->get('security.token_storage');
         $tokenStorage->setToken($token);

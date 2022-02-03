@@ -269,7 +269,7 @@ final class CarController extends AbstractController
 
         $qb = $this->createSearchQueryBuilder((string) $query->get('entity'), (string) $query->get('query'), []);
 
-        $paginator = $this->get(Paginator::class)->createOrmPaginator($qb, $query->getInt('page', 1));
+        $paginator = $this->container->get(Paginator::class)->createOrmPaginator($qb, $query->getInt('page', 1));
 
         $data = array_map(function (Car $car): array {
             $text = $this->display($car->toId(), 'autocomplete');

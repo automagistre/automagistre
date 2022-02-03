@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 final class CallbackGuard extends AbstractAuthenticator
@@ -27,7 +27,7 @@ final class CallbackGuard extends AbstractAuthenticator
     /**
      * {@inheritdoc}
      */
-    public function authenticate(Request $request): PassportInterface
+    public function authenticate(Request $request): Passport
     {
         return new SelfValidatingPassport(new UserBadge(Constants::SMSAERO_USER_ID));
     }

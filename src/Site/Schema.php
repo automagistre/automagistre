@@ -23,7 +23,6 @@ final class Schema
             //                    return $mutationType;
             //                }
             //
-            //                /** @phpstan-ignore-next-line */
             //                return Types::{$name}();
             //            },
         ]);

@@ -44,18 +44,12 @@ class BaseException extends HttpException
         return $this->context->getDebugMessage();
     }
 
-    /**
-     * @return array
-     */
-    public function getParameters()
+    public function getParameters(): array
     {
         return $this->context->getParameters();
     }
 
-    /**
-     * @return int
-     */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->context->getStatusCode();
     }

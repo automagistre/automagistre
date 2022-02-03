@@ -10,12 +10,12 @@ return static function (SecurityConfig $security, ContainerConfigurator $configu
     $security->enableAuthenticatorManager(true);
     $security->accessDecisionManager()->strategy('unanimous');
 
-    $security->encoder(Symfony\Component\Security\Core\User\InMemoryUser::class)
-        ->algorithm('auto')
-    ;
-
     $security->provider('keycloak')
         ->id(App\Keycloak\Security\KeycloakUserProvider::class)
+    ;
+
+    $security->passwordHasher(Symfony\Component\Security\Core\User\InMemoryUser::class)
+        ->algorithm('auto')
     ;
 
     $inMemory = $security->provider('in_memory')->memory();
