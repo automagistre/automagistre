@@ -138,7 +138,7 @@ services:
             - --admin-secret=${HASURA_ADMIN_SECRET}
         environment:
             HASURA_GRAPHQL_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres:5432/db
-            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres:5432/hasura
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:${DB_PASSWORD}@postgres:5432/db
             HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://sso.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
         networks:
             - default
@@ -152,7 +152,7 @@ services:
                 order: start-first
             labels:
                 - "traefik.enable=true"
-                - "traefik.http.routers.automagistre-hasura.rule=Host(`api.automagistre.ru`)"
+                - "traefik.http.routers.automagistre-hasura.rule=Host(`hasura.automagistre.ru`, `api.automagistre.ru`) || (Host(`crm-next.automagistre.ru`, `www.automagistre.ru`) && (Path(`/v1/graphql`) || PathPrefix(`/api`)))"
                 - "traefik.http.routers.automagistre-hasura.entrypoints=websecure"
                 - "traefik.http.routers.automagistre-hasura.tls=true"
                 - "traefik.http.routers.automagistre-hasura.tls.certresolver=leresolver"
@@ -264,6 +264,24 @@ services:
                 - "traefik.http.routers.automagistre-nsq.tls=true"
                 - "traefik.http.routers.automagistre-nsq.tls.certresolver=leresolver"
                 - "traefik.http.services.automagistre-nsq-service.loadbalancer.server.port=80"
+
+    crm:
+        image: automagistre/automagistre:crm-${VERSION}
+        networks:
+            - traefik
+        deploy:
+            update_config:
+                order: start-first
+                failure_action: rollback
+                parallelism: 1
+                delay: 5s
+            labels:
+                - "traefik.enable=true"
+                - "traefik.http.routers.automagistre-crm-next.rule=Host(`crm-next.automagistre.ru`)"
+                - "traefik.http.routers.automagistre-crm-next.entrypoints=websecure"
+                - "traefik.http.routers.automagistre-crm-next.tls=true"
+                - "traefik.http.routers.automagistre-crm-next.tls.certresolver=leresolver"
+                - "traefik.http.services.automagistre-crm-next-service.loadbalancer.server.port=80"
 
 networks:
     traefik:

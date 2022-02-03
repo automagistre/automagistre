@@ -1,0 +1,5 @@
+- "!include public_manufacturer.yaml"
+- "!include public_tenant.yaml"
+- "!include public_tenant_group.yaml"
+- "!include public_tenant_group_permission.yaml"
+- "!include public_tenant_permission.yaml"

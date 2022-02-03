@@ -1,10 +1,53 @@
 version: '3.7'
 
 services:
+    traefik:
+        image: traefik:v2.6.0
+        labels:
+            ru.grachevko.dhu: 'traefik.automagistre.local:0:traefik'
+            traefik.enable: true
+            traefik.http.routers.traefik.rule: Host(`traefik.automagistre.local`)
+            traefik.http.routers.traefik.entrypoints: web
+            traefik.http.routers.traefik.service: api@internal
+        container_name: traefik
+        command:
+            - --api.dashboard=true
+            - --api.insecure=true
+            - --entrypoints.web.address=:80
+            - --entrypoints.websecure.address=:443
+            - --providers.docker=true
+            - --providers.docker.network=traefik
+            - --providers.docker.exposedByDefault=false
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+
+    crm:
+        image: automagistre/automagistre:node-base
+        labels:
+            ru.grachevko.dhu: 'crm-next.automagistre.local:0:traefik'
+            traefik.enable: true
+            traefik.http.routers.crm-next.rule: Host(`crm-next.automagistre.local`) && !Path(`/v1/graphql`)
+            traefik.http.routers.crm-next.entrypoints: web
+            traefik.http.services.crm-next.loadbalancer.server.port: 80
+        extra_hosts:
+            - crm-next.automagistre.local:0.0.0.0
+        command: npm run start
+        environment:
+            HOST: crm-next.automagistre.local
+            PORT: 80
+        working_dir: /app
+        volumes:
+            - ./crm:/app
+        user: ${UID:-1000}:${GID:-1000}
+
     nginx:
         image: automagistre/tenant-nginx:base
         labels:
-            ru.grachevko.dhu: '{callback,r,crm}.automagistre.local'
+            ru.grachevko.dhu: '{callback,r,crm}.automagistre.local:0:traefik'
+            traefik.enable: true
+            traefik.http.routers.nginx.rule: Host(`callback.automagistre.local`, `r.automagistre.local`, `crm.automagistre.local`)
+            traefik.http.routers.nginx.entrypoints: web
+            traefik.http.services.nginx.loadbalancer.server.port: 80
         volumes:
             - ./public:/usr/local/app/public
             - ./etc/nginx.conf:/etc/nginx/nginx.conf
@@ -74,29 +117,62 @@ services:
 
     nsqadmin:
         image: nsqio/nsq:v1.2.0
-        command: /nsqadmin --nsqd-http-address=nsqd:4151 --http-address=0.0.0.0:80
         labels:
             ru.grachevko.dhu: 'nsq.automagistre.local'
+        command: /nsqadmin --nsqd-http-address=nsqd:4151 --http-address=0.0.0.0:80
 
     hasura:
-        image: hasura/graphql-engine:v2.2.0
+        image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+        labels:
+            ru.grachevko.dhu: 'hasura.automagistre.local:0:traefik'
+            traefik.enable: true
+            traefik.http.routers.hasura.rule: Host(`hasura.automagistre.local`) || (Host(`hasura.automagistre.local`) && Path(`/v1/graphql`))
+            traefik.http.routers.hasura.entrypoints: web
+            traefik.http.services.hasura.loadbalancer.server.port: 80
         command:
             - graphql-engine
             - serve
             - --server-port=80
             - --unauthorized-role=anonymous
             - --cors-domain=*
+            - --admin-internal-errors=true
         environment:
             HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db
-            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/hasura
-            HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/db
             HASURA_GRAPHQL_DEV_MODE: 'true'
             HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
             HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://sso.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
             HASURA_GRAPHQL_ADMIN_SECRET: admin
-        labels:
-            ru.grachevko.dhu: 'api.automagistre.local'
+            HASURA_GRAPHQL_STRINGIFY_NUMERIC_TYPES: 'false'
         user: ${UID:-1000}:${GID:-1000}
+        networks:
+            default:
+            hasura:
+                aliases:
+                    - hasura.automagistre.local
+
+    hasura-console:
+        image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+        labels:
+            ru.grachevko.dhu: 'hasura-console.automagistre.local'
+        extra_hosts:
+            - hasura-console.automagistre.local:0.0.0.0
+        entrypoint:
+            - hasura-cli
+        command:
+            - console
+            - --address=hasura-console.automagistre.local
+            - --console-port=80
+            - --no-browser
+        environment:
+            HASURA_GRAPHQL_ADMIN_SECRET: admin
+        working_dir: /app
+        volumes:
+            - ./:/app
+            - ./var/hasura:/.hasura
+        user: ${UID:-1000}:${GID:-1000}
+        networks:
+            - hasura
 
 networks:
     default:
@@ -104,3 +180,7 @@ networks:
         ipam:
             config:
                 -   subnet: 192.168.66.0/24
+    hasura:
+        ipam:
+            config:
+                -   subnet: 192.168.67.0/24

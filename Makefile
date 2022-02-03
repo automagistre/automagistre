@@ -43,17 +43,22 @@ docker-hosts-updater:
 ###> ALIASES ###
 pull:
 	$(DEBUG_ECHO) docker-compose pull
+
 do-up: contrib pull composer permissions
 	$(DEBUG_ECHO) docker-compose up --detach --remove-orphans --no-build \
+	traefik \
+	crm \
 	nginx \
 	php-fpm \
 	postgres \
 	redis \
 	nsqd \
 	nsqadmin \
+	hasura \
+	hasura-console \
 	host.docker.internal
 
-up: do-up ## Up project
+up: do-up up-crm ## Up project
 	@$(notify)
 latest: do-up backup-latest permissions ## Up project with latest backup from server
 	@$(notify)
@@ -69,6 +74,17 @@ down: ## Stop and remove all containers, volumes and networks
 
 rector:
 	$(DEBUG_ECHO) docker-compose run --rm rector
+
+###> CRM ###
+CRM = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm ) \
+	crm
+
+crm-npm-install:
+	$(CRM) npm install
+
+up-crm: crm-npm-install
+	$(DEBUG_ECHO) docker-compose up -d crm
+###< CRM ###
 
 ###> APP ###
 APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\

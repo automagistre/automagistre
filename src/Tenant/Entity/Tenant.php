@@ -31,14 +31,14 @@ class Tenant
     /**
      * @ORM\Column
      */
-    public string $displayName;
+    public string $name;
 
     public function __construct(TenantId $id, string $identifier, GroupId $groupId, string $displayName)
     {
         $this->id = $id;
         $this->identifier = $identifier;
         $this->groupId = $groupId;
-        $this->displayName = $displayName;
+        $this->name = $displayName;
     }
 
     public function toId(): TenantId

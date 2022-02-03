@@ -1,0 +1,34 @@
+table:
+    name: manufacturer
+    schema: public
+insert_permissions:
+    -   permission:
+            backend_only: false
+            check: { }
+            columns:
+                - localized_name
+                - name
+        role: manager
+select_permissions:
+    -   permission:
+            allow_aggregations: true
+            columns:
+                - created_at
+                - id
+                - localized_name
+                - name
+                - updated_at
+            filter: { }
+        role: manager
+update_permissions:
+    -   permission:
+            check: { }
+            columns:
+                - localized_name
+                - name
+            filter: { }
+        role: manager
+delete_permissions:
+    -   permission:
+            filter: { }
+        role: manager

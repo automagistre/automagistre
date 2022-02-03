@@ -19,3 +19,11 @@ vendor
 docker-compose.*
 Dockerfile
 /.docker
+
+# CRM
+/crm
+
+# Hasura
+/metadata
+/migrations
+/seeds

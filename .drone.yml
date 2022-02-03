@@ -35,6 +35,11 @@ steps:
             - docker build -t "automagistre/tenant-nginx:base-${DRONE_BUILD_NUMBER}" --progress=plain --target nginx-base .
 
     -   <<: *docker
+        name: crm node base
+        commands:
+            - docker build -t ${DRONE_REPO}:crm-node-base-${DRONE_BUILD_NUMBER} --progress=plain --target node-base crm/
+
+    -   <<: *docker
         name: php
         commands:
             - docker build -t "automagistre/tenant-php:${DRONE_BUILD_NUMBER}" --progress=plain --target php .
@@ -48,6 +53,13 @@ steps:
         depends_on:
             - php
             - nginx base
+
+    -   <<: *docker
+        name: crm nginx
+        commands:
+            - docker build -t ${DRONE_REPO}:crm-${DRONE_BUILD_NUMBER} --progress=plain --target nginx crm/
+        depends_on:
+            - crm node base
 
 ---
 kind: pipeline
@@ -127,6 +139,9 @@ steps:
                 -not -path "./var/*"
                 -not -path "./vendor/*"
                 -not -path "./.git/*"
+                -not -name "*.ico" 
+                -not -name "*.png" 
+                -not -name "*.svg" 
                 -type f -exec grep -Iq . {} \; -and -print0
                 | xargs -0 -n 1 sh -c 'test -z "$(tail -c 1 "$0")"
                 || (echo "No new line at end of $0" && exit 1)'
@@ -272,7 +287,7 @@ depends_on:
     - build
 
 clone:
-    disable: true
+    depth: 0
 
 services:
     -   name: nginx
@@ -303,6 +318,8 @@ steps:
         commands:
             - cd $$APP_DIR
             - console doctrine:migrations:migrate --no-interaction --allow-no-migration
+            - console doctrine:query:sql -- "INSERT INTO public.tenant_group (id, identifier, name) VALUES ('c21d0c56-cf8a-4099-9580-39d8858bda24', 'automagistre', 'Автомагистр');"
+            - console doctrine:query:sql -- "INSERT INTO public.tenant (id, group_id, identifier, name) VALUES ('69c1cfe1-1e0b-4423-8349-4c19b9fbeb8d', 'c21d0c56-cf8a-4099-9580-39d8858bda24', 'msk', 'Автомагистр Москва');"
         depends_on:
             - wait
 
@@ -381,6 +398,18 @@ steps:
         depends_on:
             - docker login
 
+    -   name: node base
+        image: automagistre/docker:stable
+        volumes:
+            -   name: docker.sock
+                path: /var/run/docker.sock
+        commands:
+            - docker tag ${DRONE_REPO}:crm-node-base-${DRONE_BUILD_NUMBER} ${DRONE_REPO}:crm-node-base
+            - docker push ${DRONE_REPO}:crm-node-base
+            - docker rmi ${DRONE_REPO}:crm-node-base-${DRONE_BUILD_NUMBER}
+        depends_on:
+            - docker login
+
 ---
 kind: pipeline
 type: docker
@@ -413,6 +442,19 @@ steps:
         image: automagistre/git:stable
         commands:
             - \[ "${DRONE_COMMIT_SHA}" == "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ] || exit 78
+
+    -   name: hasura migrate
+        image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+        commands:
+            - hasura-cli metadata apply
+            - hasura-cli metadata reload
+        environment:
+            HASURA_GRAPHQL_ENDPOINT: https://api.automagistre.ru
+            HASURA_GRAPHQL_ADMIN_SECRET:
+                from_secret: crm_hasura_admin_secret
+            HASURA_GRAPHQL_DISABLE_INTERACTIVE: 'true'
+        depends_on:
+            - check deploy
 
     -   name: deploy
         image: automagistre/docker-compose:stable

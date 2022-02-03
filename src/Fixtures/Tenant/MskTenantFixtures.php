@@ -20,6 +20,7 @@ final class MskTenantFixtures extends Fixture implements OrderedFixtureInterface
     public const DISPLAY_NAME = 'СТО Москва';
     public const GROUP_ID = '1ec13c1d-58e1-6244-b276-0242d7e06827';
     public const GROUP_IDENTIFIER = self::IDENTIFIER;
+    public const GROUP_NAME = self::DISPLAY_NAME;
 
     public function __construct(private State $state)
     {
@@ -42,8 +43,10 @@ final class MskTenantFixtures extends Fixture implements OrderedFixtureInterface
             new Group(
                 GroupId::from(self::GROUP_ID),
                 self::GROUP_IDENTIFIER,
+                self::GROUP_NAME,
             ),
         );
+        $manager->flush();
 
         $tenant = self::asEntity();
 

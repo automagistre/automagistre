@@ -11,7 +11,7 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user_permission")
+ * @ORM\Table(name="tenant_permission")
  */
 class Permission extends TenantEntity
 {

@@ -4,35 +4,15 @@ declare(strict_types=1);
 
 namespace App\Migrations;
 
-use App\Tenant\Enum\Tenant;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use LogicException;
 
 final class Version20210912133929 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
-        $tenants = array_map(
-            static fn (array $item) => sprintf("WHEN tenant_id = '%s' THEN '%s'::UUID", Tenant::fromIdentifier($item['identifier'])->toId(), $item['id']),
-            $this->connection->fetchAllAssociative('SELECT id, identifier FROM tenant'),
-        );
-        $groups = array_map(
-            static fn (array $item) => sprintf(
-                "WHEN tenant_group_id = '%s' THEN '%s'::UUID",
-                match ($item['identifier']) {
-                    'demo' => 0,
-                    'automagistre' => 1,
-                    'shavlev' => 2,
-                    default => throw new LogicException(),
-                },
-                $item['id'],
-            ),
-            $this->connection->fetchAllAssociative('SELECT id, identifier FROM tenant_group'),
-        );
-
-        $tenantCase = sprintf(' USING CASE %s END', implode(' ', $tenants));
-        $groupCase = sprintf(' USING CASE %s END', implode(' ', $groups));
+        $tenantCase = ' USING NULL';
+        $groupCase = ' USING NULL';
 
         $this->addSql('ALTER TABLE appeal_calculator ALTER tenant_id TYPE UUID'.$tenantCase);
         $this->addSql('ALTER TABLE appeal_calculator ALTER tenant_id DROP DEFAULT');

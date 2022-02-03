@@ -23,9 +23,15 @@ class Group
      */
     public string $identifier;
 
-    public function __construct(GroupId $id, string $identifier)
+    /**
+     * @ORM\Column(type="text")
+     */
+    public string $name;
+
+    public function __construct(GroupId $id, string $identifier, string $name)
     {
         $this->id = $id;
         $this->identifier = $identifier;
+        $this->name = $name;
     }
 }
