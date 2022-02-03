@@ -126,7 +126,7 @@ services:
                 order: stop-first
 
     hasura:
-        image: hasura/graphql-engine:v2.0.8
+        image: hasura/graphql-engine:v2.2.0
         command:
             - graphql-engine
             - serve
