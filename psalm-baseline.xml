@@ -39,6 +39,9 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Car/Entity/Car.php">
+    <MethodSignatureMustProvideReturnType occurrences="1">
+      <code>__toString</code>
+    </MethodSignatureMustProvideReturnType>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Car</code>
     </PropertyNotSetInConstructor>
@@ -94,6 +97,9 @@
     <InternalMethod occurrences="1">
       <code>get</code>
     </InternalMethod>
+    <MethodSignatureMustProvideReturnType occurrences="1">
+      <code>ler;</code>
+    </MethodSignatureMustProvideReturnType>
   </file>
   <file src="src/EasyAdmin/Form/AutocompleteType.php">
     <MoreSpecificImplementedParamType occurrences="2">
@@ -288,6 +294,11 @@
       <code>null !== $dto-&gt;manufacturerId &amp;&amp; null !== $dto-&gt;name</code>
       <code>null !== $dto-&gt;name</code>
     </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Vehicle/Entity/Model.php">
+    <MethodSignatureMustProvideReturnType occurrences="1">
+      <code>__toString</code>
+    </MethodSignatureMustProvideReturnType>
   </file>
   <file src="src/Wallet/Controller/TransactionController.php">
     <QueryBuilderSetParameter occurrences="1">
