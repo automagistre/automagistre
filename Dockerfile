@@ -11,7 +11,7 @@ FROM rector/rector:0.11.36 as rector
 #
 # PHP
 #
-FROM php:8.0.12-fpm-alpine3.14 as php-raw
+FROM php:8.1.2-fpm-alpine3.15 as php-raw
 
 LABEL MAINTAINER="Konstantin Grachev <me@grachevko.ru>"
 
@@ -23,7 +23,7 @@ WORKDIR ${APP_DIR}
 #
 # > PHP EXTENSIONS
 #
-ENV PHP_EXT_DIR /usr/local/lib/php/extensions/no-debug-non-zts-20200930
+ENV PHP_EXT_DIR /usr/local/lib/php/extensions/no-debug-non-zts-20210902
 RUN set -ex \
     && if [ `pear config-get ext_dir` != ${PHP_EXT_DIR} ]; then echo PHP_EXT_DIR must be `pear config-get ext_dir` && exit 1; fi
 
@@ -66,6 +66,8 @@ RUN set -ex \
     && docker-php-ext-install pcntl
 
 FROM php-build AS php-ext-sockets
+# Can be removed after released https://github.com/php/php-src/issues/7986
+ENV CFLAGS="$CFLAGS -D_GNU_SOURCE"
 RUN set -ex \
     && docker-php-ext-install sockets
 
@@ -205,6 +207,7 @@ RUN --mount=type=cache,target=/var/cache/composer \
 COPY bin bin
 COPY config config
 COPY easyadmin easyadmin
+COPY fork fork
 COPY public public
 COPY src src
 COPY templates templates

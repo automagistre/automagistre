@@ -269,6 +269,9 @@
     "guzzlehttp/psr7": {
         "version": "1.7.0"
     },
+    "guzzlehttp/uri-template": {
+        "version": "v1.0.1"
+    },
     "http-interop/http-factory-guzzle": {
         "version": "1.0.0"
     },

@@ -27,7 +27,7 @@
         "doctrine/migrations": "^3.0",
         "doctrine/orm": "^2.6",
         "google/apiclient": "^2.12",
-        "guzzlehttp/guzzle": "^6.0",
+        "guzzlehttp/guzzle": "^7.4",
         "lcobucci/jwt": "^4.1",
         "michaelpetri/typed-input": "^1.1",
         "mohammad-waleed/keycloak-admin-client": "^0.28.0",
@@ -39,13 +39,13 @@
         "pagerfanta/pagerfanta": "^3.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpinnacle/buffer": "^1.0",
-        "premier/enum": "^2.1",
+        "premier/enum": "^2.2",
         "premier/identifier": "^0.7.0",
         "premier/markdown-builder": "^0.8",
         "ramsey/uuid-doctrine": "^1.6",
         "sensio/framework-extra-bundle": "^6.0",
         "sentry/sentry-symfony": "^4.0",
-        "stevenmaguire/oauth2-keycloak": "^3.0",
+        "stevenmaguire/oauth2-keycloak": "dev-hotfix",
         "symfony/asset": "6.0.*",
         "symfony/console": "6.0.*",
         "symfony/doctrine-bridge": "6.0.*",
@@ -123,11 +123,20 @@
         "symfony/polyfill-uuid": "*",
         "thecodingmachine/safe": "*"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/grachevko/oauth2-keycloak.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "App\\": "src/",
             "EasyCorp\\Bundle\\EasyAdminBundle\\": "easyadmin/"
-        }
+        },
+        "files": [
+            "fork/HasDataTrait.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

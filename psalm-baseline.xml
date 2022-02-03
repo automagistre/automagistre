@@ -114,15 +114,7 @@
       <code>$this-&gt;loaded</code>
     </InvalidPropertyAssignmentValue>
   </file>
-  <file src="src/Identifier/DI/AutoTypeMappingCompilerPass.php">
-    <UndefinedDocblockClass occurrences="1">
-      <code>$metadata-&gt;getFieldMapping($fieldName)</code>
-    </UndefinedDocblockClass>
-  </file>
   <file src="src/Identifier/Doctrine/AutoTypeMappingListener.php">
-    <UndefinedDocblockClass occurrences="1">
-      <code>$metadata-&gt;getFieldMapping($fieldName)</code>
-    </UndefinedDocblockClass>
     <UnusedPsalmSuppress occurrences="1">
       <code>PossiblyUndefinedArrayOffset</code>
     </UnusedPsalmSuppress>
