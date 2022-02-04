@@ -19,7 +19,7 @@ updates:
         directory: "/crm"
         schedule:
             interval: daily
-        open-pull-requests-limit: 3
+        open-pull-requests-limit: 1
 
     -   package-ecosystem: docker
         directory: "/crm"
