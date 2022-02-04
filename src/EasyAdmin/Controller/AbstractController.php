@@ -75,6 +75,7 @@ abstract class AbstractController extends EasyAdminController
             EasyAdminRouter::class,
             IdentifierFormatter::class,
             State::class,
+            MessageBusInterface::class,
         ]);
     }
 
