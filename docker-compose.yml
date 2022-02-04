@@ -147,7 +147,6 @@ services:
         user: ${UID:-1000}:${GID:-1000}
         networks:
             default:
-            hasura:
                 aliases:
                     - hasura.automagistre.local
 
@@ -171,8 +170,6 @@ services:
             - ./:/app
             - ./var/hasura:/.hasura
         user: ${UID:-1000}:${GID:-1000}
-        networks:
-            - hasura
 
 networks:
     default:
@@ -180,7 +177,3 @@ networks:
         ipam:
             config:
                 -   subnet: 192.168.66.0/24
-    hasura:
-        ipam:
-            config:
-                -   subnet: 192.168.67.0/24
