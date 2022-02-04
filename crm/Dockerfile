@@ -22,7 +22,7 @@ RUN set -ex \
 #
 # nginx
 #
-FROM nginx:1.21.3-alpine as nginx-base
+FROM nginx:1.21.6-alpine as nginx-base
 
 WORKDIR /usr/local/app/public
 
