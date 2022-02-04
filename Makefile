@@ -84,6 +84,9 @@ crm-npm-install:
 
 up-crm: crm-npm-install
 	$(DEBUG_ECHO) docker-compose up -d crm
+
+cli-crm:
+	$(DEBUG_ECHO) docker-compose run --rm --entrypoint sh crm
 ###< CRM ###
 
 ###> APP ###
