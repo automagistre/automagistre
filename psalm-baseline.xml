@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.19.0@a2ad69ae4f5ab1f7d225a8dc4e2ec2d9415ed599">
+<files psalm-version="4.20.0@f82a70e7edfc6cf2705e9374c8a0b6a974a779ed">
   <file src="config/packages/messenger.php">
     <UndefinedClass occurrences="1">
       <code>FrameworkConfig</code>
@@ -39,9 +39,6 @@
     </PossiblyNullArgument>
   </file>
   <file src="src/Car/Entity/Car.php">
-    <MethodSignatureMustProvideReturnType occurrences="1">
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
     <PropertyNotSetInConstructor occurrences="1">
       <code>Car</code>
     </PropertyNotSetInConstructor>
@@ -97,9 +94,6 @@
     <InternalMethod occurrences="1">
       <code>get</code>
     </InternalMethod>
-    <MethodSignatureMustProvideReturnType occurrences="1">
-      <code>ler;</code>
-    </MethodSignatureMustProvideReturnType>
   </file>
   <file src="src/EasyAdmin/Form/AutocompleteType.php">
     <MoreSpecificImplementedParamType occurrences="2">
@@ -294,11 +288,6 @@
       <code>null !== $dto-&gt;manufacturerId &amp;&amp; null !== $dto-&gt;name</code>
       <code>null !== $dto-&gt;name</code>
     </RedundantConditionGivenDocblockType>
-  </file>
-  <file src="src/Vehicle/Entity/Model.php">
-    <MethodSignatureMustProvideReturnType occurrences="1">
-      <code>__toString</code>
-    </MethodSignatureMustProvideReturnType>
   </file>
   <file src="src/Wallet/Controller/TransactionController.php">
     <QueryBuilderSetParameter occurrences="1">
