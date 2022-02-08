@@ -283,7 +283,7 @@ final class PartController extends AbstractController
                 $text = sprintf('[%s] %s', $this->display($vehicleId), $text);
             }
 
-            if ($analog && !$part->hasKeepingStock()) {
+            if ($part->quantity > 0 && !$part->hasKeepingStock()) {
                 $text = '[ПРОДАТЬ] '.$text;
             }
 
