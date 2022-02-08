@@ -1,7 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Casting to TValue of string something that's already TValue of string\\.$#"
+			message: "#^Casting to string something that's already string\\.$#"
 			count: 1
 			path: src/Customer/Controller/CustomerController.php
 
@@ -91,17 +91,17 @@ parameters:
 			path: src/Identifier/config.php
 
 		-
-			message: "#^Casting to TValue of string something that's already TValue of string\\.$#"
+			message: "#^Casting to string something that's already string\\.$#"
 			count: 2
 			path: src/Order/Controller/ProfitController.php
 
 		-
-			message: "#^Casting to TValue of string something that's already TValue of string\\.$#"
+			message: "#^Casting to string something that's already string\\.$#"
 			count: 1
 			path: src/Part/Controller/PartExplorerController.php
 
 		-
-			message: "#^Casting to TValue of string something that's already TValue of string\\.$#"
+			message: "#^Casting to string something that's already string\\.$#"
 			count: 2
 			path: src/Part/Controller/PartSellController.php
 
