@@ -28,8 +28,10 @@ final class LogoutListener implements EventSubscriberInterface
 
     public function onLogout(LogoutEvent $event): void
     {
+        $request = $event->getRequest();
+
         $ssoLogoutUrl = $this->keycloak->getLogoutUrl([
-            'redirect_uri' => $event->getRequest()->getUri(),
+            'redirect_uri' => $request->headers->get('referer') ?? $request->getUriForPath('/'),
         ]);
 
         $event->setResponse(new RedirectResponse($ssoLogoutUrl));
