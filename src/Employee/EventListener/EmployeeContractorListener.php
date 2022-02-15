@@ -26,7 +26,11 @@ final class EmployeeContractorListener implements MessageHandler
             return;
         }
 
-        $person = $this->registry->get(Person::class, $personId);
+        $person = $this->registry->find(Person::class, $personId);
+
+        if (null === $person) {
+            return;
+        }
 
         $person->contractor = $event instanceof EmployeeCreated;
     }
