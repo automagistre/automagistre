@@ -4361,16 +4361,16 @@
         },
         {
             "name": "michaelpetri/typed-input",
-            "version": "1.1.2",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michaelpetri/typed-input.git",
-                "reference": "5e4f5054457429c970a9347b1e6c63e8c40c3576"
+                "reference": "0c18ebf92e071a1b56794134cd6c4885ff48d3ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michaelpetri/typed-input/zipball/5e4f5054457429c970a9347b1e6c63e8c40c3576",
-                "reference": "5e4f5054457429c970a9347b1e6c63e8c40c3576",
+                "url": "https://api.github.com/repos/michaelpetri/typed-input/zipball/0c18ebf92e071a1b56794134cd6c4885ff48d3ca",
+                "reference": "0c18ebf92e071a1b56794134cd6c4885ff48d3ca",
                 "shasum": ""
             },
             "require": {
@@ -4403,9 +4403,9 @@
             "description": "Type safe input wrapper for symfony input",
             "support": {
                 "issues": "https://github.com/michaelpetri/typed-input/issues",
-                "source": "https://github.com/michaelpetri/typed-input/tree/1.1.2"
+                "source": "https://github.com/michaelpetri/typed-input/tree/1.2.0"
             },
-            "time": "2022-01-03T12:47:55+00:00"
+            "time": "2022-02-15T11:33:27+00:00"
         },
         {
             "name": "mohammad-waleed/keycloak-admin-client",
