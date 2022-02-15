@@ -19,7 +19,12 @@ final class EmployeeContractorListener implements MessageHandler
 
     public function __invoke(EmployeeCreated|EmployeeFired $event): void
     {
-        $entity = $this->registry->get(Employee::class, $event->employeeId);
+        $entity = $this->registry->find(Employee::class, $event->employeeId);
+
+        if (null === $entity) {
+            return;
+        }
+
         $personId = $entity->getPersonId();
 
         if (null === $personId) {
