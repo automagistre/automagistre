@@ -6,6 +6,7 @@ namespace App\EasyAdmin\Metrics;
 
 use Artprima\PrometheusMetricsBundle\Metrics\MetricsCollectorInitTrait;
 use Artprima\PrometheusMetricsBundle\Metrics\TerminateMetricsCollectorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\Security\Core\Security;
 
@@ -15,6 +16,7 @@ use Symfony\Component\Security\Core\Security;
 final class EasyAdminMetricsCollector implements TerminateMetricsCollectorInterface
 {
     use MetricsCollectorInitTrait;
+
     private const NAME = 'easyadmin';
 
     public function __construct(private Security $security)
@@ -38,7 +40,7 @@ final class EasyAdminMetricsCollector implements TerminateMetricsCollectorInterf
             $this->namespace,
             'easyadmin_request_total',
             'easyadmin request total',
-            ['entity', 'action', 'user', 'method', 'code', 'execution_time', 'tenant'],
+            ['entity', 'action', 'user', 'method', 'code'],
         );
 
         $counter->inc([
@@ -47,8 +49,34 @@ final class EasyAdminMetricsCollector implements TerminateMetricsCollectorInterf
             $user->getUserIdentifier(),
             $request->getMethod(),
             (string) $response->getStatusCode(),
-            (string) $request->attributes->get('easyadmin_execution_time'),
-            (string) $request->attributes->get('tenant'),
         ]);
+
+        $this->collectExecutionTime($request);
+    }
+
+    private function collectExecutionTime(Request $request): void
+    {
+        $executionTime = $request->attributes->get('easyadmin_execution_time');
+
+        if (null === $executionTime) {
+            return;
+        }
+
+        $histogram = $this->collectionRegistry->getOrRegisterHistogram(
+            $this->namespace,
+            'easyadmin_execution_time',
+            '',
+            ['entity', 'action', 'method', 'tenant'],
+        );
+
+        $histogram->observe(
+            $executionTime,
+            [
+                (string) $request->query->get('entity'),
+                (string) $request->query->get('action'),
+                $request->getMethod(),
+                (string) $request->attributes->get('tenant'),
+            ],
+        );
     }
 }
