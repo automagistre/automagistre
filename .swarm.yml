@@ -96,22 +96,6 @@ services:
             mode: replicated
             replicas: 1
 
-    migration:
-        <<: *php-fpm
-        command:
-            - console
-            - doctrine:migrations:migrate
-            - --no-interaction
-            - --allow-no-migration
-            - --all-or-nothing=true
-        healthcheck:
-            disable: true
-        deploy:
-            mode: replicated
-            replicas: 1
-            restart_policy:
-                condition: on-failure
-
     redis:
         image: redis:6.2.5-alpine
         volumes:
