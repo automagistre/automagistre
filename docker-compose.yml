@@ -129,21 +129,19 @@ services:
             traefik.http.routers.hasura.rule: Host(`hasura.automagistre.local`) || (Host(`hasura.automagistre.local`) && Path(`/v1/graphql`))
             traefik.http.routers.hasura.entrypoints: web
             traefik.http.services.hasura.loadbalancer.server.port: 80
-        command:
-            - graphql-engine
-            - serve
-            - --server-port=80
-            - --unauthorized-role=anonymous
-            - --cors-domain=*
-            - --admin-internal-errors=true
+        command: graphql-engine serve
         environment:
+            HASURA_GRAPHQL_ADMIN_INTERNAL_ERRORS: 'true'
+            HASURA_GRAPHQL_ADMIN_SECRET: admin
+            HASURA_GRAPHQL_CORS_DOMAIN: '*'
             HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db
-            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/db
             HASURA_GRAPHQL_DEV_MODE: 'true'
             HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
             HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://sso.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
-            HASURA_GRAPHQL_ADMIN_SECRET: admin
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/db
+            HASURA_GRAPHQL_SERVER_PORT: 80
             HASURA_GRAPHQL_STRINGIFY_NUMERIC_TYPES: 'false'
+            HASURA_GRAPHQL_UNAUTHORIZED_ROLE: 'anonymous'
         user: ${UID:-1000}:${GID:-1000}
         networks:
             default:
@@ -170,6 +168,33 @@ services:
             - ./:/app
             - ./var/hasura:/.hasura
         user: ${UID:-1000}:${GID:-1000}
+
+    hasura-test:
+        image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+        labels:
+            ru.grachevko.dhu: 'hasura-test.automagistre.local:0:traefik'
+            traefik.enable: true
+            traefik.http.routers.hasura.rule: Host(`hasura-test.automagistre.local`) || (Host(`hasura-test.automagistre.local`) && Path(`/v1/graphql`))
+            traefik.http.routers.hasura.entrypoints: web
+            traefik.http.services.hasura.loadbalancer.server.port: 80
+        extra_hosts:
+            - hasura.automagistre.local:127.0.0.1
+        command: graphql-engine serve
+        environment:
+            HASURA_GRAPHQL_ADMIN_INTERNAL_ERRORS: 'true'
+            HASURA_GRAPHQL_ADMIN_SECRET: admin
+            HASURA_GRAPHQL_CORS_DOMAIN: '*'
+            HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db_test
+            HASURA_GRAPHQL_DEV_MODE: 'true'
+            HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+            HASURA_GRAPHQL_JWT_SECRET: '{"jwk_url": "https://sso.automagistre.ru/auth/realms/automagistre/protocol/openid-connect/certs"}'
+            HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/db_test
+            HASURA_GRAPHQL_SERVER_PORT: 80
+            HASURA_GRAPHQL_STRINGIFY_NUMERIC_TYPES: 'false'
+            HASURA_GRAPHQL_UNAUTHORIZED_ROLE: 'anonymous'
+        working_dir: /app
+        volumes:
+            - ./:/app:ro
 
 networks:
     default:

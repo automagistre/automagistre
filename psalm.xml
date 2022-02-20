@@ -30,7 +30,6 @@
         </MissingConstructor>
         <PropertyNotSetInConstructor>
             <errorLevel type="suppress">
-                <directory name="src/Migrations"/>
                 <directory name="src/Fixtures"/>
             </errorLevel>
         </PropertyNotSetInConstructor>

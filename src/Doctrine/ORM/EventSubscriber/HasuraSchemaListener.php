@@ -38,6 +38,18 @@ final class HasuraSchemaListener implements EventSubscriberInterface
             [],
             'tenant_permission_tenant_id_fkey',
         );
+
+        $tenantGroupPermission = $schema->createTable('tenant_group_permission');
+        $tenantGroupPermission->addColumn('user_id', 'uuid');
+        $tenantGroupPermission->addColumn('tenant_group_id', 'uuid');
+        $tenantGroupPermission->addForeignKeyConstraint(
+            'tenant_group',
+            ['tenant_group_id'],
+            ['id'],
+            [],
+            'tenant_group_permission_tenant_group_id_fkey',
+        );
+        $tenantGroupPermission->setPrimaryKey(['user_id', 'tenant_group_id'], 'tenant_group_permission_pkey');
     }
 
     public function onSchemaColumnDefinition(SchemaColumnDefinitionEventArgs $event): void
@@ -49,7 +61,7 @@ final class HasuraSchemaListener implements EventSubscriberInterface
         $tableColumn = $event->getTableColumn();
 
         if ('timestamptz' === $tableColumn['type']) {
-            $event->setColumn();
+            $event->setColumn(); // skip created_at and updated_at fields
             $event->preventDefault();
         }
     }

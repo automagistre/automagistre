@@ -54,14 +54,13 @@ do-up: contrib pull composer permissions
 	redis \
 	nsqd \
 	nsqadmin \
-	hasura \
-	hasura-console \
 	host.docker.internal
 
-up: do-up up-crm ## Up project
+up: do-up up-hasura up-crm ## Up project
 	@$(notify)
-latest: do-up backup-latest permissions ## Up project with latest backup from server
+latest: do-up backup-latest up-hasura permissions ## Up project with latest backup from server
 	@$(notify)
+
 cli: ## Get terminal inside php container
 	$(APP) sh
 cli-root: UID=root
@@ -74,6 +73,17 @@ down: ## Stop and remove all containers, volumes and networks
 
 rector:
 	$(DEBUG_ECHO) docker-compose run --rm rector
+
+###> Hasura ###
+console: ## Get terminal inside hasura-console container
+	docker-compose exec hasura-console bash
+
+up-hasura:
+	docker-compose up -d --force-recreate hasura
+	docker-compose exec postgres sh -c "until nc -z hasura 80; do sleep 0.5; done"
+	docker-compose up -d --force-recreate hasura-console
+###< Hasura ###
+
 
 ###> CRM ###
 CRM = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm ) \
@@ -112,7 +122,13 @@ outdated: ## Show outdated composer packages
 	$(COMPOSER) $@
 
 migration: ## Run migrations
-	$(COMPOSER) $@
+	$(DEBUG_ECHO) @docker-compose exec hasura-console sh -c " \
+		hasura-cli metadata apply \
+		&& hasura-cli migrate status --database-name default \
+		&& hasura-cli migrate apply --all-databases \
+		&& hasura-cli metadata reload \
+		&& hasura-cli migrate status --database-name default \
+		"
 
 migration-generate: ## Generate empty migration
 	$(COMPOSER) $@
@@ -129,6 +145,20 @@ schema: ### Validate database schema
 	$(COMPOSER) $@
 
 test: ## Run all checks and tests
+	$(DEBUG_ECHO) @docker-compose exec postgres sh -c "\
+		psql -U db -c \"SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'db_test' AND pid <> pg_backend_pid();\"; \
+		psql -U db -c \"DROP DATABASE db_test\" \
+		&& psql -U db -c \"CREATE DATABASE db_test\" \
+		"
+	$(DEBUG_ECHO) @docker-compose up -d --force-recreate hasura-test
+	$(DEBUG_ECHO) @docker-compose exec postgres sh -c "until nc -z hasura-test 80; do sleep 0.5; done"
+	$(DEBUG_ECHO) @docker-compose exec hasura-test sh -c " \
+		hasura-cli metadata apply \
+		&& hasura-cli migrate status --database-name default \
+		&& hasura-cli migrate apply --all-databases \
+		&& hasura-cli metadata reload \
+		&& hasura-cli migrate status --database-name default \
+		"
 	$(COMPOSER) $@
 
 php-cs-fixer: ### Fix coding style
@@ -158,7 +188,11 @@ psalm-baseline: ### Update psalm baseline
 cache: ## Clear then warmup symfony cache
 	$(COMPOSER) $@
 database: ### Drop database then restore from migrations
-	$(COMPOSER) $@
+	$(APP) sh -c " \
+		bin/console doctrine:query:sql --quiet \"SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'db' AND pid <> pg_backend_pid();\"; \
+		bin/console doctrine:database:drop --if-exists --force; \
+		bin/console doctrine:database:create \
+	"
 
 fixtures: ### Load fixtures to database
 	$(COMPOSER) $@

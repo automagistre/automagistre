@@ -212,7 +212,6 @@ COPY public public
 COPY src src
 COPY templates templates
 COPY translations translations
-COPY views views
 
 RUN --mount=type=cache,target=/var/cache/composer \
     set -ex \
