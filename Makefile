@@ -56,9 +56,9 @@ do-up: contrib pull composer permissions
 	nsqadmin \
 	host.docker.internal
 
-up: do-up up-hasura up-crm ## Up project
+up: down do-up up-hasura up-crm ## Up project
 	@$(notify)
-latest: do-up backup-latest up-hasura permissions ## Up project with latest backup from server
+latest: down do-up backup-latest up-hasura permissions ## Up project with latest backup from server
 	@$(notify)
 
 cli: ## Get terminal inside php container
@@ -197,10 +197,7 @@ database: ### Drop database then restore from migrations
 fixtures: ### Load fixtures to database
 	$(COMPOSER) $@
 
-backup: ### Restore local backup then run migrations
-	@$(MAKE) database
-	@$(MAKE) backup-restore
-	$(COMPOSER) migration
+backup: database backup-restore ### Restore local backup then run migrations
 	@$(notify)
 backup-update: backup-fresh backup-download backup ### Backup production database then download and restore it
 backup-latest: backup-download backup ### Download latest backup from server then restore it
