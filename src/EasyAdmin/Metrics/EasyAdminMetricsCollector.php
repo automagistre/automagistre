@@ -38,7 +38,7 @@ final class EasyAdminMetricsCollector implements TerminateMetricsCollectorInterf
             $this->namespace,
             'easyadmin_request_total',
             'easyadmin request total',
-            ['entity', 'action', 'user', 'method', 'code'],
+            ['entity', 'action', 'user', 'method', 'code', 'execution_time', 'tenant'],
         );
 
         $counter->inc([
@@ -47,6 +47,8 @@ final class EasyAdminMetricsCollector implements TerminateMetricsCollectorInterf
             $user->getUserIdentifier(),
             $request->getMethod(),
             (string) $response->getStatusCode(),
+            (string) $request->attributes->get('easyadmin_execution_time'),
+            (string) $request->attributes->get('tenant'),
         ]);
     }
 }

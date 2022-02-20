@@ -118,7 +118,13 @@ trait AdminControllerTrait
             }
         }
 
-        return $this->{$action.'Action'}($request);
+        try {
+            $startTime = microtime(true);
+
+            return $this->{$action.'Action'}($request);
+        } finally {
+            $request->attributes->set('easyadmin_execution_time', microtime(true) - $startTime);
+        }
     }
 
     /**
