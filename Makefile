@@ -147,7 +147,7 @@ schema: ### Validate database schema
 test: ## Run all checks and tests
 	$(DEBUG_ECHO) @docker-compose exec postgres sh -c "\
 		psql -U db -c \"SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'db_test' AND pid <> pg_backend_pid();\"; \
-		psql -U db -c \"DROP DATABASE db_test\" \
+		psql -U db -c \"DROP DATABASE IF EXISTS db_test\" \
 		&& psql -U db -c \"CREATE DATABASE db_test\" \
 		"
 	$(DEBUG_ECHO) @docker-compose up -d --force-recreate hasura-test
