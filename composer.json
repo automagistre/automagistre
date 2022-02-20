@@ -134,9 +134,7 @@
             "App\\": "src/",
             "EasyCorp\\Bundle\\EasyAdminBundle\\": "easyadmin/"
         },
-        "files": [
-            "fork/HasDataTrait.php"
-        ]
+        "files": []
     },
     "autoload-dev": {
         "psr-4": {
