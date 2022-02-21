@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyCorp\Bundle\EasyAdminBundle\Form\ChoiceList\Loader;
 
 use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
+use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
 use Symfony\Component\Form\ChoiceList\Loader\ChoiceLoaderInterface;
 
 /**
@@ -25,7 +26,7 @@ class DynamicChoiceLoader implements ChoiceLoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadChoiceList($value = null)
+    public function loadChoiceList(callable $value = null): ChoiceListInterface
     {
         if (null === $this->choiceList || !$this->cached) {
             $this->choiceList = new ArrayChoiceList(array_combine($this->choices, $this->choices));

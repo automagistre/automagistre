@@ -18,19 +18,14 @@ class FlattenException extends BaseFlattenException
     private $context;
 
     /**
-     * @param int $statusCode
-     *
      * @throws RuntimeException
-     *
-     * @return FlattenException
      */
-    public static function create(Exception $exception, $statusCode = null, array $headers = []): parent
+    public static function create(Exception $exception, int $statusCode = null, array $headers = []): static
     {
         if (!$exception instanceof BaseException) {
             throw new RuntimeException(sprintf('You should only try to create an instance of "%s" with a "EasyCorp\Bundle\EasyAdminBundle\Exception\BaseException" instance, or subclass. "%s" given.', __CLASS__, get_class($exception)));
         }
 
-        /** @var FlattenException $e */
         $e = parent::create($exception, $statusCode, $headers);
         $e->context = $exception->getContext();
 
