@@ -9,7 +9,7 @@ includes:
 parameters:
     level: 7
     paths:
-#        - easyadmin
+        - easyadmin
         - src
         - tests
     excludePaths:

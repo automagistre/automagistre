@@ -15,6 +15,749 @@
       <code>SecurityConfig</code>
     </UndefinedClass>
   </file>
+  <file src="easyadmin/Configuration/ActionConfigPass.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$element</code>
+    </MissingClosureParamType>
+    <MissingParamType occurrences="1">
+      <code>$errorOrigin</code>
+    </MissingParamType>
+    <MissingPropertyType occurrences="2">
+      <code>$defaultActionConfig</code>
+      <code>$views</code>
+    </MissingPropertyType>
+    <MissingReturnType occurrences="6">
+      <code>doNormalizeActionsConfig</code>
+      <code>processActionsConfig</code>
+      <code>processBatchActionsConfig</code>
+      <code>reorderArrayItems</code>
+      <code>resolveActionInheritance</code>
+      <code>resolveBatchActionInheritance</code>
+    </MissingReturnType>
+    <PossiblyNullArgument occurrences="1">
+      <code>preg_replace(['/([A-Z])/', '/[_\s]+/'], ['_$1', ' '], $content)</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="easyadmin/Configuration/ConfigManager.php">
+    <MissingReturnType occurrences="2">
+      <code>addConfigPass</code>
+      <code>getBackendConfig</code>
+    </MissingReturnType>
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$backendConfig</code>
+      <code>$configPasses</code>
+    </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>null !== $this-&gt;backendConfig</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="easyadmin/Configuration/DesignConfigPass.php">
+    <MissingParamType occurrences="1">
+      <code>$locale</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="1">
+      <code>processRtlLanguages</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/Configuration/MenuConfigPass.php">
+    <MissingParamType occurrences="1">
+      <code>$parentItemIndex</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="1">
+      <code>processMenuConfig</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/Configuration/MetadataConfigPass.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$entityMetadata</code>
+    </ArgumentTypeCoercion>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>getSingleIdentifierFieldName</code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="easyadmin/Configuration/NormalizerConfigPass.php">
+    <ContainerDependency occurrences="1">
+      <code>ContainerInterface $container</code>
+    </ContainerDependency>
+    <MissingParamType occurrences="1">
+      <code>$propertyName</code>
+    </MissingParamType>
+    <MissingPropertyType occurrences="1">
+      <code>$defaultViewConfig</code>
+    </MissingPropertyType>
+    <MissingReturnType occurrences="4">
+      <code>findFieldConfigByProperty</code>
+      <code>normalizeActionConfig</code>
+      <code>normalizeBatchActionConfig</code>
+      <code>normalizeTranslationConfig</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/Configuration/PropertyConfigPass.php">
+    <MissingPropertyType occurrences="2">
+      <code>$defaultEntityFieldConfig</code>
+      <code>$defaultVirtualFieldMetadata</code>
+    </MissingPropertyType>
+    <NullableReturnStatement occurrences="1">
+      <code>$backendConfig['formats']['number'] ?? null</code>
+    </NullableReturnStatement>
+    <PossiblyNullArgument occurrences="1">
+      <code>$originalFieldConfig</code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayAccess occurrences="1">
+      <code>$originalFieldConfig['type']</code>
+    </PossiblyNullArrayAccess>
+  </file>
+  <file src="easyadmin/Configuration/TemplateConfigPass.php">
+    <MissingPropertyType occurrences="2">
+      <code>$defaultBackendTemplates</code>
+      <code>$existingTemplates</code>
+    </MissingPropertyType>
+  </file>
+  <file src="easyadmin/Configuration/ViewConfigPass.php">
+    <MissingReturnType occurrences="1">
+      <code>processViewConfig</code>
+    </MissingReturnType>
+    <NullableReturnStatement occurrences="1">
+      <code>$backendConfig['formats']['number'] ?? null</code>
+    </NullableReturnStatement>
+    <PossiblyNullArgument occurrences="1">
+      <code>preg_replace(['/([A-Z])/', '/[_\s]+/'], ['_$1', ' '], $value)</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="easyadmin/Controller/AdminControllerTrait.php">
+    <DocblockTypeContradiction occurrences="1">
+      <code>$formBuilder instanceof FormBuilderInterface</code>
+    </DocblockTypeContradiction>
+    <InternalMethod occurrences="3">
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+    </InternalMethod>
+    <MissingConstructor occurrences="76">
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$config</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+    </MissingConstructor>
+    <MissingParamType occurrences="1">
+      <code>$eventName</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="7">
+      <code>dispatch</code>
+      <code>initialize</code>
+      <code>persistEntity</code>
+      <code>redirectToBackendHomepage</code>
+      <code>removeEntity</code>
+      <code>updateEntity</code>
+      <code>updateEntityProperty</code>
+    </MissingReturnType>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$entity</code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument occurrences="7">
+      <code>$id</code>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$this-&gt;request-&gt;query-&gt;get('entity')</code>
+      <code>$this-&gt;request-&gt;query-&gt;get('newValue')</code>
+      <code>$this-&gt;request-&gt;query-&gt;get('query')</code>
+      <code>$this-&gt;request-&gt;query-&gt;get('query')</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="4">
+      <code>getRepository</code>
+      <code>persist</code>
+      <code>persist</code>
+      <code>remove</code>
+    </PossiblyNullReference>
+    <PossiblyUndefinedVariable occurrences="1">
+      <code>$startTime</code>
+    </PossiblyUndefinedVariable>
+    <PropertyTypeCoercion occurrences="1">
+      <code>$this-&gt;container-&gt;get(ManagerRegistry::class)-&gt;getManagerForClass($this-&gt;entity['class'])</code>
+    </PropertyTypeCoercion>
+    <TooManyArguments occurrences="3">
+      <code>persistEntity</code>
+      <code>removeEntity</code>
+      <code>updateEntity</code>
+    </TooManyArguments>
+  </file>
+  <file src="easyadmin/DataCollector/EasyAdminDataCollector.php">
+    <MissingPropertyType occurrences="1">
+      <code>$configManager</code>
+    </MissingPropertyType>
+    <MissingReturnType occurrences="2">
+      <code>collect</code>
+      <code>reset</code>
+    </MissingReturnType>
+    <PossiblyFalseArgument occurrences="1">
+      <code>$output</code>
+    </PossiblyFalseArgument>
+    <PossiblyNullArgument occurrences="1">
+      <code>$entityName</code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayOffset occurrences="1">
+      <code>$backendConfig['entities']</code>
+    </PossiblyNullArrayOffset>
+  </file>
+  <file src="easyadmin/DependencyInjection/Compiler/EasyAdminConfigPass.php">
+    <MissingReturnType occurrences="1">
+      <code>process</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/DependencyInjection/Compiler/EasyAdminFormTypePass.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$container-&gt;getDefinition($id)-&gt;getClass()</code>
+    </ArgumentTypeCoercion>
+    <MissingReturnType occurrences="2">
+      <code>process</code>
+      <code>registerTypeConfigurators</code>
+    </MissingReturnType>
+    <PossiblyNullArgument occurrences="1">
+      <code>$container-&gt;getDefinition($id)-&gt;getClass()</code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference occurrences="2">
+      <code>getDefaultConfig</code>
+      <code>getDefaultConfig</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="easyadmin/DependencyInjection/Compiler/FilterTypePass.php">
+    <PossiblyNullArrayOffset occurrences="1">
+      <code>$typesMap[$priority]</code>
+    </PossiblyNullArrayOffset>
+  </file>
+  <file src="easyadmin/DependencyInjection/Configuration.php">
+    <MissingClosureParamType occurrences="6">
+      <code>$v</code>
+      <code>$v</code>
+      <code>$v</code>
+      <code>$v</code>
+      <code>$v</code>
+      <code>$v</code>
+    </MissingClosureParamType>
+    <MissingParamType occurrences="1">
+      <code>$name</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="6">
+      <code>addDesignSection</code>
+      <code>addEntitiesSection</code>
+      <code>addGlobalOptionsSection</code>
+      <code>addUserSection</code>
+      <code>addViewsSection</code>
+      <code>getRootNode</code>
+    </MissingReturnType>
+    <PossiblyNullReference occurrences="5">
+      <code>arrayNode</code>
+      <code>arrayNode</code>
+      <code>booleanNode</code>
+      <code>end</code>
+      <code>scalarNode</code>
+    </PossiblyNullReference>
+    <PossiblyUndefinedMethod occurrences="5">
+      <code>arrayNode</code>
+      <code>arrayNode</code>
+      <code>booleanNode</code>
+      <code>end</code>
+      <code>scalarNode</code>
+    </PossiblyUndefinedMethod>
+    <UndefinedMethod occurrences="1">
+      <code>root</code>
+    </UndefinedMethod>
+  </file>
+  <file src="easyadmin/DependencyInjection/EasyAdminExtension.php">
+    <MissingReturnType occurrences="1">
+      <code>load</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/EasyAdminBundle.php">
+    <MissingReturnType occurrences="1">
+      <code>build</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/EventListener/ControllerListener.php">
+    <MissingReturnType occurrences="1">
+      <code>onKernelController</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/EventListener/ExceptionListener.php">
+    <MissingPropertyType occurrences="1">
+      <code>$currentEntityName</code>
+    </MissingPropertyType>
+    <MissingReturnType occurrences="2">
+      <code>onKernelException</code>
+      <code>showExceptionPageAction</code>
+    </MissingReturnType>
+    <PossiblyNullArgument occurrences="1">
+      <code>$exceptionTemplatePath</code>
+    </PossiblyNullArgument>
+    <PossiblyNullArrayAccess occurrences="2">
+      <code>$entityConfig['templates']</code>
+      <code>$entityConfig['templates']</code>
+    </PossiblyNullArrayAccess>
+    <UndefinedMethod occurrences="1">
+      <code>getException</code>
+    </UndefinedMethod>
+  </file>
+  <file src="easyadmin/EventListener/RequestPostInitializeListener.php">
+    <MissingReturnType occurrences="1">
+      <code>initializeRequest</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/Exception/ExceptionContext.php">
+    <InvalidArrayAccess occurrences="1">
+      <code>$key[0]</code>
+    </InvalidArrayAccess>
+    <MissingParamType occurrences="4">
+      <code>$debugMessage</code>
+      <code>$parameters</code>
+      <code>$publicMessage</code>
+      <code>$statusCode</code>
+    </MissingParamType>
+    <MissingPropertyType occurrences="4">
+      <code>$debugMessage</code>
+      <code>$parameters</code>
+      <code>$publicMessage</code>
+      <code>$statusCode</code>
+    </MissingPropertyType>
+    <MissingReturnType occurrences="6">
+      <code>getDebugMessage</code>
+      <code>getParameters</code>
+      <code>getPublicMessage</code>
+      <code>getStatusCode</code>
+      <code>getTranslationParameters</code>
+      <code>transformIntoTranslationPlaceholders</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/Exception/FlattenException.php">
+    <LessSpecificReturnStatement occurrences="1">
+      <code>$e</code>
+    </LessSpecificReturnStatement>
+    <MissingConstructor occurrences="1">
+      <code>$context</code>
+    </MissingConstructor>
+    <MissingReturnType occurrences="4">
+      <code>getDebugMessage</code>
+      <code>getParameters</code>
+      <code>getPublicMessage</code>
+      <code>getTranslationParameters</code>
+    </MissingReturnType>
+    <MoreSpecificReturnType occurrences="1">
+      <code>static</code>
+    </MoreSpecificReturnType>
+    <UndefinedPropertyAssignment occurrences="1">
+      <code>$e-&gt;context</code>
+    </UndefinedPropertyAssignment>
+  </file>
+  <file src="easyadmin/Form/ChoiceList/Loader/DynamicChoiceLoader.php">
+    <MissingPropertyType occurrences="3">
+      <code>$cached</code>
+      <code>$choiceList</code>
+      <code>$choices</code>
+    </MissingPropertyType>
+  </file>
+  <file src="easyadmin/Form/DataTransformer/StringToFileTransformer.php">
+    <MissingParamType occurrences="2">
+      <code>$value</code>
+      <code>$value</code>
+    </MissingParamType>
+  </file>
+  <file src="easyadmin/Form/EventListener/EasyAdminAutocompleteSubscriber.php">
+    <MissingReturnType occurrences="2">
+      <code>preSetData</code>
+      <code>preSubmit</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/Form/EventListener/EasyAdminTabSubscriber.php">
+    <MissingReturnType occurrences="1">
+      <code>handleViolations</code>
+    </MissingReturnType>
+    <PossiblyNullArrayOffset occurrences="2">
+      <code>$formTabs</code>
+      <code>$formTabs</code>
+    </PossiblyNullArrayOffset>
+  </file>
+  <file src="easyadmin/Form/Extension/EasyAdminExtension.php">
+    <MissingReturnType occurrences="2">
+      <code>finishView</code>
+      <code>getExtendedType</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/Form/Filter/FilterRegistry.php">
+    <InvalidArgument occurrences="1">
+      <code>$this-&gt;typeGuessers</code>
+    </InvalidArgument>
+    <MissingPropertyType occurrences="1">
+      <code>$guesser</code>
+    </MissingPropertyType>
+  </file>
+  <file src="easyadmin/Form/Filter/Guesser/DoctrineOrmFilterTypeGuesser.php">
+    <MissingParamType occurrences="2">
+      <code>$class</code>
+      <code>$property</code>
+    </MissingParamType>
+    <MissingPropertyType occurrences="1">
+      <code>$defaultOptions</code>
+    </MissingPropertyType>
+  </file>
+  <file src="easyadmin/Form/Filter/Type/ArrayFilterType.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$data</code>
+      <code>$data</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="2">
+      <code>static function ($data) {</code>
+      <code>static function ($data) {</code>
+    </MissingClosureReturnType>
+    <PossiblyFalseArgument occurrences="3">
+      <code>$alias</code>
+      <code>$alias</code>
+      <code>$alias</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="easyadmin/Form/Filter/Type/ChoiceFilterType.php">
+    <MissingClosureParamType occurrences="3">
+      <code>$data</code>
+      <code>$data</code>
+      <code>$value</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="3">
+      <code>static function ($data) use ($multiple) {</code>
+      <code>static function ($data) {</code>
+      <code>static function (Options $options, $value) {</code>
+    </MissingClosureReturnType>
+    <PossiblyFalseArgument occurrences="3">
+      <code>$alias</code>
+      <code>$alias</code>
+      <code>$alias</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="easyadmin/Form/Filter/Type/ComparisonFilterType.php">
+    <MissingPropertyType occurrences="4">
+      <code>$comparisonType</code>
+      <code>$comparisonTypeOptions</code>
+      <code>$valueType</code>
+      <code>$valueTypeOptions</code>
+    </MissingPropertyType>
+    <PossiblyFalseArgument occurrences="1">
+      <code>$alias</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="easyadmin/Form/Filter/Type/DateTimeFilterType.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$data</code>
+      <code>$data</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="2">
+      <code>static function ($data) use ($options) {</code>
+      <code>static function ($data) {</code>
+    </MissingClosureReturnType>
+    <MissingPropertyType occurrences="1">
+      <code>$valueType</code>
+    </MissingPropertyType>
+    <PossiblyFalseArgument occurrences="2">
+      <code>$alias</code>
+      <code>$alias</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="easyadmin/Form/Filter/Type/EntityFilterType.php">
+    <PossiblyFalseArgument occurrences="4">
+      <code>$alias</code>
+      <code>$alias</code>
+      <code>$alias</code>
+      <code>$alias</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="easyadmin/Form/Filter/Type/FilterTypeTrait.php">
+    <MissingPropertyType occurrences="1">
+      <code>$uniqueAliasId</code>
+    </MissingPropertyType>
+    <PossiblyFalseArgument occurrences="1">
+      <code>$alias</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="easyadmin/Form/Filter/Type/NumericFilterType.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$data</code>
+      <code>$data</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="2">
+      <code>static function ($data) {</code>
+      <code>static function ($data) {</code>
+    </MissingClosureReturnType>
+    <MissingPropertyType occurrences="2">
+      <code>$valueType</code>
+      <code>$valueTypeOptions</code>
+    </MissingPropertyType>
+    <PossiblyFalseArgument occurrences="2">
+      <code>$alias</code>
+      <code>$alias</code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="easyadmin/Form/Filter/Type/TextFilterType.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$data</code>
+      <code>$data</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="2">
+      <code>static function ($data) {</code>
+      <code>static function ($data) {</code>
+    </MissingClosureReturnType>
+    <MissingPropertyType occurrences="1">
+      <code>$valueType</code>
+    </MissingPropertyType>
+  </file>
+  <file src="easyadmin/Form/Guesser/MissingDoctrineOrmTypeGuesser.php">
+    <MissingParamType occurrences="2">
+      <code>$class</code>
+      <code>$property</code>
+    </MissingParamType>
+  </file>
+  <file src="easyadmin/Form/Type/CodeEditorType.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$language</code>
+    </MissingClosureParamType>
+  </file>
+  <file src="easyadmin/Form/Type/ComparisonType.php">
+    <MissingReturnType occurrences="1">
+      <code>configureOptions</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/Form/Type/EasyAdminAutocompleteType.php">
+    <MissingReturnType occurrences="6">
+      <code>buildForm</code>
+      <code>buildView</code>
+      <code>configureOptions</code>
+      <code>finishView</code>
+      <code>mapDataToForms</code>
+      <code>mapFormsToData</code>
+    </MissingReturnType>
+    <ParamNameMismatch occurrences="2">
+      <code>$data</code>
+      <code>$data</code>
+    </ParamNameMismatch>
+    <PossiblyFalseReference occurrences="2">
+      <code>getData</code>
+      <code>setData</code>
+    </PossiblyFalseReference>
+    <PossiblyInvalidArgument occurrences="2">
+      <code>$forms</code>
+      <code>$forms</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="easyadmin/Form/Type/EasyAdminBatchFormType.php">
+    <MissingClosureParamType occurrences="3">
+      <code>$batchAction</code>
+      <code>$value</code>
+      <code>$value</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="1">
+      <code>function ($value) {</code>
+    </MissingClosureReturnType>
+  </file>
+  <file src="easyadmin/Form/Type/EasyAdminFiltersFormType.php">
+    <MissingReturnType occurrences="2">
+      <code>buildForm</code>
+      <code>configureOptions</code>
+    </MissingReturnType>
+  </file>
+  <file src="easyadmin/Form/Type/EasyAdminFormType.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$formFieldType</code>
+    </ArgumentTypeCoercion>
+    <MissingClosureParamType occurrences="2">
+      <code>$dataClass</code>
+      <code>$value</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="1">
+      <code>function (Options $options, $dataClass) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="3">
+      <code>buildForm</code>
+      <code>configureOptions</code>
+      <code>finishView</code>
+    </MissingReturnType>
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>$authorizationChecker</code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="easyadmin/Form/Type/FileUploadType.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>$value</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>bool</code>
+    </InvalidReturnType>
+    <MissingClosureParamType occurrences="1">
+      <code>$value</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="7">
+      <code>function (Options $options) {</code>
+      <code>static function () {</code>
+      <code>static function (File $file) {</code>
+      <code>static function (Options $options) {</code>
+      <code>static function (Options $options) {</code>
+      <code>static function (Options $options) {</code>
+      <code>static function (UploadedFile $file, string $uploadDir, string $fileName) {</code>
+    </MissingClosureReturnType>
+    <ParamNameMismatch occurrences="2">
+      <code>$currentFiles</code>
+      <code>$currentFiles</code>
+    </ParamNameMismatch>
+    <PossiblyInvalidArgument occurrences="2">
+      <code>$forms</code>
+      <code>$forms</code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullReference occurrences="1">
+      <code>getConfig</code>
+    </PossiblyNullReference>
+    <PossiblyUndefinedArrayOffset occurrences="1">
+      <code>$pathInfo['extension']</code>
+    </PossiblyUndefinedArrayOffset>
+  </file>
+  <file src="easyadmin/Form/Type/Model/FileUploadState.php">
+    <DocblockTypeContradiction occurrences="2">
+      <code>is_array($currentFiles)</code>
+      <code>null === $currentFiles</code>
+    </DocblockTypeContradiction>
+    <InvalidReturnType occurrences="1">
+      <code>UploadedFile[]</code>
+    </InvalidReturnType>
+    <MissingParamType occurrences="1">
+      <code>$uploadedFiles</code>
+    </MissingParamType>
+    <MissingPropertyType occurrences="1">
+      <code>$delete</code>
+    </MissingPropertyType>
+  </file>
+  <file src="easyadmin/Form/Util/FormTypeHelper.php">
+    <MissingPropertyType occurrences="1">
+      <code>$nameToClassMap</code>
+    </MissingPropertyType>
+  </file>
+  <file src="easyadmin/Search/Autocomplete.php">
+    <MissingParamType occurrences="1">
+      <code>$entities</code>
+    </MissingParamType>
+  </file>
+  <file src="easyadmin/Search/QueryBuilderFactory.php">
+    <InvalidOperand occurrences="1">
+      <code>$searchQuery</code>
+    </InvalidOperand>
+    <PossiblyNullArgument occurrences="2">
+      <code>$sortField</code>
+      <code>$sortField</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="easyadmin/Security/AuthorizationChecker.php">
+    <MissingParamType occurrences="1">
+      <code>$subject</code>
+    </MissingParamType>
+    <ParamNameMismatch occurrences="1">
+      <code>$attributes</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="easyadmin/Twig/EasyAdminTwigExtension.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$action</code>
+    </MissingClosureParamType>
+    <MissingParamType occurrences="7">
+      <code>$entityName</code>
+      <code>$item</code>
+      <code>$objectOrArray</code>
+      <code>$permissions</code>
+      <code>$subject</code>
+      <code>$translator</code>
+      <code>$view</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="7">
+      <code>addAssociationFieldParameters</code>
+      <code>addFileFieldParameters</code>
+      <code>addImageFieldParameters</code>
+      <code>getLogoutPath</code>
+      <code>getTemplateParameters</code>
+      <code>readProperty</code>
+      <code>transchoice</code>
+    </MissingReturnType>
+    <PossiblyNullArgument occurrences="2">
+      <code>$parameters['value']</code>
+      <code>$parameters['value']</code>
+    </PossiblyNullArgument>
+    <RedundantCondition occurrences="2">
+      <code>null !== $targetEntityConfig</code>
+      <code>null !== $targetEntityConfig</code>
+    </RedundantCondition>
+  </file>
   <file src="src/Appeal/Controller/AppealController.php">
     <ArgumentTypeCoercion occurrences="1">
       <code>$entity-&gt;type-&gt;toEntityClass()</code>

@@ -1,6 +1,1331 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 4
+			path: easyadmin/Configuration/ActionConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ActionConfigPass\\:\\:doNormalizeActionsConfig\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ActionConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ActionConfigPass\\:\\:doNormalizeActionsConfig\\(\\) has parameter \\$errorOrigin with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ActionConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ActionConfigPass\\:\\:processActionsConfig\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ActionConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ActionConfigPass\\:\\:processBatchActionsConfig\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ActionConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ActionConfigPass\\:\\:reorderArrayItems\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ActionConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ActionConfigPass\\:\\:resolveActionInheritance\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ActionConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ActionConfigPass\\:\\:resolveBatchActionInheritance\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ActionConfigPass.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ActionConfigPass\\:\\:\\$defaultActionConfig has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ActionConfigPass.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ActionConfigPass\\:\\:\\$views has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ActionConfigPass.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ConfigManager.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ConfigManager\\:\\:addConfigPass\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ConfigManager.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ConfigManager\\:\\:getBackendConfig\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ConfigManager.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ConfigManager\\:\\:\\$cache has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ConfigManager.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ConfigManager\\:\\:\\$debug has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ConfigManager.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ConfigManager\\:\\:\\$propertyAccessor has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ConfigManager.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\DefaultConfigPass\\:\\:findDefaultMenuItem\\(\\) should return mixed but return statement is missing\\.$#"
+			count: 1
+			path: easyadmin/Configuration/DefaultConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\DesignConfigPass\\:\\:__construct\\(\\) has parameter \\$locale with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/DesignConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\DesignConfigPass\\:\\:processRtlLanguages\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/DesignConfigPass.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 4
+			path: easyadmin/Configuration/MenuConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\MenuConfigPass\\:\\:processMenuConfig\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/MenuConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\MenuConfigPass\\:\\:processMenuConfig\\(\\) has parameter \\$parentItemIndex with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/MenuConfigPass.php
+
+		-
+			message: "#^Call to an undefined method Doctrine\\\\Persistence\\\\Mapping\\\\ClassMetadata\\<object\\>\\:\\:getSingleIdentifierFieldName\\(\\)\\.$#"
+			count: 1
+			path: easyadmin/Configuration/MetadataConfigPass.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, int given\\.$#"
+			count: 1
+			path: easyadmin/Configuration/MetadataConfigPass.php
+
+		-
+			message: "#^Parameter \\#1 \\$entityMetadata of method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\MetadataConfigPass\\:\\:processEntityPropertiesMetadata\\(\\) expects Doctrine\\\\ORM\\\\Mapping\\\\ClassMetadata, Doctrine\\\\Persistence\\\\Mapping\\\\ClassMetadata\\<object\\> given\\.$#"
+			count: 1
+			path: easyadmin/Configuration/MetadataConfigPass.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: easyadmin/Configuration/NormalizerConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\NormalizerConfigPass\\:\\:findFieldConfigByProperty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/NormalizerConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\NormalizerConfigPass\\:\\:findFieldConfigByProperty\\(\\) has parameter \\$propertyName with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/NormalizerConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\NormalizerConfigPass\\:\\:normalizeActionConfig\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/NormalizerConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\NormalizerConfigPass\\:\\:normalizeBatchActionConfig\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/NormalizerConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\NormalizerConfigPass\\:\\:normalizeTranslationConfig\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/NormalizerConfigPass.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\NormalizerConfigPass\\:\\:\\$container has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/NormalizerConfigPass.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\NormalizerConfigPass\\:\\:\\$defaultViewConfig has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/NormalizerConfigPass.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\NormalizerConfigPass\\:\\:\\$filterRegistry has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/NormalizerConfigPass.php
+
+		-
+			message: "#^Short ternary operator is not allowed\\. Use null coalesce operator if applicable or consider using long ternary\\.$#"
+			count: 1
+			path: easyadmin/Configuration/NormalizerConfigPass.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: easyadmin/Configuration/PropertyConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\PropertyConfigPass\\:\\:getFieldFormat\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: easyadmin/Configuration/PropertyConfigPass.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\PropertyConfigPass\\:\\:\\$defaultEntityFieldConfig has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/PropertyConfigPass.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\PropertyConfigPass\\:\\:\\$defaultVirtualFieldMetadata has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/PropertyConfigPass.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\PropertyConfigPass\\:\\:\\$filterRegistry has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/PropertyConfigPass.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\PropertyConfigPass\\:\\:\\$formRegistry has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/PropertyConfigPass.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\TemplateConfigPass\\:\\:\\$defaultBackendTemplates has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/TemplateConfigPass.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\TemplateConfigPass\\:\\:\\$existingTemplates has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/TemplateConfigPass.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\TemplateConfigPass\\:\\:\\$twigLoader has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/TemplateConfigPass.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ViewConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ViewConfigPass\\:\\:getFieldFormat\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ViewConfigPass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Configuration\\\\ViewConfigPass\\:\\:processViewConfig\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Configuration/ViewConfigPass.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with \\*NEVER\\* will always evaluate to true\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Instanceof between Symfony\\\\Component\\\\Form\\\\FormBuilder and Symfony\\\\Component\\\\Form\\\\FormBuilderInterface will always evaluate to true\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:createEntityFormBuilder\\(\\) should return Symfony\\\\Component\\\\Form\\\\FormBuilder but returns Symfony\\\\Component\\\\Form\\\\FormBuilderInterface\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:dispatch\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:dispatch\\(\\) has parameter \\$eventName with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:findBy\\(\\) return type with generic class Pagerfanta\\\\Pagerfanta does not specify its types\\: T$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:initialize\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:persistEntity\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:persistEntity\\(\\) invoked with 2 parameters, 1 required\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:redirectToBackendHomepage\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:removeEntity\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:removeEntity\\(\\) invoked with 2 parameters, 1 required\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:updateEntity\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:updateEntity\\(\\) invoked with 2 parameters, 1 required\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:updateEntityProperty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Only booleans are allowed in &&, string\\|null given on the right side\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, mixed given\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Parameter \\#1 \\$content of class Symfony\\\\Component\\\\HttpFoundation\\\\Response constructor expects string\\|null, int given\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Parameter \\#1 \\$criteria of method Doctrine\\\\ORM\\\\EntityRepository\\<object\\>\\:\\:findBy\\(\\) expects array\\<string, mixed\\>, array\\<int\\|string, array\\> given\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:\\$em \\(Doctrine\\\\ORM\\\\EntityManager\\|null\\) does not accept Doctrine\\\\Persistence\\\\ObjectManager\\|null\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Unable to resolve the template type T in call to method Doctrine\\\\ORM\\\\EntityManager\\:\\:getRepository\\(\\)$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Unable to resolve the template type T in call to method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\:\\:findAll\\(\\)$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Variable \\$startTime might not be defined\\.$#"
+			count: 1
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Variable method call on \\$this\\(EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Controller\\\\EasyAdminController\\)\\.$#"
+			count: 3
+			path: easyadmin/Controller/EasyAdminController.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DataCollector\\\\EasyAdminDataCollector\\:\\:collect\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/DataCollector/EasyAdminDataCollector.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DataCollector\\\\EasyAdminDataCollector\\:\\:getEasyAdminParameters\\(\\) never returns null so it can be removed from the return type\\.$#"
+			count: 1
+			path: easyadmin/DataCollector/EasyAdminDataCollector.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DataCollector\\\\EasyAdminDataCollector\\:\\:reset\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/DataCollector/EasyAdminDataCollector.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function stream_get_contents expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: easyadmin/DataCollector/EasyAdminDataCollector.php
+
+		-
+			message: "#^Parameter \\#2 \\$output of method Symfony\\\\Component\\\\VarDumper\\\\Dumper\\\\HtmlDumper\\:\\:dump\\(\\) expects \\(callable\\(\\)\\: mixed\\)\\|resource\\|string\\|true\\|null, resource\\|false given\\.$#"
+			count: 1
+			path: easyadmin/DataCollector/EasyAdminDataCollector.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DataCollector\\\\EasyAdminDataCollector\\:\\:\\$configManager has no type specified\\.$#"
+			count: 1
+			path: easyadmin/DataCollector/EasyAdminDataCollector.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DependencyInjection\\\\Compiler\\\\EasyAdminConfigPass\\:\\:process\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Compiler/EasyAdminConfigPass.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:getDefaultConfig\\(\\)\\.$#"
+			count: 2
+			path: easyadmin/DependencyInjection/Compiler/EasyAdminFormTypePass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DependencyInjection\\\\Compiler\\\\EasyAdminFormTypePass\\:\\:process\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Compiler/EasyAdminFormTypePass.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DependencyInjection\\\\Compiler\\\\EasyAdminFormTypePass\\:\\:registerTypeConfigurators\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Compiler/EasyAdminFormTypePass.php
+
+		-
+			message: "#^Parameter \\#1 \\$objectOrClass of class ReflectionClass constructor expects class\\-string\\<T of object\\>\\|T of object, string\\|null given\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Compiler/EasyAdminFormTypePass.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, array\\<int\\|string, array\\<int\\|string, string\\>\\> given\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Compiler/FilterTypePass.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, array\\<int\\|string, array\\<string, Symfony\\\\Component\\\\DependencyInjection\\\\Reference\\>\\> given\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Compiler/FilterTypePass.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\TreeBuilder\\:\\:root\\(\\)\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Call to function method_exists\\(\\) with Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\TreeBuilder and 'getRootNode' will always evaluate to true\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DependencyInjection\\\\Configuration\\:\\:addDesignSection\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DependencyInjection\\\\Configuration\\:\\:addEntitiesSection\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DependencyInjection\\\\Configuration\\:\\:addGlobalOptionsSection\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DependencyInjection\\\\Configuration\\:\\:addUserSection\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DependencyInjection\\\\Configuration\\:\\:addViewsSection\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DependencyInjection\\\\Configuration\\:\\:getRootNode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Configuration.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DependencyInjection\\\\Configuration\\:\\:getRootNode\\(\\) has parameter \\$name with no type specified\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/Configuration.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/EasyAdminExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\DependencyInjection\\\\EasyAdminExtension\\:\\:load\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/DependencyInjection/EasyAdminExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\EasyAdminBundle\\:\\:build\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/EasyAdminBundle.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\EventListener\\\\ControllerListener\\:\\:onKernelController\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/EventListener/ControllerListener.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\EventListener\\\\ControllerListener\\:\\:\\$configManager has no type specified\\.$#"
+			count: 1
+			path: easyadmin/EventListener/ControllerListener.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\EventListener\\\\ControllerListener\\:\\:\\$resolver has no type specified\\.$#"
+			count: 1
+			path: easyadmin/EventListener/ControllerListener.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\HttpKernel\\\\Event\\\\ExceptionEvent\\:\\:getException\\(\\)\\.$#"
+			count: 1
+			path: easyadmin/EventListener/ExceptionListener.php
+
+		-
+			message: "#^Call to function method_exists\\(\\) with Symfony\\\\Component\\\\HttpKernel\\\\Event\\\\ExceptionEvent and 'getThrowable' will always evaluate to true\\.$#"
+			count: 1
+			path: easyadmin/EventListener/ExceptionListener.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\EventListener\\\\ExceptionListener\\:\\:onKernelException\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/EventListener/ExceptionListener.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\EventListener\\\\ExceptionListener\\:\\:showExceptionPageAction\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/EventListener/ExceptionListener.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\EventListener\\\\ExceptionListener\\:\\:\\$currentEntityName has no type specified\\.$#"
+			count: 1
+			path: easyadmin/EventListener/ExceptionListener.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\EventListener\\\\ExceptionListener\\:\\:\\$easyAdminConfig has no type specified\\.$#"
+			count: 1
+			path: easyadmin/EventListener/ExceptionListener.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\EventListener\\\\ExceptionListener\\:\\:\\$twig has no type specified\\.$#"
+			count: 1
+			path: easyadmin/EventListener/ExceptionListener.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\EventListener\\\\RequestPostInitializeListener\\:\\:initializeRequest\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/EventListener/RequestPostInitializeListener.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\EventListener\\\\RequestPostInitializeListener\\:\\:\\$doctrine has no type specified\\.$#"
+			count: 1
+			path: easyadmin/EventListener/RequestPostInitializeListener.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\EventListener\\\\RequestPostInitializeListener\\:\\:\\$requestStack has no type specified\\.$#"
+			count: 1
+			path: easyadmin/EventListener/RequestPostInitializeListener.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:__construct\\(\\) has parameter \\$debugMessage with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:__construct\\(\\) has parameter \\$parameters with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:__construct\\(\\) has parameter \\$publicMessage with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:__construct\\(\\) has parameter \\$statusCode with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:getDebugMessage\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:getParameters\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:getPublicMessage\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:getStatusCode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:getTranslationParameters\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:transformIntoTranslationPlaceholders\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:\\$debugMessage has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:\\$parameters has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:\\$publicMessage has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\ExceptionContext\\:\\:\\$statusCode has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/ExceptionContext.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\FlattenException\\:\\:getDebugMessage\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/FlattenException.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\FlattenException\\:\\:getParameters\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/FlattenException.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\FlattenException\\:\\:getPublicMessage\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/FlattenException.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Exception\\\\FlattenException\\:\\:getTranslationParameters\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Exception/FlattenException.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\ChoiceList\\\\Loader\\\\DynamicChoiceLoader\\:\\:\\$cached has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/ChoiceList/Loader/DynamicChoiceLoader.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\ChoiceList\\\\Loader\\\\DynamicChoiceLoader\\:\\:\\$choiceList has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/ChoiceList/Loader/DynamicChoiceLoader.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\ChoiceList\\\\Loader\\\\DynamicChoiceLoader\\:\\:\\$choices has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/ChoiceList/Loader/DynamicChoiceLoader.php
+
+		-
+			message: "#^Class EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer implements generic interface Symfony\\\\Component\\\\Form\\\\DataTransformerInterface but does not specify its types\\: T, R$#"
+			count: 1
+			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:doReverseTransform\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:doTransform\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:reverseTransform\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:reverseTransform\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:transform\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:transform\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:\\$multiple has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:\\$uploadDir has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:\\$uploadFilename has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:\\$uploadValidate has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\EventListener\\\\EasyAdminAutocompleteSubscriber\\:\\:preSetData\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/EventListener/EasyAdminAutocompleteSubscriber.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\EventListener\\\\EasyAdminAutocompleteSubscriber\\:\\:preSubmit\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/EventListener/EasyAdminAutocompleteSubscriber.php
+
+		-
+			message: "#^Short ternary operator is not allowed\\. Use null coalesce operator if applicable or consider using long ternary\\.$#"
+			count: 1
+			path: easyadmin/Form/EventListener/EasyAdminAutocompleteSubscriber.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\EventListener\\\\EasyAdminTabSubscriber\\:\\:handleViolations\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/EventListener/EasyAdminTabSubscriber.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Extension\\\\EasyAdminExtension\\:\\:finishView\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Extension/EasyAdminExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Extension\\\\EasyAdminExtension\\:\\:getExtendedType\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Extension/EasyAdminExtension.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Extension\\\\EasyAdminExtension\\:\\:\\$requestStack has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Extension/EasyAdminExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\FilterRegistry\\:\\:resolveType\\(\\) should return EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\FilterInterface but returns Symfony\\\\Component\\\\Form\\\\FormTypeInterface\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/FilterRegistry.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\FilterRegistry\\:\\:\\$guesser has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/FilterRegistry.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\FilterRegistry\\:\\:\\$typeGuessers has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/FilterRegistry.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\FilterRegistry\\:\\:\\$typesMap has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/FilterRegistry.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Guesser\\\\DoctrineOrmFilterTypeGuesser\\:\\:guessType\\(\\) has parameter \\$class with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Guesser/DoctrineOrmFilterTypeGuesser.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Guesser\\\\DoctrineOrmFilterTypeGuesser\\:\\:guessType\\(\\) has parameter \\$property with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Guesser/DoctrineOrmFilterTypeGuesser.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Guesser\\\\DoctrineOrmFilterTypeGuesser\\:\\:\\$defaultOptions has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Guesser/DoctrineOrmFilterTypeGuesser.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\ArrayFilterType\\:\\:\\$uniqueAliasId has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/ArrayFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\BooleanFilterType\\:\\:\\$uniqueAliasId has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/BooleanFilterType.php
+
+		-
+			message: "#^Only booleans are allowed in &&, mixed given on the left side\\.$#"
+			count: 3
+			path: easyadmin/Form/Filter/Type/ChoiceFilterType.php
+
+		-
+			message: "#^Only booleans are allowed in a ternary operator condition, mixed given\\.$#"
+			count: 2
+			path: easyadmin/Form/Filter/Type/ChoiceFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\ChoiceFilterType\\:\\:\\$uniqueAliasId has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/ChoiceFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\ComparisonFilterType\\:\\:\\$comparisonType has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/ComparisonFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\ComparisonFilterType\\:\\:\\$comparisonTypeOptions has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/ComparisonFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\ComparisonFilterType\\:\\:\\$uniqueAliasId has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/ComparisonFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\ComparisonFilterType\\:\\:\\$valueType has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/ComparisonFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\ComparisonFilterType\\:\\:\\$valueTypeOptions has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/ComparisonFilterType.php
+
+		-
+			message: "#^Short ternary operator is not allowed\\. Use null coalesce operator if applicable or consider using long ternary\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/ComparisonFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\DateTimeFilterType\\:\\:\\$uniqueAliasId has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/DateTimeFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\DateTimeFilterType\\:\\:\\$valueType has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/DateTimeFilterType.php
+
+		-
+			message: "#^Short ternary operator is not allowed\\. Use null coalesce operator if applicable or consider using long ternary\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/DateTimeFilterType.php
+
+		-
+			message: "#^Only booleans are allowed in &&, int given on the right side\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/EntityFilterType.php
+
+		-
+			message: "#^Only booleans are allowed in &&, mixed given on the left side\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/EntityFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\EntityFilterType\\:\\:\\$uniqueAliasId has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/EntityFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\NumericFilterType\\:\\:\\$uniqueAliasId has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/NumericFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\NumericFilterType\\:\\:\\$valueType has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/NumericFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\NumericFilterType\\:\\:\\$valueTypeOptions has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/NumericFilterType.php
+
+		-
+			message: "#^Short ternary operator is not allowed\\. Use null coalesce operator if applicable or consider using long ternary\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/NumericFilterType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Filter\\\\Type\\\\TextFilterType\\:\\:\\$valueType has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/TextFilterType.php
+
+		-
+			message: "#^Short ternary operator is not allowed\\. Use null coalesce operator if applicable or consider using long ternary\\.$#"
+			count: 1
+			path: easyadmin/Form/Filter/Type/TextFilterType.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Guesser\\\\MissingDoctrineOrmTypeGuesser\\:\\:guessType\\(\\) has parameter \\$class with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Guesser/MissingDoctrineOrmTypeGuesser.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Guesser\\\\MissingDoctrineOrmTypeGuesser\\:\\:guessType\\(\\) has parameter \\$property with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Guesser/MissingDoctrineOrmTypeGuesser.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\ComparisonType\\:\\:configureOptions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/ComparisonType.php
+
+		-
+			message: "#^Only booleans are allowed in &&, int given on the right side\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/Configurator/AutocompleteTypeConfigurator.php
+
+		-
+			message: "#^Only booleans are allowed in &&, int given on the left side\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/Configurator/EntityTypeConfigurator.php
+
+		-
+			message: "#^Only booleans are allowed in &&, int given on the right side\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/Configurator/EntityTypeConfigurator.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: easyadmin/Form/Type/Configurator/TypeConfigurator.php
+
+		-
+			message: "#^Cannot call method getData\\(\\) on Symfony\\\\Component\\\\Form\\\\FormInterface\\|false\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminAutocompleteType.php
+
+		-
+			message: "#^Cannot call method setData\\(\\) on Symfony\\\\Component\\\\Form\\\\FormInterface\\|false\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminAutocompleteType.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminAutocompleteType\\:\\:buildForm\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminAutocompleteType.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminAutocompleteType\\:\\:buildView\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminAutocompleteType.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminAutocompleteType\\:\\:configureOptions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminAutocompleteType.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminAutocompleteType\\:\\:finishView\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminAutocompleteType.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminAutocompleteType\\:\\:mapDataToForms\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminAutocompleteType.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminAutocompleteType\\:\\:mapFormsToData\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminAutocompleteType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminAutocompleteType\\:\\:\\$configManager has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminAutocompleteType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminBatchFormType\\:\\:\\$configManager has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminBatchFormType.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminFiltersFormType\\:\\:buildForm\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminFiltersFormType.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminFiltersFormType\\:\\:configureOptions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminFiltersFormType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminFiltersFormType\\:\\:\\$configManager has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminFiltersFormType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminFiltersFormType\\:\\:\\$configurators has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminFiltersFormType.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminFormType\\:\\:buildForm\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminFormType.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminFormType\\:\\:configureOptions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminFormType.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\EasyAdminFormType\\:\\:finishView\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminFormType.php
+
+		-
+			message: "#^Short ternary operator is not allowed\\. Use null coalesce operator if applicable or consider using long ternary\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/EasyAdminFormType.php
+
+		-
+			message: "#^Anonymous function should return bool but returns string\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/FileUploadType.php
+
+		-
+			message: "#^Offset 'extension' does not exist on array\\{dirname\\: string, basename\\: string, filename\\: string, extension\\?\\: string\\}\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/FileUploadType.php
+
+		-
+			message: "#^Only booleans are allowed in &&, string given on the left side\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/FileUploadType.php
+
+		-
+			message: "#^Parameter \\#1 \\$filename of function sha1_file expects string, string\\|false given\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/FileUploadType.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\FileUploadType\\:\\:\\$projectDir has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/FileUploadType.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array\\<Symfony\\\\Component\\\\HttpFoundation\\\\File\\\\File\\> will always evaluate to true\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/Model/FileUploadState.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\Model\\\\FileUploadState\\:\\:setUploadedFiles\\(\\) has parameter \\$uploadedFiles with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/Model/FileUploadState.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\Model\\\\FileUploadState\\:\\:\\$allowAdd has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/Model/FileUploadState.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\Model\\\\FileUploadState\\:\\:\\$delete has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/Model/FileUploadState.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between null and array\\<Symfony\\\\Component\\\\HttpFoundation\\\\File\\\\File\\> will always evaluate to false\\.$#"
+			count: 1
+			path: easyadmin/Form/Type/Model/FileUploadState.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Util\\\\FormTypeHelper\\:\\:\\$nameToClassMap has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Form/Util/FormTypeHelper.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Router\\\\EasyAdminRouter\\:\\:\\$configManager has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Router/EasyAdminRouter.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Router\\\\EasyAdminRouter\\:\\:\\$propertyAccessor has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Router/EasyAdminRouter.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Router\\\\EasyAdminRouter\\:\\:\\$requestStack has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Router/EasyAdminRouter.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Router\\\\EasyAdminRouter\\:\\:\\$urlGenerator has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Router/EasyAdminRouter.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: easyadmin/Search/Autocomplete.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Search\\\\Autocomplete\\:\\:processResults\\(\\) has parameter \\$entities with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Search/Autocomplete.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Search\\\\Autocomplete\\:\\:\\$configManager has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Search/Autocomplete.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Search\\\\Autocomplete\\:\\:\\$finder has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Search/Autocomplete.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Search\\\\Autocomplete\\:\\:\\$propertyAccessor has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Search/Autocomplete.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Search\\\\Finder\\:\\:findByAllProperties\\(\\) return type with generic class Pagerfanta\\\\Pagerfanta does not specify its types\\: T$#"
+			count: 1
+			path: easyadmin/Search/Finder.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Search\\\\Finder\\:\\:\\$paginator has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Search/Finder.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Search\\\\Finder\\:\\:\\$queryBuilder has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Search/Finder.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Search\\\\Paginator\\:\\:createOrmPaginator\\(\\) return type with generic class Pagerfanta\\\\Pagerfanta does not specify its types\\: T$#"
+			count: 1
+			path: easyadmin/Search/Paginator.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$queryBuilder$#"
+			count: 1
+			path: easyadmin/Search/Paginator.php
+
+		-
+			message: "#^Parameter \\#1 \\$currentPage of method Pagerfanta\\\\Pagerfanta\\<mixed\\>\\:\\:setCurrentPage\\(\\) expects int\\<1, max\\>, int given\\.$#"
+			count: 1
+			path: easyadmin/Search/Paginator.php
+
+		-
+			message: "#^Parameter \\#1 \\$maxPerPage of method Pagerfanta\\\\Pagerfanta\\<mixed\\>\\:\\:setMaxPerPage\\(\\) expects int\\<1, max\\>, int given\\.$#"
+			count: 1
+			path: easyadmin/Search/Paginator.php
+
+		-
+			message: "#^Binary operation \"\\+\" between 0 and string results in an error\\.$#"
+			count: 1
+			path: easyadmin/Search/QueryBuilderFactory.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 2
+			path: easyadmin/Search/QueryBuilderFactory.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Search\\\\QueryBuilderFactory\\:\\:\\$doctrine has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Search/QueryBuilderFactory.php
+
+		-
+			message: "#^Short ternary operator is not allowed\\. Use null coalesce operator if applicable or consider using long ternary\\.$#"
+			count: 1
+			path: easyadmin/Search/QueryBuilderFactory.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: easyadmin/Security/AuthorizationChecker.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Security\\\\AuthorizationChecker\\:\\:isGranted\\(\\) has parameter \\$subject with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Security/AuthorizationChecker.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Security\\\\AuthorizationChecker\\:\\:\\$authorizationChecker has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Security/AuthorizationChecker.php
+
+		-
+			message: "#^Construct empty\\(\\) is not allowed\\. Use more strict comparison\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Dead catch \\- Exception is never thrown in the try block\\.$#"
+			count: 2
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:__construct\\(\\) has parameter \\$translator with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:addAssociationFieldParameters\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:addFileFieldParameters\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:addImageFieldParameters\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:getLogoutPath\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:getTemplateParameters\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:getTemplateParameters\\(\\) has parameter \\$entityName with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:getTemplateParameters\\(\\) has parameter \\$item with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:getTemplateParameters\\(\\) has parameter \\$view with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:isGranted\\(\\) has parameter \\$permissions with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:isGranted\\(\\) has parameter \\$subject with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:readProperty\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:readProperty\\(\\) has parameter \\$objectOrArray with no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:transchoice\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, int given\\.$#"
+			count: 2
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Only booleans are allowed in an if condition, mixed given\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:\\$authorizationChecker has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:\\$configManager has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:\\$debug has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:\\$easyAdminRouter has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:\\$logoutUrlGenerator has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Twig\\\\EasyAdminTwigExtension\\:\\:\\$propertyAccessor has no type specified\\.$#"
+			count: 1
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between null and mixed will always evaluate to true\\.$#"
+			count: 2
+			path: easyadmin/Twig/EasyAdminTwigExtension.php
+
+		-
 			message: "#^Casting to string something that's already string\\.$#"
 			count: 1
 			path: src/Customer/Controller/CustomerController.php

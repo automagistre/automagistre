@@ -1,9 +1,15 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__)
-    ->exclude('var')
-    ->exclude('vendor')
+    ->in([
+        __DIR__.'/bin',
+        __DIR__.'/config',
+        __DIR__.'/easyadmin',
+        __DIR__.'/fork',
+        __DIR__.'/public',
+        __DIR__.'/src',
+        __DIR__.'/tests',
+    ])
     ->exclude('public/bundles')
     ->exclude('public/css')
     ->exclude('public/fonts')
