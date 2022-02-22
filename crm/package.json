@@ -22,7 +22,7 @@
         "graphql": "^15.8.0",
         "jwt-decode": "^3.1.2",
         "keycloak-js": "^15.0.2",
-        "libphonenumber-js": "^1.9.41",
+        "libphonenumber-js": "^1.9.49",
         "query-string": "^7.0.1",
         "ra-data-hasura": "^0.2.0",
         "ra-language-russian": "^3.13.5",
