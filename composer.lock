@@ -2981,16 +2981,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.43",
+            "version": "8.12.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "27bc97a4941f42d320fb6da3de0dcaaf7db69f5d"
+                "reference": "a726990faf05bfffdd826f75d9b41a1580dad4a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/27bc97a4941f42d320fb6da3de0dcaaf7db69f5d",
-                "reference": "27bc97a4941f42d320fb6da3de0dcaaf7db69f5d",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/a726990faf05bfffdd826f75d9b41a1580dad4a7",
+                "reference": "a726990faf05bfffdd826f75d9b41a1580dad4a7",
                 "shasum": ""
             },
             "require": {
@@ -3050,7 +3050,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2022-02-09T07:46:55+00:00"
+            "time": "2022-02-24T09:38:54+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -4824,16 +4824,16 @@
         },
         {
             "name": "odolbeau/phone-number-bundle",
-            "version": "v3.6.1",
+            "version": "v3.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/odolbeau/phone-number-bundle.git",
-                "reference": "a119943b054adf747e335a9096bfc54881de96e3"
+                "reference": "d6e588d95e52a8b9bf4f595fc59cceb18c213bb3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/a119943b054adf747e335a9096bfc54881de96e3",
-                "reference": "a119943b054adf747e335a9096bfc54881de96e3",
+                "url": "https://api.github.com/repos/odolbeau/phone-number-bundle/zipball/d6e588d95e52a8b9bf4f595fc59cceb18c213bb3",
+                "reference": "d6e588d95e52a8b9bf4f595fc59cceb18c213bb3",
                 "shasum": ""
             },
             "require": {
@@ -4892,9 +4892,9 @@
             ],
             "support": {
                 "issues": "https://github.com/odolbeau/phone-number-bundle/issues",
-                "source": "https://github.com/odolbeau/phone-number-bundle/tree/v3.6.1"
+                "source": "https://github.com/odolbeau/phone-number-bundle/tree/v3.6.2"
             },
-            "time": "2021-12-30T10:30:13+00:00"
+            "time": "2022-02-24T00:08:40+00:00"
         },
         {
             "name": "oro/doctrine-extensions",
