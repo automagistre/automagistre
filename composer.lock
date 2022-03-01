@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c230d44cc67687583018486d249e060",
+    "content-hash": "ea6bfa87eb96da5309f8a7a67ddb2bbd",
     "packages": [
         {
             "name": "adamgaskins/barcoder",
@@ -4409,16 +4409,16 @@
         },
         {
             "name": "mohammad-waleed/keycloak-admin-client",
-            "version": "v0.28.0",
+            "version": "v0.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MohammadWaleed/keycloak-admin-client.git",
-                "reference": "6542bd62d15fa0c63d37ec6fb7adf3168ba44f5f"
+                "reference": "523bada5982062dd9f2d9548bac5c4e100858b5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MohammadWaleed/keycloak-admin-client/zipball/6542bd62d15fa0c63d37ec6fb7adf3168ba44f5f",
-                "reference": "6542bd62d15fa0c63d37ec6fb7adf3168ba44f5f",
+                "url": "https://api.github.com/repos/MohammadWaleed/keycloak-admin-client/zipball/523bada5982062dd9f2d9548bac5c4e100858b5b",
+                "reference": "523bada5982062dd9f2d9548bac5c4e100858b5b",
                 "shasum": ""
             },
             "require": {
@@ -4445,9 +4445,9 @@
             "description": "Connect to keycloak admin api easily",
             "support": {
                 "issues": "https://github.com/MohammadWaleed/keycloak-admin-client/issues",
-                "source": "https://github.com/MohammadWaleed/keycloak-admin-client/tree/v0.28.0"
+                "source": "https://github.com/MohammadWaleed/keycloak-admin-client/tree/v0.29.0"
             },
-            "time": "2021-12-10T16:59:08+00:00"
+            "time": "2022-03-01T05:38:23+00:00"
         },
         {
             "name": "moneyphp/money",
@@ -10122,16 +10122,16 @@
         },
         {
             "name": "symfony/security-bundle",
-            "version": "v6.0.3",
+            "version": "v6.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-bundle.git",
-                "reference": "e655f29f1be47420e233d2c40d21f025bf592750"
+                "reference": "069c2c94600253891e9ba3cb1e098ba6a8bcddd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/e655f29f1be47420e233d2c40d21f025bf592750",
-                "reference": "e655f29f1be47420e233d2c40d21f025bf592750",
+                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/069c2c94600253891e9ba3cb1e098ba6a8bcddd1",
+                "reference": "069c2c94600253891e9ba3cb1e098ba6a8bcddd1",
                 "shasum": ""
             },
             "require": {
@@ -10202,7 +10202,7 @@
             "description": "Provides a tight integration of the Security component into the Symfony full-stack framework",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/security-bundle/tree/v6.0.3"
+                "source": "https://github.com/symfony/security-bundle/tree/v6.0.5"
             },
             "funding": [
                 {
@@ -10218,7 +10218,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-02T09:55:41+00:00"
+            "time": "2022-02-21T17:15:17+00:00"
         },
         {
             "name": "symfony/security-core",
