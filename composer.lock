@@ -7434,16 +7434,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v6.0.3",
+            "version": "v6.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "22e8efd019c3270c4f79376234a3f8752cd25490"
+                "reference": "3bebf4108b9e07492a2a4057d207aa5a77d146b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/22e8efd019c3270c4f79376234a3f8752cd25490",
-                "reference": "22e8efd019c3270c4f79376234a3f8752cd25490",
+                "url": "https://api.github.com/repos/symfony/console/zipball/3bebf4108b9e07492a2a4057d207aa5a77d146b1",
+                "reference": "3bebf4108b9e07492a2a4057d207aa5a77d146b1",
                 "shasum": ""
             },
             "require": {
@@ -7509,7 +7509,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v6.0.3"
+                "source": "https://github.com/symfony/console/tree/v6.0.5"
             },
             "funding": [
                 {
@@ -7525,7 +7525,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-26T17:23:29+00:00"
+            "time": "2022-02-25T10:48:52+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -16347,16 +16347,16 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v6.0.3",
+            "version": "v6.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "24d9de5965b8b043ea13ef234087543c9740641c"
+                "reference": "d2a5d2b3c8b600bb68ec76a5c9731c406d04926e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/24d9de5965b8b043ea13ef234087543c9740641c",
-                "reference": "24d9de5965b8b043ea13ef234087543c9740641c",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/d2a5d2b3c8b600bb68ec76a5c9731c406d04926e",
+                "reference": "d2a5d2b3c8b600bb68ec76a5c9731c406d04926e",
                 "shasum": ""
             },
             "require": {
@@ -16400,7 +16400,7 @@
             "description": "Eases DOM navigation for HTML and XML documents",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dom-crawler/tree/v6.0.3"
+                "source": "https://github.com/symfony/dom-crawler/tree/v6.0.5"
             },
             "funding": [
                 {
@@ -16416,7 +16416,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-02T09:55:41+00:00"
+            "time": "2022-01-31T16:59:30+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
@@ -16698,16 +16698,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "4.21.0",
+            "version": "4.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "d8bec4c7aaee111a532daec32fb09de5687053d1"
+                "reference": "fc2c6ab4d5fa5d644d8617089f012f3bb84b8703"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/d8bec4c7aaee111a532daec32fb09de5687053d1",
-                "reference": "d8bec4c7aaee111a532daec32fb09de5687053d1",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/fc2c6ab4d5fa5d644d8617089f012f3bb84b8703",
+                "reference": "fc2c6ab4d5fa5d644d8617089f012f3bb84b8703",
                 "shasum": ""
             },
             "require": {
@@ -16798,9 +16798,9 @@
             ],
             "support": {
                 "issues": "https://github.com/vimeo/psalm/issues",
-                "source": "https://github.com/vimeo/psalm/tree/4.21.0"
+                "source": "https://github.com/vimeo/psalm/tree/4.22.0"
             },
-            "time": "2022-02-18T04:34:15+00:00"
+            "time": "2022-02-24T20:34:05+00:00"
         },
         {
             "name": "webmozart/path-util",
