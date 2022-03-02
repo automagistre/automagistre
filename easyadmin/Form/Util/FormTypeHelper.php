@@ -10,7 +10,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminDividerType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminGroupType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminSectionType;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\TextEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
@@ -80,9 +79,6 @@ final class FormTypeHelper
         'email' => EmailType::class,
         'entity' => EntityType::class,
         'file' => FileType::class,
-        // allow using underscore and dashes to improve DX
-        'file-upload' => FileUploadType::class,
-        'file_upload' => FileUploadType::class,
         'form' => FormType::class,
         'hidden' => HiddenType::class,
         'integer' => IntegerType::class,

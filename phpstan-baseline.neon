@@ -681,26 +681,6 @@ parameters:
 			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
 
 		-
-			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:reverseTransform\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
-
-		-
-			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:reverseTransform\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
-
-		-
-			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:transform\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
-
-		-
-			message: "#^Method EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:transform\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
-
-		-
 			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\DataTransformer\\\\StringToFileTransformer\\:\\:\\$multiple has no type specified\\.$#"
 			count: 1
 			path: easyadmin/Form/DataTransformer/StringToFileTransformer.php
@@ -1031,31 +1011,6 @@ parameters:
 			path: easyadmin/Form/Type/EasyAdminFormType.php
 
 		-
-			message: "#^Anonymous function should return bool but returns string\\.$#"
-			count: 1
-			path: easyadmin/Form/Type/FileUploadType.php
-
-		-
-			message: "#^Offset 'extension' does not exist on array\\{dirname\\: string, basename\\: string, filename\\: string, extension\\?\\: string\\}\\.$#"
-			count: 1
-			path: easyadmin/Form/Type/FileUploadType.php
-
-		-
-			message: "#^Only booleans are allowed in &&, string given on the left side\\.$#"
-			count: 1
-			path: easyadmin/Form/Type/FileUploadType.php
-
-		-
-			message: "#^Parameter \\#1 \\$filename of function sha1_file expects string, string\\|false given\\.$#"
-			count: 1
-			path: easyadmin/Form/Type/FileUploadType.php
-
-		-
-			message: "#^Property EasyCorp\\\\Bundle\\\\EasyAdminBundle\\\\Form\\\\Type\\\\FileUploadType\\:\\:\\$projectDir has no type specified\\.$#"
-			count: 1
-			path: easyadmin/Form/Type/FileUploadType.php
-
-		-
 			message: "#^Call to function is_array\\(\\) with array\\<Symfony\\\\Component\\\\HttpFoundation\\\\File\\\\File\\> will always evaluate to true\\.$#"
 			count: 1
 			path: easyadmin/Form/Type/Model/FileUploadState.php
@@ -1346,47 +1301,7 @@ parameters:
 			path: src/Form/Transformer/DivisoredNumberTransformer.php
 
 		-
-			message: "#^Method App\\\\Form\\\\Transformer\\\\DivisoredNumberTransformer\\:\\:reverseTransform\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/Form/Transformer/DivisoredNumberTransformer.php
-
-		-
-			message: "#^Method App\\\\Form\\\\Transformer\\\\DivisoredNumberTransformer\\:\\:reverseTransform\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: src/Form/Transformer/DivisoredNumberTransformer.php
-
-		-
-			message: "#^Method App\\\\Form\\\\Transformer\\\\DivisoredNumberTransformer\\:\\:transform\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/Form/Transformer/DivisoredNumberTransformer.php
-
-		-
-			message: "#^Method App\\\\Form\\\\Transformer\\\\DivisoredNumberTransformer\\:\\:transform\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: src/Form/Transformer/DivisoredNumberTransformer.php
-
-		-
 			message: "#^Class App\\\\Form\\\\Transformer\\\\EmptyStringAndCaseTransformer implements generic interface Symfony\\\\Component\\\\Form\\\\DataTransformerInterface but does not specify its types\\: T, R$#"
-			count: 1
-			path: src/Form/Transformer/EmptyStringAndCaseTransformer.php
-
-		-
-			message: "#^Method App\\\\Form\\\\Transformer\\\\EmptyStringAndCaseTransformer\\:\\:reverseTransform\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/Form/Transformer/EmptyStringAndCaseTransformer.php
-
-		-
-			message: "#^Method App\\\\Form\\\\Transformer\\\\EmptyStringAndCaseTransformer\\:\\:reverseTransform\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: src/Form/Transformer/EmptyStringAndCaseTransformer.php
-
-		-
-			message: "#^Method App\\\\Form\\\\Transformer\\\\EmptyStringAndCaseTransformer\\:\\:transform\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/Form/Transformer/EmptyStringAndCaseTransformer.php
-
-		-
-			message: "#^Method App\\\\Form\\\\Transformer\\\\EmptyStringAndCaseTransformer\\:\\:transform\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
 			path: src/Form/Transformer/EmptyStringAndCaseTransformer.php
 
