@@ -26,11 +26,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ])
     ;
 
-    $services->set(EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType::class)
-        ->tag('form.type')
-        ->args(['%kernel.project_dir%'])
-    ;
-
     $services->set(EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFiltersFormType::class)
         ->tag('form.type', ['alias' => 'easyadmin_filters'])
         ->args([service(EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager::class), []])

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.20.0@f82a70e7edfc6cf2705e9374c8a0b6a974a779ed">
+<files psalm-version="4.22.0@fc2c6ab4d5fa5d644d8617089f012f3bb84b8703">
   <file src="config/packages/messenger.php">
     <UndefinedClass occurrences="1">
       <code>FrameworkConfig</code>
@@ -650,40 +650,6 @@
     <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>$authorizationChecker</code>
     </PossiblyNullPropertyAssignmentValue>
-  </file>
-  <file src="easyadmin/Form/Type/FileUploadType.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$value</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidReturnType>
-    <MissingClosureParamType occurrences="1">
-      <code>$value</code>
-    </MissingClosureParamType>
-    <MissingClosureReturnType occurrences="7">
-      <code>function (Options $options) {</code>
-      <code>static function () {</code>
-      <code>static function (File $file) {</code>
-      <code>static function (Options $options) {</code>
-      <code>static function (Options $options) {</code>
-      <code>static function (Options $options) {</code>
-      <code>static function (UploadedFile $file, string $uploadDir, string $fileName) {</code>
-    </MissingClosureReturnType>
-    <ParamNameMismatch occurrences="2">
-      <code>$currentFiles</code>
-      <code>$currentFiles</code>
-    </ParamNameMismatch>
-    <PossiblyInvalidArgument occurrences="2">
-      <code>$forms</code>
-      <code>$forms</code>
-    </PossiblyInvalidArgument>
-    <PossiblyNullReference occurrences="1">
-      <code>getConfig</code>
-    </PossiblyNullReference>
-    <PossiblyUndefinedArrayOffset occurrences="1">
-      <code>$pathInfo['extension']</code>
-    </PossiblyUndefinedArrayOffset>
   </file>
   <file src="easyadmin/Form/Type/Model/FileUploadState.php">
     <DocblockTypeContradiction occurrences="2">

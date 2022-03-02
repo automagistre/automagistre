@@ -19,7 +19,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\FilterRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminBatchFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFiltersFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFormType;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\Model\FileUploadState;
 use EasyCorp\Bundle\EasyAdminBundle\Search\Autocomplete;
 use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
@@ -595,14 +594,6 @@ trait AdminControllerTrait
         /** @var FormInterface $child */
         foreach ($form as $child) {
             $config = $child->getConfig();
-
-            if (!$config->getType()->getInnerType() instanceof FileUploadType) {
-                if ($config->getCompound()) {
-                    $this->processUploadedFiles($child);
-                }
-
-                continue;
-            }
 
             /** @var FileUploadState $state */
             $state = $config->getAttribute('state');
