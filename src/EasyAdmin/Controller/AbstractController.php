@@ -245,8 +245,6 @@ abstract class AbstractController extends EasyAdminController
         $newForm->handleRequest($this->request);
 
         if ($newForm->isSubmitted() && $newForm->isValid()) {
-            $this->processUploadedFiles($newForm);
-
             $this->dispatch(EasyAdminEvents::PRE_PERSIST, ['entity' => $entity]);
             $entity = $this->persistEntity($entity) ?? $entity;
             $this->dispatch(EasyAdminEvents::POST_PERSIST, ['entity' => $entity]);
@@ -360,8 +358,6 @@ abstract class AbstractController extends EasyAdminController
         $editForm->handleRequest($this->request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->processUploadedFiles($editForm);
-
             $this->dispatch(EasyAdminEvents::PRE_UPDATE, ['entity' => $entity]);
 
             /** @phpstan-ignore-next-line */

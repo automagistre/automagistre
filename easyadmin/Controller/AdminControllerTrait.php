@@ -19,7 +19,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\FilterRegistry;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminBatchFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFiltersFormType;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFormType;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Type\Model\FileUploadState;
 use EasyCorp\Bundle\EasyAdminBundle\Search\Autocomplete;
 use EasyCorp\Bundle\EasyAdminBundle\Search\Paginator;
 use EasyCorp\Bundle\EasyAdminBundle\Search\QueryBuilderFactory;
@@ -51,9 +50,7 @@ use function get_class;
 use function gettype;
 use function in_array;
 use function is_object;
-use function mb_strlen;
 use function mb_strtolower;
-use function mb_substr;
 use function method_exists;
 use function sprintf;
 use function strtoupper;
@@ -266,8 +263,6 @@ trait AdminControllerTrait
         $editForm->handleRequest($this->request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->processUploadedFiles($editForm);
-
             $this->dispatch(EasyAdminEvents::PRE_UPDATE, ['entity' => $entity]);
             $this->updateEntity($entity, $editForm);
             $this->dispatch(EasyAdminEvents::POST_UPDATE, ['entity' => $entity]);
@@ -340,8 +335,6 @@ trait AdminControllerTrait
         $newForm->handleRequest($this->request);
 
         if ($newForm->isSubmitted() && $newForm->isValid()) {
-            $this->processUploadedFiles($newForm);
-
             $this->dispatch(EasyAdminEvents::PRE_PERSIST, ['entity' => $entity]);
             $this->persistEntity($entity, $newForm);
             $this->dispatch(EasyAdminEvents::POST_PERSIST, ['entity' => $entity]);
@@ -584,42 +577,6 @@ trait AdminControllerTrait
             'method' => 'GET',
             'entity' => $entityName,
         ]);
-    }
-
-    /**
-     * Process all uploaded files in the current form if available.
-     */
-    protected function processUploadedFiles(FormInterface $form): void
-    {
-        /** @var FormInterface $child */
-        foreach ($form as $child) {
-            $config = $child->getConfig();
-
-            /** @var FileUploadState $state */
-            $state = $config->getAttribute('state');
-
-            if (!$state->isModified()) {
-                continue;
-            }
-
-            $uploadDelete = $config->getOption('upload_delete');
-
-            if ($state->hasCurrentFiles() && ($state->isDelete() || (!$state->isAddAllowed() && $state->hasUploadedFiles()))) {
-                foreach ($state->getCurrentFiles() as $file) {
-                    $uploadDelete($file);
-                }
-                $state->setCurrentFiles([]);
-            }
-
-            $filePaths = (array) $child->getData();
-            $uploadDir = $config->getOption('upload_dir');
-            $uploadNew = $config->getOption('upload_new');
-
-            foreach ($state->getUploadedFiles() as $index => $file) {
-                $fileName = mb_substr($filePaths[$index], mb_strlen($uploadDir));
-                $uploadNew($file, $uploadDir, $fileName);
-            }
-        }
     }
 
     /**
