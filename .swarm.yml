@@ -144,7 +144,7 @@ services:
 
     postgres: &postgres
         image: postgres:13.4-alpine
-        shm_size: 1gb
+        shm_size: 2gb
         volumes:
             -   type: bind
                 source: /opt/am/postgres/data
