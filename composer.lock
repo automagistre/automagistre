@@ -8166,16 +8166,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v6.0.5",
+            "version": "v6.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "6646c13f787057d64701a3a0235cf9567c6ccbbd"
+                "reference": "52b888523545b0b4049ab9ce48766802484d7046"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/6646c13f787057d64701a3a0235cf9567c6ccbbd",
-                "reference": "6646c13f787057d64701a3a0235cf9567c6ccbbd",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/52b888523545b0b4049ab9ce48766802484d7046",
+                "reference": "52b888523545b0b4049ab9ce48766802484d7046",
                 "shasum": ""
             },
             "require": {
@@ -8209,7 +8209,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v6.0.5"
+                "source": "https://github.com/symfony/filesystem/tree/v6.0.6"
             },
             "funding": [
                 {
@@ -8225,7 +8225,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-28T07:42:30+00:00"
+            "time": "2022-03-02T12:58:14+00:00"
         },
         {
             "name": "symfony/finder",
@@ -13198,16 +13198,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.26.5",
+            "version": "0.26.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "d6f07358cb40e0ccb0ea99247ae6b22120540f7f"
+                "reference": "de9b6b92f00ff1cb39decddf95797a4ebec3a1ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/d6f07358cb40e0ccb0ea99247ae6b22120540f7f",
-                "reference": "d6f07358cb40e0ccb0ea99247ae6b22120540f7f",
+                "url": "https://api.github.com/repos/infection/infection/zipball/de9b6b92f00ff1cb39decddf95797a4ebec3a1ee",
+                "reference": "de9b6b92f00ff1cb39decddf95797a4ebec3a1ee",
                 "shasum": ""
             },
             "require": {
@@ -13308,7 +13308,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.26.5"
+                "source": "https://github.com/infection/infection/tree/0.26.6"
             },
             "funding": [
                 {
@@ -13320,7 +13320,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-02-15T05:20:07+00:00"
+            "time": "2022-03-07T11:40:30+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
