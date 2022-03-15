@@ -16,7 +16,8 @@ return static function (ArtprimaPrometheusMetricsConfig $prometheus, ContainerCo
     } else {
         $prometheus->type('redis')
             ->redis()
-            ->host('redis')
+            ->host('%env(REDIS_HOST)%')
+            ->port('%env(int:REDIS_PORT)%')
             ->database(1)
         ;
     }
