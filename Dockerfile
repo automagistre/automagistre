@@ -232,6 +232,8 @@ FROM nginx:1.21.6-alpine as nginx-base
 
 WORKDIR /usr/local/app/public
 
+ENV PHP_FPM_HOST php-fpm
+
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex \
     && apk add gzip brotli \
@@ -276,6 +278,7 @@ RUN --mount=type=cache,target=/var/cache/apk \
 FROM nginx-base AS nginx
 
 ENV NGINX_ENTRYPOINT_QUIET_LOGS 1
+ENV PHP_FPM_HOST 127.0.0.1
 
 COPY --from=php /usr/local/app/public/favicon.ico favicon.ico
 COPY --from=php /usr/local/app/public/assets assets
@@ -283,6 +286,7 @@ COPY --from=php /usr/local/app/public/bundles bundles
 COPY --from=php /usr/local/app/public/robots.txt .
 
 COPY etc/nginx.conf /etc/nginx/nginx.conf
+COPY etc/nginx.default.conf /etc/nginx/templates/default.conf.template
 COPY etc/nginx.cors.conf /etc/nginx/cors.conf
 COPY etc/nginx.cors-setup.conf /etc/nginx/cors.setup.conf
 

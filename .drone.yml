@@ -314,8 +314,6 @@ clone:
     depth: 0
 
 services:
-    -   name: nginx
-        image: automagistre/tenant-nginx:${DRONE_BUILD_NUMBER}
     -   name: php-fpm
         image: automagistre/tenant-php:${DRONE_BUILD_NUMBER}
         environment:
@@ -362,18 +360,32 @@ steps:
         environment:
             HASURA_GRAPHQL_ADMIN_SECRET: admin
 
+    -   name: nginx
+        image: automagistre/tenant-nginx:${DRONE_BUILD_NUMBER}
+        detach: true
+        environment:
+            PHP_FPM_HOST: php-fpm
+        depends_on:
+            - migration
+
     -   name: curl
         image: curlimages/curl:7.74.0
         pull: if-not-exists
         commands:
+            - until nc -z nginx 80; do sleep 0.5; done
             - >-
                 curl
                 --fail
                 --include
                 -H 'Host: r.automagistre.ru'
                 nginx/msk/ymap
+            - >-
+                curl
+                --fail
+                --include
+                nginx/healthcheck
         depends_on:
-            - migration
+            - nginx
 
 ---
 kind: pipeline

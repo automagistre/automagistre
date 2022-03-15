@@ -21,6 +21,11 @@ return static function (RoutingConfigurator $routes): void {
         ->controller(Artprima\PrometheusMetricsBundle\Controller\MetricsController::class.'::prometheus')
     ;
 
+    $routes
+        ->add('healthcheck', '/healthcheck')
+        ->controller(App\Healthcheck\Controller\HealthcheckAction::class)
+        ;
+
     // MUST BE LAST
     $routes
         ->import(__DIR__.'/routes/tenants.php')
