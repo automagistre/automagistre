@@ -2,14 +2,17 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Config\FrameworkConfig;
 
-return static function (FrameworkConfig $framework): void {
+return static function (ContainerConfigurator $configurator, FrameworkConfig $framework): void {
+    $configurator->parameters()->set('env(NSQ_HOST)', 'nsqd');
+
     $messenger = $framework->messenger();
 
     $messenger
         ->transport('async')
-        ->dsn('nsq://nsqd?topic=symfony-messenger')
+        ->dsn('nsq://%env(NSQ_HOST)%?topic=symfony-messenger')
         ->options([
             'snappy' => true,
         ])
