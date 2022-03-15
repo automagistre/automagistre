@@ -49,7 +49,9 @@ final class TenantListener implements EventSubscriberInterface
             default => null,
         };
 
-        $tenant = $this->registry->findOneBy(Tenant::class, ['identifier' => $tenantName]);
+        $tenant = null !== $tenantName
+            ? $this->registry->findOneBy(Tenant::class, ['identifier' => $tenantName])
+            : null;
 
         $this->state->set($tenant);
     }

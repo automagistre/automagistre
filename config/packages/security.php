@@ -47,6 +47,11 @@ return static function (SecurityConfig $security, ContainerConfigurator $configu
         ->stateless(true)
     ;
 
+    $security->firewall('healthcheck')
+        ->pattern('^/healthcheck')
+        ->security(false)
+    ;
+
     $securedFirewall = $security->firewall('secured')
         ->provider('keycloak')
         ->customAuthenticators([
