@@ -59,7 +59,7 @@ services:
             - default
         environment:
             APP_SECRET: ${APP_SECRET}
-            DATABASE_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
             SENTRY_DSN: ${SENTRY_DSN}
             SMSAERO_AUTH: ${SMSAERO_AUTH}
             TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}

@@ -9,11 +9,11 @@ doctrine:
                 charset:  UTF8
                 server_version: 13.4
                 driver:   pdo_pgsql
-                host:     postgres
-                port:     5432
-                dbname:   db
-                user:     db
-                password: "%env(DATABASE_PASSWORD)%"
+                host:     '%env(POSTGRES_HOST)%'
+                port:     '%env(int:POSTGRES_PORT)%'
+                dbname:   '%env(POSTGRES_DATABASE)%'
+                user:     '%env(POSTGRES_USER)%'
+                password: "%env(POSTGRES_PASSWORD)%"
                 schema_filter: ~^(?!.*_view$).*~
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -86,9 +86,11 @@ doctrine_migrations:
             execution_time_column_name: 'execution_time'
 
 parameters:
-    env(DATABASE_PASSWORD): '%env(default:default_db_password:trim:file:DATABASE_PASSWORD_FILE)%'
-    env(DATABASE_PASSWORD_FILE): /run/secrets/database_password
-    default_db_password: db
+    env(POSTGRES_HOST): postgres
+    env(POSTGRES_PORT): '5432'
+    env(POSTGRES_USER): db
+    env(POSTGRES_DATABASE): db
+    env(POSTGRES_PASSWORD): db
 
 services:
     Doctrine\ORM\Mapping\NamingStrategy:
