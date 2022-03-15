@@ -7,6 +7,7 @@ public/bundles
 .env
 .env.*
 src/Fixtures
+tests
 
 # Composer
 vendor
