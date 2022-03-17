@@ -1133,16 +1133,16 @@
         },
         {
             "name": "composer/semver",
-            "version": "3.2.9",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/semver.git",
-                "reference": "a951f614bd64dcd26137bc9b7b2637ddcfc57649"
+                "reference": "5d8e574bb0e69188786b8ef77d43341222a41a71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/a951f614bd64dcd26137bc9b7b2637ddcfc57649",
-                "reference": "a951f614bd64dcd26137bc9b7b2637ddcfc57649",
+                "url": "https://api.github.com/repos/composer/semver/zipball/5d8e574bb0e69188786b8ef77d43341222a41a71",
+                "reference": "5d8e574bb0e69188786b8ef77d43341222a41a71",
                 "shasum": ""
             },
             "require": {
@@ -1194,7 +1194,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/semver/issues",
-                "source": "https://github.com/composer/semver/tree/3.2.9"
+                "source": "https://github.com/composer/semver/tree/3.3.1"
             },
             "funding": [
                 {
@@ -1210,7 +1210,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-04T13:58:43+00:00"
+            "time": "2022-03-16T11:22:07+00:00"
         },
         {
             "name": "cron/cron",
@@ -2536,16 +2536,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "2.11.1",
+            "version": "2.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "4b88ce787d3916c8366abf52f6c658a7a27ed3a6"
+                "reference": "9c351e044478135aec1755e2c0c0493a4b6309db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/4b88ce787d3916c8366abf52f6c658a7a27ed3a6",
-                "reference": "4b88ce787d3916c8366abf52f6c658a7a27ed3a6",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/9c351e044478135aec1755e2c0c0493a4b6309db",
+                "reference": "9c351e044478135aec1755e2c0c0493a4b6309db",
                 "shasum": ""
             },
             "require": {
@@ -2561,7 +2561,6 @@
                 "doctrine/lexer": "^1.0",
                 "doctrine/persistence": "^2.2",
                 "ext-ctype": "*",
-                "ext-pdo": "*",
                 "php": "^7.1 || ^8.0",
                 "psr/cache": "^1 || ^2 || ^3",
                 "symfony/console": "^3.0 || ^4.0 || ^5.0 || ^6.0",
@@ -2575,12 +2574,12 @@
                 "doctrine/annotations": "^1.13",
                 "doctrine/coding-standard": "^9.0",
                 "phpbench/phpbench": "^0.16.10 || ^1.0",
-                "phpstan/phpstan": "1.4.3",
+                "phpstan/phpstan": "1.4.6",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.4",
                 "squizlabs/php_codesniffer": "3.6.2",
                 "symfony/cache": "^4.4 || ^5.4 || ^6.0",
                 "symfony/yaml": "^3.4 || ^4.0 || ^5.0 || ^6.0",
-                "vimeo/psalm": "4.19.0"
+                "vimeo/psalm": "4.22.0"
             },
             "suggest": {
                 "symfony/cache": "Provides cache support for Setup Tool with doctrine/cache 2.0",
@@ -2629,22 +2628,22 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/2.11.1"
+                "source": "https://github.com/doctrine/orm/tree/2.11.2"
             },
-            "time": "2022-01-30T21:47:06+00:00"
+            "time": "2022-03-09T15:23:58+00:00"
         },
         {
             "name": "doctrine/persistence",
-            "version": "2.3.0",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/persistence.git",
-                "reference": "f8af155c1e7963f3d2b4415097d55757bbaa53d8"
+                "reference": "e7c8edcf98e819638af00e7b3cbbbd7734b9b2fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/persistence/zipball/f8af155c1e7963f3d2b4415097d55757bbaa53d8",
-                "reference": "f8af155c1e7963f3d2b4415097d55757bbaa53d8",
+                "url": "https://api.github.com/repos/doctrine/persistence/zipball/e7c8edcf98e819638af00e7b3cbbbd7734b9b2fb",
+                "reference": "e7c8edcf98e819638af00e7b3cbbbd7734b9b2fb",
                 "shasum": ""
             },
             "require": {
@@ -2657,23 +2656,23 @@
             },
             "conflict": {
                 "doctrine/annotations": "<1.0 || >=2.0",
-                "doctrine/common": "<2.10@dev"
+                "doctrine/common": "<2.10"
             },
             "require-dev": {
                 "composer/package-versions-deprecated": "^1.11",
                 "doctrine/annotations": "^1.0",
-                "doctrine/coding-standard": "^6.0 || ^9.0",
+                "doctrine/coding-standard": "^9.0",
                 "doctrine/common": "^3.0",
-                "phpstan/phpstan": "1.2.0",
-                "phpunit/phpunit": "^7.5.20 || ^8.0 || ^9.0",
-                "symfony/cache": "^4.4 || ^5.0 || ^6.0",
-                "vimeo/psalm": "4.13.1"
+                "phpstan/phpstan": "1.4.6",
+                "phpunit/phpunit": "^7.5.20 || ^8.5 || ^9.5",
+                "symfony/cache": "^4.4 || ^5.4 || ^6.0",
+                "vimeo/psalm": "4.21.0"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Doctrine\\Common\\": "lib/Doctrine/Common",
-                    "Doctrine\\Persistence\\": "lib/Doctrine/Persistence"
+                    "Doctrine\\Common\\": "src/Common",
+                    "Doctrine\\Persistence\\": "src/Persistence"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2717,9 +2716,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/persistence/issues",
-                "source": "https://github.com/doctrine/persistence/tree/2.3.0"
+                "source": "https://github.com/doctrine/persistence/tree/2.4.0"
             },
-            "time": "2022-01-09T19:58:46+00:00"
+            "time": "2022-03-13T16:11:46+00:00"
         },
         {
             "name": "doctrine/sql-formatter",
@@ -11363,16 +11362,16 @@
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v6.0.3",
+            "version": "v6.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "1261b2d4a23081cb2b59a4caa311a5ac43b845b6"
+                "reference": "130229a482abf17635a685590958894dfb4b4360"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/1261b2d4a23081cb2b59a4caa311a5ac43b845b6",
-                "reference": "1261b2d4a23081cb2b59a4caa311a5ac43b845b6",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/130229a482abf17635a685590958894dfb4b4360",
+                "reference": "130229a482abf17635a685590958894dfb4b4360",
                 "shasum": ""
             },
             "require": {
@@ -11415,7 +11414,7 @@
                 "serialize"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-exporter/tree/v6.0.3"
+                "source": "https://github.com/symfony/var-exporter/tree/v6.0.6"
             },
             "funding": [
                 {
@@ -11431,7 +11430,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-02T09:55:41+00:00"
+            "time": "2022-03-02T12:58:14+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -12932,21 +12931,21 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.6.0",
+            "version": "v3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "1975e4453eb2726d1f50da0ce7fa91295029a4fa"
+                "reference": "7705d5a985132a40282d18a176eb9a4a0497747c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/1975e4453eb2726d1f50da0ce7fa91295029a4fa",
-                "reference": "1975e4453eb2726d1f50da0ce7fa91295029a4fa",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/7705d5a985132a40282d18a176eb9a4a0497747c",
+                "reference": "7705d5a985132a40282d18a176eb9a4a0497747c",
                 "shasum": ""
             },
             "require": {
                 "composer/semver": "^3.2",
-                "composer/xdebug-handler": "^3.0",
+                "composer/xdebug-handler": "^3.0.3",
                 "doctrine/annotations": "^1.13",
                 "ext-json": "*",
                 "ext-tokenizer": "*",
@@ -12958,8 +12957,8 @@
                 "symfony/finder": "^5.4 || ^6.0",
                 "symfony/options-resolver": "^5.4 || ^6.0",
                 "symfony/polyfill-mbstring": "^1.23",
-                "symfony/polyfill-php80": "^1.23",
-                "symfony/polyfill-php81": "^1.23",
+                "symfony/polyfill-php80": "^1.25",
+                "symfony/polyfill-php81": "^1.25",
                 "symfony/process": "^5.4 || ^6.0",
                 "symfony/stopwatch": "^5.4 || ^6.0"
             },
@@ -13009,7 +13008,7 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues",
-                "source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v3.6.0"
+                "source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v3.7.0"
             },
             "funding": [
                 {
@@ -13017,7 +13016,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-07T18:02:40+00:00"
+            "time": "2022-03-07T16:59:59+00:00"
         },
         {
             "name": "infection/abstract-testframework-adapter",
