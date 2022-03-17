@@ -23,6 +23,8 @@ services:
 
     nginx:
         image: automagistre/tenant-nginx:${VERSION}
+        environment:
+            PHP_FPM_HOST: php-fpm
         networks:
             default:
             traefik:
