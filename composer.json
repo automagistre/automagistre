@@ -30,7 +30,7 @@
         "guzzlehttp/guzzle": "^7.4",
         "lcobucci/jwt": "^4.1",
         "michaelpetri/typed-input": "^1.1",
-        "mohammad-waleed/keycloak-admin-client": "^0.29.0",
+        "mohammad-waleed/keycloak-admin-client": "^0.30.0",
         "moneyphp/money": "^4.0",
         "nsq/nsq-bundle": "^0.8.0",
         "nyholm/psr7": "^1.3",
