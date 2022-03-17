@@ -46,10 +46,8 @@ class CalendarEntry extends TenantEntity
     private function __construct(CalendarEntryId $id, Schedule $schedule, OrderInfo $orderInfo)
     {
         $this->id = $id;
-        $this->schedules = new ArrayCollection();
-        $this->schedules[] = new EntrySchedule($this, $schedule);
-        $this->orders = new ArrayCollection();
-        $this->orders[] = new EntryOrderInfo($this, $orderInfo);
+        $this->schedules = new ArrayCollection([new EntrySchedule($this, $schedule)]);
+        $this->orders = new ArrayCollection([new EntryOrderInfo($this, $orderInfo)]);
     }
 
     public function toId(): CalendarEntryId
