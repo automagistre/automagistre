@@ -4,11 +4,6 @@
 FROM composer:2.2.9 as composer
 
 #
-# rector
-#
-FROM rector/rector:0.11.36 as rector
-
-#
 # PHP
 #
 FROM php:8.1.3-fpm-alpine3.15 as php-raw
@@ -308,3 +303,14 @@ RUN find . \
     -exec echo Compressed: {} \;
 
 HEALTHCHECK --interval=5s --timeout=3s --start-period=5s CMD curl --fail http://127.0.0.1/healthcheck || exit 1
+
+#
+# Migrations
+#
+FROM busybox:stable as migrations
+
+WORKDIR /data
+
+COPY migrations migrations
+COPY metadata metadata
+COPY config.yaml config.yaml

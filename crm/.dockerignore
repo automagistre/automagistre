@@ -4,3 +4,6 @@
 
 # Docker
 Dockerfile
+
+# Helm
+/helm

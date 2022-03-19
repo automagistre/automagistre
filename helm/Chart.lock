@@ -1,0 +1,6 @@
+dependencies:
+- name: hasura
+  repository: https://harbor.grachevko.ru/chartrepo/hasura
+  version: 0.2.6
+digest: sha256:de5c5ccea50d591dc88b1dc58c4dc0d6973c485954af8c84145bc02505feae36
+generated: "2022-03-24T13:43:00.289515718+03:00"

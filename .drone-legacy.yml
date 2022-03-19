@@ -404,7 +404,8 @@ clone:
     depth: 0
 
 depends_on:
-    - push
+    - test
+    - e2e
 
 volumes:
     -   name: docker.sock

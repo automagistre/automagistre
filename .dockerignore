@@ -24,7 +24,5 @@ Dockerfile
 # CRM
 /crm
 
-# Hasura
-/metadata
-/migrations
-/seeds
+# Helm
+/helm

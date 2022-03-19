@@ -1,0 +1,821 @@
+---
+kind: pipeline
+type: docker
+name: build app
+
+trigger:
+  event:
+    exclude:
+      - pull_request
+
+clone:
+  depth: 0
+
+volumes:
+  - name: docker.sock
+    host:
+      path: /var/run/docker.sock
+
+environment:
+  DOCKER_CONFIG: /drone/src/.docker
+
+steps:
+  - &docker
+    name: php base
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker build -t automagistre/automagistre:base-${DRONE_BUILD_NUMBER} --progress=plain --target php-base .
+
+  - <<: *docker
+    name: nginx base
+    commands:
+      - docker build -t automagistre/automagistre-nginx:base-${DRONE_BUILD_NUMBER} --progress=plain --target nginx-base .
+
+  - <<: *docker
+    name: php
+    commands:
+      - docker build -t automagistre/automagistre:${DRONE_BUILD_NUMBER} --progress=plain --target php .
+    depends_on:
+      - php base
+
+  - <<: *docker
+    name: nginx
+    commands:
+      - docker build -t automagistre/automagistre-nginx:${DRONE_BUILD_NUMBER} --progress=plain --target nginx .
+    depends_on:
+      - php
+      - nginx base
+
+  - <<: *docker
+    name: migrations
+    commands:
+      - docker build -t automagistre/automagistre-migrations:${DRONE_BUILD_NUMBER} --progress=plain --target migrations .
+
+---
+kind: pipeline
+type: docker
+name: build crm
+
+trigger:
+  event:
+    exclude:
+      - pull_request
+
+clone:
+  depth: 0
+
+volumes:
+  - name: docker.sock
+    host:
+      path: /var/run/docker.sock
+
+environment:
+  DOCKER_CONFIG: /drone/src/.docker
+
+steps:
+  - &docker
+    name: crm base
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker build -t automagistre/crm:base-${DRONE_BUILD_NUMBER} --progress=plain --target node-base crm/
+
+  - <<: *docker
+    name: nginx
+    commands:
+      - docker build -t automagistre/crm:${DRONE_BUILD_NUMBER} --progress=plain --target nginx crm/
+    depends_on:
+      - crm base
+
+---
+kind: pipeline
+type: docker
+name: test app
+
+trigger:
+  event:
+    exclude:
+      - pull_request
+  branch:
+    exclude:
+      - ff
+
+depends_on:
+  - build app
+
+clone:
+  depth: 0
+
+services:
+  - name: postgres
+    image: postgres:13.4-alpine
+    environment:
+      POSTGRES_DB: db_test
+      POSTGRES_USER: db
+      POSTGRES_PASSWORD: db
+    tmpfs:
+      - /var/lib/postgresql/data
+
+volumes:
+  - name: sonarqube
+    host:
+      path: /opt/sonarqube/scanner/cache
+  - name: composer
+    host:
+      path: /var/cache/composer
+
+steps:
+  - name: hasura.automagistre.local
+    image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+    commands:
+      - until nc -z postgres 5432; do sleep 0.5; done
+      - exec graphql-engine serve
+    detach: true
+    environment:
+      HASURA_GRAPHQL_ADMIN_INTERNAL_ERRORS: 'true'
+      HASURA_GRAPHQL_ADMIN_SECRET: admin
+      HASURA_GRAPHQL_CORS_DOMAIN: '*'
+      HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db_test
+      HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"3bd561c37d214b4496d09049fadc542c"}'
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/db_test
+      HASURA_GRAPHQL_SERVER_PORT: 80
+      HASURA_GRAPHQL_STRINGIFY_NUMERIC_TYPES: 'false'
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: 'anonymous'
+
+  - name: migration
+    image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+    commands:
+      - until nc -z hasura.automagistre.local 80; do sleep 0.5; done
+      - hasura-cli metadata apply
+      - hasura-cli migrate status --database-name default
+      - hasura-cli migrate apply --all-databases
+      - hasura-cli metadata reload
+      - hasura-cli migrate status --database-name default
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: admin
+
+  - name: install
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    volumes:
+      - name: composer
+        path: /var/cache/composer
+    commands:
+      - echo APP_ENV=test >> .env
+      - echo APP_DEBUG=1 >> .env
+      - composer install --no-interaction --no-progress --no-autoloader
+      - composer dump-autoload --classmap-authoritative
+      - bin/console cache:warmup
+      - bin/console assets:install public
+    environment:
+      COMPOSER_CACHE_DIR: /var/cache/composer
+
+  - name: php-cs-fixer
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --diff
+    depends_on:
+      - install
+
+  - name: composer normalize
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - composer normalize --dry-run
+    depends_on:
+      - install
+
+  - name: blank end line
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - >-
+        find .
+        -not -path "./easyadmin/Resources/public/*"
+        -not -path "./public/*"
+        -not -path "./.idea/*"
+        -not -path "./var/*"
+        -not -path "./vendor/*"
+        -not -path "./.git/*"
+        -not -name "*.ico" 
+        -not -name "*.png" 
+        -not -name "*.svg" 
+        -type f -exec grep -Iq . {} \; -and -print0
+        | xargs -0 -n 1 sh -c 'test -z "$(tail -c 1 "$0")"
+        || (echo "No new line at end of $0" && exit 1)'
+        || exit 1
+    depends_on:
+      - install
+
+  - name: symfony requirements
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - vendor/bin/requirements-checker
+    depends_on:
+      - install
+
+  - name: doctrine production settings
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - bin/console doctrine:ensure-production-settings --env=prod --no-debug
+    depends_on:
+      - install
+
+  - name: symfony security
+    image: symfonycorp/cli:v4.21.6
+    command:
+      - security:check
+    when:
+      cron:
+        - nightly
+
+  - name: symfony linters
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - bin/console lint:yaml config --parse-tags
+      - bin/console lint:twig templates
+    depends_on:
+      - install
+
+  - name: phpstan
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --memory-limit=-1
+    depends_on:
+      - install
+
+  - name: psalm
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - vendor/bin/psalm --show-info=false --no-progress
+    depends_on:
+      - install
+
+  - name: fixtures
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - bin/console doctrine:fixtures:load --no-interaction
+    depends_on:
+      - migration
+      - install
+
+  - name: schema
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - bin/console doctrine:schema:validate
+    depends_on:
+      - migration
+      - install
+
+  - name: phpunit
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - mkdir -p var/coverage
+      - >-
+        vendor/bin/paratest
+        --log-junit=var/coverage/junit.xml
+        --coverage-clover=var/coverage/clover.xml
+        --coverage-xml=var/coverage/coverage-xml
+    depends_on:
+      - fixtures
+
+  - name: infection
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - >-
+        vendor/bin/infection
+        --no-progress
+        --threads=$(nproc)
+        --only-covered
+        --min-msi=67
+        --min-covered-msi=67
+        --coverage=var/coverage
+        --skip-initial-tests
+    depends_on:
+      - phpunit
+    when:
+      cron:
+        - nightly
+
+  - name: logs
+    image: automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    commands:
+      - cat var/log/* || true
+    depends_on:
+      - phpunit
+    when:
+      status:
+        - failure
+
+  - name: sonarqube
+    image: aosapps/drone-sonar-plugin
+    pull: if-not-exists
+    detach: true
+    environment:
+      SONAR_USER_HOME: /opt/sonarqube
+    settings:
+      sonar_host: https://sonarqube.automagistre.ru
+      sonar_token:
+        from_secret: SONAR_TOKEN
+    volumes:
+      - name: sonarqube
+        path: /opt/sonarqube
+    when:
+      cron:
+        - nightly
+    depends_on:
+      - phpunit
+
+---
+kind: pipeline
+type: docker
+name: e2e
+
+trigger:
+  event:
+    exclude:
+      - pull_request
+
+depends_on:
+  - build app
+
+clone:
+  depth: 0
+
+services:
+  - name: php-fpm
+    image: automagistre/automagistre:${DRONE_BUILD_NUMBER}
+    environment:
+      APP_SECRET: S3cr3tAtvichau
+  - name: postgres
+    image: postgres:13.4-alpine
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: db
+      POSTGRES_PASSWORD: db
+    tmpfs:
+      - /var/lib/postgresql/data
+  - name: redis
+    image: redis:6.2.5-alpine
+
+steps:
+  - name: hasura.automagistre.local
+    image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+    commands:
+      - until nc -z postgres 5432; do sleep 0.5; done
+      - exec graphql-engine serve
+    detach: true
+    environment:
+      HASURA_GRAPHQL_ADMIN_INTERNAL_ERRORS: 'true'
+      HASURA_GRAPHQL_ADMIN_SECRET: admin
+      HASURA_GRAPHQL_CORS_DOMAIN: '*'
+      HASURA_GRAPHQL_DATABASE_URL: postgres://db:db@postgres:5432/db
+      HASURA_GRAPHQL_JWT_SECRET: '{"type":"HS256","key":"3bd561c37d214b4496d09049fadc542c"}'
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://db:db@postgres:5432/db
+      HASURA_GRAPHQL_SERVER_PORT: 80
+      HASURA_GRAPHQL_STRINGIFY_NUMERIC_TYPES: 'false'
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: 'anonymous'
+
+  - name: migration
+    image: hasura/graphql-engine:v2.2.0.cli-migrations-v3
+    commands:
+      - until nc -z hasura.automagistre.local 80; do sleep 0.5; done
+      - hasura-cli metadata apply
+      - hasura-cli migrate status --database-name default
+      - hasura-cli migrate apply --all-databases
+      - hasura-cli metadata reload
+      - hasura-cli migrate status --database-name default
+      - hasura-cli seed apply --database-name default
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: admin
+
+  - name: nginx
+    image: automagistre/automagistre-nginx:${DRONE_BUILD_NUMBER}
+    detach: true
+    environment:
+      PHP_FPM_HOST: php-fpm
+    depends_on:
+      - migration
+
+  - name: curl
+    image: curlimages/curl:7.74.0
+    pull: if-not-exists
+    commands:
+      - until nc -z nginx 80; do sleep 0.5; done
+      - >-
+        curl
+        --fail
+        --include
+        -H 'Host: r.automagistre.ru'
+        nginx/msk/ymap
+      - >-
+        curl
+        --fail
+        --include
+        nginx/healthcheck
+    depends_on:
+      - nginx
+
+---
+kind: pipeline
+type: docker
+name: push app
+
+trigger:
+  branch:
+    - master
+    - rc
+  event:
+    - push
+
+clone:
+  depth: 0
+
+depends_on:
+  - test app
+  - e2e
+
+volumes:
+  - name: docker.sock
+    host:
+      path: /var/run/docker.sock
+
+environment:
+  DOCKER_CONFIG: /drone/src/.docker
+
+steps:
+  - name: docker login
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin "$REGISTRY"
+      - echo RELEASE.$$(date +'%Y-%m-%dT%H-%M-%SZ' -d @$$(git --no-pager log -1 --format="%ct")) > .release_tag
+    environment:
+      USERNAME:
+        from_secret: REGISTRY_USERNAME
+      PASSWORD:
+        from_secret: REGISTRY_PASSWORD
+      REGISTRY:
+        from_secret: REGISTRY
+
+  - name: php base
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker tag automagistre/automagistre:base-${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre:base
+      - docker push $REGISTRY/automagistre/automagistre:base
+      - docker rmi --no-prune automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+    environment:
+      REGISTRY:
+        from_secret: REGISTRY
+    depends_on:
+      - docker login
+
+  - name: nginx base
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker tag automagistre/automagistre-nginx:base-${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-nginx:base
+      - docker push $REGISTRY/automagistre/automagistre-nginx:base
+      - docker rmi --no-prune automagistre/automagistre-nginx:base-${DRONE_BUILD_NUMBER}
+    environment:
+      REGISTRY:
+        from_secret: REGISTRY
+    depends_on:
+      - docker login
+
+  - name: php
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker tag automagistre/automagistre:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre:$$(cat .release_tag)
+      - docker tag automagistre/automagistre:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre:latest
+      - docker push $REGISTRY/automagistre/automagistre:$$(cat .release_tag)
+      - docker push $REGISTRY/automagistre/automagistre:latest
+      - docker rmi --no-prune automagistre/automagistre:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre:$$(cat .release_tag)
+    environment:
+      REGISTRY:
+        from_secret: REGISTRY
+    depends_on:
+      - docker login
+
+  - name: nginx
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker tag automagistre/automagistre-nginx:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-nginx:$$(cat .release_tag)
+      - docker tag automagistre/automagistre-nginx:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-nginx:latest
+      - docker push $REGISTRY/automagistre/automagistre-nginx:$$(cat .release_tag)
+      - docker push $REGISTRY/automagistre/automagistre-nginx:latest
+      - docker rmi --no-prune automagistre/automagistre-nginx:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-nginx:$$(cat .release_tag)
+    environment:
+      REGISTRY:
+        from_secret: REGISTRY
+    depends_on:
+      - docker login
+
+  - name: migrations
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker tag automagistre/automagistre-migrations:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-migrations:$$(cat .release_tag)
+      - docker tag automagistre/automagistre-migrations:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-migrations:latest
+      - docker push $REGISTRY/automagistre/automagistre-migrations:$$(cat .release_tag)
+      - docker push $REGISTRY/automagistre/automagistre-migrations:latest
+      - docker rmi --no-prune automagistre/automagistre-migrations:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-migrations:$$(cat .release_tag)
+    environment:
+      REGISTRY:
+        from_secret: REGISTRY
+    depends_on:
+      - docker login
+
+---
+kind: pipeline
+type: docker
+name: push crm
+
+trigger:
+  branch:
+    - master
+    - rc
+  event:
+    - push
+
+clone:
+  depth: 0
+
+depends_on:
+  - build crm
+
+volumes:
+  - name: docker.sock
+    host:
+      path: /var/run/docker.sock
+
+environment:
+  DOCKER_CONFIG: /drone/src/.docker
+
+steps:
+  - name: docker login
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin "$REGISTRY"
+      - echo RELEASE.$$(date +'%Y-%m-%dT%H-%M-%SZ' -d @$$(git --no-pager log -1 --format="%ct")) > .release_tag
+    environment:
+      USERNAME:
+        from_secret: REGISTRY_USERNAME
+      PASSWORD:
+        from_secret: REGISTRY_PASSWORD
+      REGISTRY:
+        from_secret: REGISTRY
+
+  - name: node base
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker tag automagistre/crm:base-${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/crm:base
+      - docker push $REGISTRY/automagistre/crm:base
+      - docker rmi --no-prune automagistre/crm:base-${DRONE_BUILD_NUMBER}
+    environment:
+      REGISTRY:
+        from_secret: REGISTRY
+    depends_on:
+      - docker login
+
+  - name: nginx
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker tag automagistre/crm:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/crm:$$(cat .release_tag)
+      - docker tag automagistre/crm:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/crm:latest
+      - docker push $REGISTRY/automagistre/crm:$$(cat .release_tag)
+      - docker push $REGISTRY/automagistre/crm:latest
+      - docker rmi --no-prune automagistre/crm:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/crm:$$(cat .release_tag)
+    environment:
+      REGISTRY:
+        from_secret: REGISTRY
+    depends_on:
+      - docker login
+
+---
+kind: pipeline
+type: docker
+name: deploy app
+
+trigger:
+  branch:
+    - master
+    - rc
+    - ff
+  event:
+    - push
+
+clone:
+  depth: 0
+
+depends_on:
+  - push app
+  - push crm
+
+steps:
+  - name: check deploy
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    commands:
+      - \[ "${DRONE_COMMIT_SHA}" == "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ] || exit 78
+
+  - name: deploy
+    image: harbor.grachevko.ru/library/helm:3.8.1
+    pull: always
+    commands:
+      - cd helm
+      - case "${DRONE_COMMIT_MESSAGE}" in
+            Major* ) echo "major" > .bump;;
+            Feature* ) echo "minor" > .bump;;
+            * ) echo "patch" > .bump;;
+        esac
+      - helm repo add automagistre $CHART_REPO/automagistre --username $HELM_REPO_USERNAME --password $HELM_REPO_PASSWORD
+      - helm repo add hasura $CHART_REPO/hasura --username $HELM_REPO_USERNAME --password $HELM_REPO_PASSWORD
+      - echo RELEASE.$$(date +'%Y-%m-%dT%H-%M-%SZ' -d @$$(git --no-pager log -1 --format="%ct")) > .release_tag
+      - semver bump $$(cat .bump) $$(helm search repo automagistre/automagistre -o yaml | yq '.[0].version') > .version
+      - yq -i '.version = "'$$(cat .version)'"' Chart.yaml
+      - yq -i '.appVersion = "'$$(cat .release_tag)'"' Chart.yaml
+      - yq -i '.image.tag = "'$$(cat .release_tag)'"' values.yaml
+      - helm dependency build
+      - helm cm-push . $CHART_REPO/automagistre
+    environment:
+      HELM_REPO_USERNAME:
+        from_secret: REGISTRY_USERNAME
+      HELM_REPO_PASSWORD:
+        from_secret: REGISTRY_PASSWORD
+      CHART_REPO:
+        from_secret: CHART_REPO
+    depends_on:
+      - check deploy
+
+---
+kind: pipeline
+type: docker
+name: deploy crm
+
+trigger:
+  branch:
+    - master
+    - rc
+    - ff
+  event:
+    - push
+
+clone:
+  depth: 0
+
+depends_on:
+  - push app
+  - push crm
+
+steps:
+  - name: check deploy
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    commands:
+      - \[ "${DRONE_COMMIT_SHA}" == "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ] || exit 78
+
+  - name: deploy
+    image: harbor.grachevko.ru/library/helm:3.8.1
+    pull: always
+    commands:
+      - cd crm/helm
+      - case "${DRONE_COMMIT_MESSAGE}" in
+            Major* ) echo "major" > .bump;;
+            Feature* ) echo "minor" > .bump;;
+            * ) echo "patch" > .bump;;
+        esac
+      - helm repo add automagistre $CHART_REPO/automagistre --username $HELM_REPO_USERNAME --password $HELM_REPO_PASSWORD
+      - echo RELEASE.$$(date +'%Y-%m-%dT%H-%M-%SZ' -d @$$(git --no-pager log -1 --format="%ct")) > .release_tag
+      - semver bump $$(cat .bump) $$(helm search repo automagistre/crm -o yaml | yq '.[0].version') > .version
+      - yq -i '.version = "'$$(cat .version)'"' Chart.yaml
+      - yq -i '.appVersion = "'$$(cat .release_tag)'"' Chart.yaml
+      - yq -i '.image.tag = "'$$(cat .release_tag)'"' values.yaml
+      - yq -i '.hasura.migrations.git.commit = "${DRONE_COMMIT_SHA}"' values.yaml
+      - helm dependency build
+      - helm cm-push . $CHART_REPO/automagistre
+    environment:
+      HELM_REPO_USERNAME:
+        from_secret: REGISTRY_USERNAME
+      HELM_REPO_PASSWORD:
+        from_secret: REGISTRY_PASSWORD
+      CHART_REPO:
+        from_secret: CHART_REPO
+    depends_on:
+      - check deploy
+
+---
+kind: pipeline
+type: docker
+name: delete
+
+trigger:
+  branch:
+    - rc
+    - test
+    - ff
+  event:
+    - push
+  status:
+    - success
+    - failure
+
+depends_on:
+  - deploy app
+  - deploy crm
+
+clone:
+  depth: 0
+
+steps:
+  - name: delete branch
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    commands:
+      - git remote set-url origin ${DRONE_GIT_SSH_URL}
+      - mkdir -p ~/.ssh -m 700
+      - ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - echo "$GIT_SSH_KEY" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - git push origin --delete ${DRONE_COMMIT_BRANCH}
+    environment:
+      GIT_SSH_KEY:
+        from_secret: GIT_SSH_KEY
+
+---
+kind: pipeline
+type: docker
+name: dependabot
+
+trigger:
+  branch:
+    - master
+  event:
+    - pull_request
+clone:
+  disable: true
+
+steps:
+  - name: check is dependabot
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    pull: if-not-exists
+    commands:
+      - \[ "dependabot[bot]" == ${DRONE_COMMIT_AUTHOR} ] || exit 78
+
+  - name: clone
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    pull: if-not-exists
+    commands:
+      - git clone --depth 2 -b ${DRONE_SOURCE_BRANCH} ${DRONE_REMOTE_URL} .
+      - git reset --hard ${DRONE_COMMIT_SHA}
+    depends_on:
+      - check is dependabot
+
+  - name: automerge
+    image: automagistre/github-cli:stable
+    pull: if-not-exists
+    commands:
+      - gh pr merge ${DRONE_PULL_REQUEST} --auto --rebase
+    environment:
+      GITHUB_TOKEN:
+        from_secret: GITHUB_TOKEN
+    depends_on:
+      - clone
+
+  - name: rebase
+    image: automagistre/github-cli:stable
+    pull: if-not-exists
+    commands:
+      - |
+        if [ "$$(git rev-parse HEAD^1)" != "$$(git ls-remote origin ${DRONE_COMMIT_BRANCH} | awk '{ print $1}')" ]
+        then
+            gh pr comment ${DRONE_PULL_REQUEST} --body "@dependabot rebase"
+        fi
+    environment:
+      GITHUB_TOKEN:
+        from_secret: GITHUB_TOKEN
+    depends_on:
+      - clone

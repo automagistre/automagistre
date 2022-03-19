@@ -1,3 +1,6 @@
+parameters:
+    env(APP_VERSION): dev
+
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
@@ -5,6 +8,7 @@ twig:
         - '%kernel.project_dir%/templates'
     globals:
         tenant: '@App\Tenant\State'
+        app_version: '%env(APP_VERSION)%'
     form_themes:
         - 'bootstrap_3_layout.html.twig'
         - 'easy_admin/form.html.twig'

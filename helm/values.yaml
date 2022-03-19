@@ -1,0 +1,106 @@
+image:
+  registry: &registry ""
+  repository: automagistre/automagistre
+  pullPolicy: Always
+  pullSecrets: &imagePullSecrets [ ]
+  tag: &tag latest
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  annotations: { }
+  name: ""
+
+extraEnvVarsSecret: automagistre
+
+web:
+  replicaCount: 1
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations: { }
+    hosts: [ ]
+    tls: [ ]
+
+  podAnnotations: { }
+  podSecurityContext: { }
+  securityContext: { }
+
+  nodeSelector: { }
+  tolerations: [ ]
+  affinity: { }
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  resources: { }
+
+cron:
+  fullnameOverride: ""
+
+  podAnnotations: { }
+  podSecurityContext: { }
+  securityContext: { }
+
+  nodeSelector: { }
+  tolerations: [ ]
+  affinity: { }
+
+  resources: { }
+
+messenger:
+  fullnameOverride: ""
+
+  replicaCount: 1
+
+  podAnnotations: { }
+  podSecurityContext: { }
+  securityContext: { }
+
+  nodeSelector: { }
+  tolerations: [ ]
+  affinity: { }
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  resources: { }
+
+externalPostgres:
+  host: ""
+  database: automagistre
+  user: automagistre
+
+externalRedis:
+  host: ""
+
+externalNsq:
+  host: ""
+
+hasura:
+  enabled: true
+
+  extraEnvVarsSecret: hasura
+
+  migrations:
+    enabled: true
+    image:
+      registry: *registry
+      repository: automagistre/automagistre-migrations
+      tag: *tag
+      pullSecrets: *imagePullSecrets

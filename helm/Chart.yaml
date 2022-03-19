@@ -1,0 +1,17 @@
+apiVersion: v2
+name: automagistre
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+maintainers:
+  - email: me@grachevko.ru
+    name: Konstantin Grachev
+sources:
+  - https://github.com/automagistre/automagistre
+icon: https://raw.githubusercontent.com/automagistre/www.automagistre.ru/master/assets/img/logo_automagistre.svg
+dependencies:
+  - condition: hasura.enabled
+    name: hasura
+    repository: https://harbor.grachevko.ru/chartrepo/hasura
+    version: 0.2.6

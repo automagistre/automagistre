@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "automagistre.messenger.fullname" . }}
+  labels:
+    {{- include "automagistre.commonLabels" . | nindent 4 }}
+spec:
+  {{- if not .Values.messenger.autoscaling.enabled }}
+  replicas: {{ .Values.messenger.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "automagistre.messenger.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.messenger.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "automagistre.messenger.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "automagistre.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.messenger.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "automagistre.messenger.fullname" . }}
+          securityContext:
+            {{- toYaml .Values.messenger.securityContext | nindent 12 }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.extraEnvVarsSecret }}
+          env:
+            {{- include "automagistre.envs" . | nindent 12 }}
+          command:
+            - console
+            - messenger:consume
+            - async
+            - -vv
+          resources:
+            {{- toYaml .Values.messenger.resources | nindent 12 }}
+      {{- with .Values.messenger.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.messenger.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.messenger.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

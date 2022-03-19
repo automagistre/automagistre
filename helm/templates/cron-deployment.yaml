@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "automagistre.cron.fullname" . }}
+  labels:
+    {{- include "automagistre.commonLabels" . | nindent 4 }}
+spec:
+  replicas: 1 # cron must be only 1
+  selector:
+    matchLabels:
+      {{- include "automagistre.cron.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      {{- with .Values.cron.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "automagistre.cron.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "automagistre.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.cron.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "automagistre.cron.fullname" . }}
+          securityContext:
+            {{- toYaml .Values.cron.securityContext | nindent 12 }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - console
+            - cron:start
+            - --blocking
+          envFrom:
+            - secretRef:
+                name: {{ .Values.extraEnvVarsSecret }}
+          env:
+            {{- include "automagistre.envs" . | nindent 12 }}
+          resources:
+            {{- toYaml .Values.cron.resources | nindent 12 }}
+      {{- with .Values.cron.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.cron.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.cron.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
