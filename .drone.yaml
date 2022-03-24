@@ -649,7 +649,8 @@ steps:
     pull: always
     commands:
       - cd helm
-      - case "${DRONE_COMMIT_MESSAGE}" in
+      - |
+        case "${DRONE_COMMIT_MESSAGE}" in
             Major* ) echo "major" > .bump;;
             Feature* ) echo "minor" > .bump;;
             * ) echo "patch" > .bump;;
@@ -704,7 +705,8 @@ steps:
     pull: always
     commands:
       - cd crm/helm
-      - case "${DRONE_COMMIT_MESSAGE}" in
+      - |
+        case "${DRONE_COMMIT_MESSAGE}" in
             Major* ) echo "major" > .bump;;
             Feature* ) echo "minor" > .bump;;
             * ) echo "patch" > .bump;;
