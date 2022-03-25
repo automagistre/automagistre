@@ -21,4 +21,9 @@ return static function (FrameworkConfig $framework, ContainerConfigurator $confi
         ->arg('$formatters', tagged_locator('identifier_formatter', defaultIndexMethod: 'support'))
         ->arg('$cache', service('cache.identifier'))
     ;
+
+    $services
+        ->get(App\Identifier\IdentifierRouterExtension::class)
+        ->arg('$cache', service('cache.identifier'))
+    ;
 };
