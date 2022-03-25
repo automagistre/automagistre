@@ -29,3 +29,5 @@ parameters:
             message: '#is unused#'
             path: %currentWorkingDirectory%/src
     tmpDir: var/phpstan
+    scanDirectories:
+        - var/cache/test/Symfony/Config

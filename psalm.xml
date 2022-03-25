@@ -21,6 +21,9 @@
         </ignoreFiles>
     </projectFiles>
 
+    <extraFiles>
+        <directory name="var/cache/test/Symfony/Config"/>
+    </extraFiles>
     <issueHandlers>
         <MissingConstructor>
             <errorLevel type="suppress">

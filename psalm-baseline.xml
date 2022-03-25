@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.22.0@fc2c6ab4d5fa5d644d8617089f012f3bb84b8703">
   <file src="config/packages/messenger.php">
-    <UndefinedClass occurrences="1">
-      <code>FrameworkConfig</code>
-    </UndefinedClass>
-  </file>
-  <file src="config/packages/prometheus.php">
-    <UndefinedClass occurrences="1">
-      <code>ArtprimaPrometheusMetricsConfig</code>
-    </UndefinedClass>
-  </file>
-  <file src="config/packages/security.php">
-    <UndefinedClass occurrences="1">
-      <code>SecurityConfig</code>
-    </UndefinedClass>
+    <InvalidArgument occurrences="1"/>
   </file>
   <file src="easyadmin/Configuration/ActionConfigPass.php">
     <MissingClosureParamType occurrences="1">
@@ -828,11 +816,6 @@
       <code>PossiblyUndefinedArrayOffset</code>
     </UnusedPsalmSuppress>
   </file>
-  <file src="src/Identifier/config.php">
-    <UndefinedClass occurrences="1">
-      <code>FrameworkConfig</code>
-    </UndefinedClass>
-  </file>
   <file src="src/Keycloak/Security/KeycloakUserProvider.php">
     <TooFewArguments occurrences="1">
       <code>new KeycloakUser(...$arguments)</code>
@@ -985,11 +968,6 @@
     <PossiblyNullReference occurrences="1">
       <code>isSubclassOf</code>
     </PossiblyNullReference>
-  </file>
-  <file src="src/Tenant/config.php">
-    <UndefinedClass occurrences="1">
-      <code>DoctrineConfig</code>
-    </UndefinedClass>
   </file>
   <file src="src/Vehicle/Controller/ModelController.php">
     <RedundantConditionGivenDocblockType occurrences="3">
