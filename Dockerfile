@@ -324,7 +324,7 @@ WORKDIR /tmp
 
 RUN --mount=type=cache,target=/var/cache/apt set -ex \
     && apt-get update  \
-    && apt-get -y install build-essential cmake curl git postgresql-server-dev-$PG_MAJOR libkrb5-dev libicu-dev \
+    && apt-get install -y --no-install-recommends build-essential cmake curl git postgresql-server-dev-$PG_MAJOR libkrb5-dev libicu-dev ca-certificates \
     \
     && curl -L https://github.com/timescale/timescaledb/archive/refs/tags/2.5.2.tar.gz | tar xz \
     && cd timescaledb-2.5.2  \
@@ -345,6 +345,9 @@ RUN --mount=type=cache,target=/var/cache/apt set -ex \
     && make && make install \
     \
     && echo "shared_preload_libraries = 'pg_cron, plpgsql, plpgsql_check, timescaledb'" >> /usr/share/postgresql/postgresql.conf.sample \
+    && apt-get purge -y build-essential cmake curl git postgresql-server-dev-$PG_MAJOR libkrb5-dev libicu-dev \
+    && apt-get autoremove -y \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /
+WORKDIR $PG_DATA
