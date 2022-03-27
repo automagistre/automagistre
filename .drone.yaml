@@ -470,7 +470,6 @@ steps:
     commands:
       - docker tag automagistre/automagistre:base-${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre:base
       - docker push $REGISTRY/automagistre/automagistre:base
-      - docker rmi --no-prune automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
     environment:
       REGISTRY:
         from_secret: REGISTRY
@@ -485,7 +484,6 @@ steps:
     commands:
       - docker tag automagistre/automagistre-nginx:base-${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-nginx:base
       - docker push $REGISTRY/automagistre/automagistre-nginx:base
-      - docker rmi --no-prune automagistre/automagistre-nginx:base-${DRONE_BUILD_NUMBER}
     environment:
       REGISTRY:
         from_secret: REGISTRY
@@ -502,7 +500,7 @@ steps:
       - docker tag automagistre/automagistre:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre:latest
       - docker push $REGISTRY/automagistre/automagistre:$$(cat .release_tag)
       - docker push $REGISTRY/automagistre/automagistre:latest
-      - docker rmi --no-prune automagistre/automagistre:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre:$$(cat .release_tag)
+      - docker rmi --no-prune $REGISTRY/automagistre/automagistre:$$(cat .release_tag)
     environment:
       REGISTRY:
         from_secret: REGISTRY
@@ -519,7 +517,7 @@ steps:
       - docker tag automagistre/automagistre-nginx:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-nginx:latest
       - docker push $REGISTRY/automagistre/automagistre-nginx:$$(cat .release_tag)
       - docker push $REGISTRY/automagistre/automagistre-nginx:latest
-      - docker rmi --no-prune automagistre/automagistre-nginx:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-nginx:$$(cat .release_tag)
+      - docker rmi --no-prune $REGISTRY/automagistre/automagistre-nginx:$$(cat .release_tag)
     environment:
       REGISTRY:
         from_secret: REGISTRY
@@ -536,7 +534,7 @@ steps:
       - docker tag automagistre/automagistre-migrations:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-migrations:latest
       - docker push $REGISTRY/automagistre/automagistre-migrations:$$(cat .release_tag)
       - docker push $REGISTRY/automagistre/automagistre-migrations:latest
-      - docker rmi --no-prune automagistre/automagistre-migrations:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-migrations:$$(cat .release_tag)
+      - docker rmi --no-prune $REGISTRY/automagistre/automagistre-migrations:$$(cat .release_tag)
     environment:
       REGISTRY:
         from_secret: REGISTRY
@@ -729,6 +727,47 @@ steps:
         from_secret: CHART_REPO
     depends_on:
       - check deploy
+
+---
+kind: pipeline
+type: docker
+name: clean
+
+trigger:
+  event:
+    exclude:
+      - pull_request
+  status:
+    - success
+    - failure
+
+depends_on:
+  - push app
+  - push crm
+
+clone:
+  disable: true
+
+volumes:
+  - name: docker.sock
+    host:
+      path: /var/run/docker.sock
+
+steps:
+  - name: clean CI images
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - >-
+        docker rmi
+        automagistre/automagistre:base-${DRONE_BUILD_NUMBER}
+        automagistre/automagistre:${DRONE_BUILD_NUMBER}
+        automagistre/automagistre-nginx:base-${DRONE_BUILD_NUMBER}
+        automagistre/automagistre-nginx:${DRONE_BUILD_NUMBER} 
+        automagistre/automagistre-migrations:${DRONE_BUILD_NUMBER}
+    failure: ignore
 
 ---
 kind: pipeline
