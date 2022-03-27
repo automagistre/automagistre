@@ -324,7 +324,7 @@ WORKDIR /tmp
 
 RUN --mount=type=cache,target=/var/cache/apt set -ex \
     && apt-get update  \
-    && apt-get install -y --no-install-recommends build-essential cmake curl git postgresql-server-dev-$PG_MAJOR libkrb5-dev libicu-dev ca-certificates \
+    && apt-get install -y --no-install-recommends build-essential cmake curl git postgresql-server-dev-$PG_MAJOR libkrb5-dev libicu-dev ca-certificates netcat \
     \
     && curl -L https://github.com/timescale/timescaledb/archive/refs/tags/2.5.2.tar.gz | tar xz \
     && cd timescaledb-2.5.2  \
