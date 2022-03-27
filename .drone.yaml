@@ -773,7 +773,7 @@ volumes:
       path: /var/run/docker.sock
 
 steps:
-  - name: clean CI images
+  - name: CI images
     image: harbor.grachevko.ru/library/docker:20.10.13-git
     volumes:
       - name: docker.sock
@@ -788,6 +788,17 @@ steps:
         automagistre/automagistre-migrations:${DRONE_BUILD_NUMBER}
         automagistre/automagistre-postgres:${DRONE_BUILD_NUMBER}
     failure: ignore
+
+  - name: system prune
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker system prune --force
+    failure: ignore
+    depends_on:
+      - CI images
 
 ---
 kind: pipeline
