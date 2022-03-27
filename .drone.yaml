@@ -54,6 +54,11 @@ steps:
     commands:
       - docker build -t automagistre/automagistre-migrations:${DRONE_BUILD_NUMBER} --progress=plain --target migrations .
 
+  - <<: *docker
+    name: postgres
+    commands:
+      - docker build -t automagistre/automagistre-postgres:${DRONE_BUILD_NUMBER} --progress=plain --target postgres .
+
 ---
 kind: pipeline
 type: docker
@@ -541,6 +546,20 @@ steps:
     depends_on:
       - docker login
 
+  - name: postgres
+    image: harbor.grachevko.ru/library/docker:20.10.13-git
+    volumes:
+      - name: docker.sock
+        path: /var/run/docker.sock
+    commands:
+      - docker tag automagistre/automagistre-postgres:${DRONE_BUILD_NUMBER} $REGISTRY/automagistre/automagistre-postgres:dev
+      - docker push $REGISTRY/automagistre/automagistre-postgres:dev
+    environment:
+      REGISTRY:
+        from_secret: REGISTRY
+    depends_on:
+      - docker login
+
 ---
 kind: pipeline
 type: docker
@@ -767,6 +786,7 @@ steps:
         automagistre/automagistre-nginx:base-${DRONE_BUILD_NUMBER}
         automagistre/automagistre-nginx:${DRONE_BUILD_NUMBER} 
         automagistre/automagistre-migrations:${DRONE_BUILD_NUMBER}
+        automagistre/automagistre-postgres:${DRONE_BUILD_NUMBER}
     failure: ignore
 
 ---

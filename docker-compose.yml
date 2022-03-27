@@ -69,7 +69,9 @@ services:
         user: ${UID:-1000}:${GID:-1000}
 
     postgres:
-        image: postgres:13.4-alpine
+        image: harbor.grachevko.ru/automagistre/automagistre-postgres:dev
+        build:
+            target: postgres
         labels:
             ru.grachevko.dhu: 'postgres.automagistre.local'
         volumes:
