@@ -650,7 +650,7 @@ steps:
     commands:
       - cd helm
       - |
-        case "${DRONE_COMMIT_MESSAGE}" in
+        case "${DRONE_COMMIT_MESSAGE:0:8}" in
             Major* ) echo "major" > .bump;;
             Feature* ) echo "minor" > .bump;;
             * ) echo "patch" > .bump;;
@@ -706,7 +706,7 @@ steps:
     commands:
       - cd crm/helm
       - |
-        case "${DRONE_COMMIT_MESSAGE}" in
+        case "${DRONE_COMMIT_MESSAGE:0:8}" in
             Major* ) echo "major" > .bump;;
             Feature* ) echo "minor" > .bump;;
             * ) echo "patch" > .bump;;
