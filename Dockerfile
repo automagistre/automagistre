@@ -318,7 +318,7 @@ COPY config.yaml config.yaml
 #
 # PostgrSQL
 #
-FROM postgres:14.1-bullseye as postgres
+FROM postgres:14.2-bullseye as postgres
 
 WORKDIR /tmp
 
