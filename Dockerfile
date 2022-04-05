@@ -1,7 +1,7 @@
 #
 # Composer
 #
-FROM composer:2.3.2 as composer
+FROM composer:2.3.3 as composer
 
 #
 # PHP
