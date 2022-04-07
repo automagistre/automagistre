@@ -9,6 +9,7 @@ use App\Customer\Enum\CustomerTransactionSource;
 use App\Doctrine\Registry;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Order\Entity\Order;
+use App\Tenant\State;
 use DateInterval;
 use DateTimeImmutable;
 use Money\Currency;
@@ -25,7 +26,7 @@ final class ProfitController extends AbstractController
 {
     private const DATETIME_FORMAT = 'Y-m-d\TH:i';
 
-    public function __construct(Registry $registry)
+    public function __construct(Registry $registry, private State $state)
     {
         $this->registry = $registry;
     }
@@ -110,6 +111,7 @@ final class ProfitController extends AbstractController
             JOIN order_deal ON order_close.id = order_deal.id
             JOIN created_by order_close_by ON order_close_by.id = order_close.id
             WHERE order_close_by.created_at BETWEEN :start AND :end
+                AND o.tenant_id = :tenant
             GROUP BY o.id, order_close_by.created_at
             ORDER BY order_close_by.created_at DESC
         ';
@@ -120,6 +122,7 @@ final class ProfitController extends AbstractController
             'start' => $start->sub(new DateInterval('PT3H')), // TO UTC
             'end' => $end->sub(new DateInterval('PT3H')), // TO UTC
             'customer_transaction_source' => CustomerTransactionSource::orderSalary()->toId(),
+            'tenant' => $this->state->require()->toId(),
         ], [
             'start' => 'datetime',
             'end' => 'datetime',

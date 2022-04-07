@@ -9,6 +9,7 @@ use App\EasyAdmin\Controller\AbstractController;
 use App\Part\Entity\PartView;
 use App\Storage\Entity\Motion;
 use App\Storage\Enum\MotionType;
+use App\Tenant\State;
 use DateInterval;
 use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,7 @@ final class PartSellController extends AbstractController
 {
     private const DATETIME_FORMAT = 'Y-m-d\TH:i';
 
-    public function __construct(Registry $registry)
+    public function __construct(Registry $registry, private State $state)
     {
         $this->registry = $registry;
     }
@@ -58,6 +59,7 @@ final class PartSellController extends AbstractController
             FROM motion m
             JOIN created_by cb ON cb.id = m.id
             WHERE cb.created_at BETWEEN :start AND :end
+              AND m.tenant_id = :tenant
             AND m.source_type = :source_order
             GROUP BY m.part_id
             ORDER BY quantity DESC, m.part_id
@@ -69,6 +71,7 @@ final class PartSellController extends AbstractController
             'start' => $start->sub(new DateInterval('PT3H')), // TO UTC
             'end' => $end->sub(new DateInterval('PT3H')), // TO UTC
             'source_order' => MotionType::order(),
+            'tenant' => $this->state->require()->toId(),
         ], [
             'start' => 'datetime',
             'end' => 'datetime',
