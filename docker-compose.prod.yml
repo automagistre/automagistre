@@ -1,0 +1,122 @@
+version: '3.7'
+
+services:
+  nginx:
+    image: automagistre-nginx
+    build:
+      context: .
+      target: nginx
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`)"
+      - "traefik.http.routers.automagistre-crm.entrypoints=websecure"
+      - "traefik.http.routers.automagistre-crm.tls=true"
+      - "traefik.http.routers.automagistre-crm.tls.certresolver=leresolver"
+      - "traefik.http.routers.automagistre-crm-redirect.rule=Host(`r.automagistre.ru`)"
+      - "traefik.http.routers.automagistre-crm-redirect.entrypoints=websecure"
+      - "traefik.http.routers.automagistre-crm-redirect.tls=true"
+      - "traefik.http.routers.automagistre-crm-redirect.tls.certresolver=leresolver"
+      - "traefik.http.routers.automagistre-crm-callback.rule=Host(`callback.automagistre.ru`)"
+      - "traefik.http.routers.automagistre-crm-callback.entrypoints=websecure"
+      - "traefik.http.routers.automagistre-crm-callback.tls=true"
+      - "traefik.http.routers.automagistre-crm-callback.tls.certresolver=leresolver"
+      - "traefik.http.services.automagistre-crm-callback-service.loadbalancer.server.port=80"
+    environment:
+      PHP_FPM_HOST: php-fpm
+    networks:
+      - default
+      - traefik
+
+  php-fpm: &php-fpm
+    image: automagistre-php
+    build:
+      context: .
+      target: php
+    networks:
+      - default
+    environment:
+      APP_SECRET: ${APP_SECRET}
+      APP_VERSION: legacy
+      POSTGRES_DATABASE: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SENTRY_DSN: ${SENTRY_DSN}
+      SMSAERO_AUTH: ${SMSAERO_AUTH}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      GOOGLE_CREDENTIALS_FILE: ${GOOGLE_CREDENTIALS_FILE}
+      KEYCLOAK_CLI_CLIENT_SECRET: ${KEYCLOAK_CLI_CLIENT_SECRET}
+      KEYCLOAK_CRM_OAUTH_CLIENT_SECRET: ${KEYCLOAK_CRM_OAUTH_CLIENT_SECRET}
+    volumes:
+      - /etc/hostname:/etc/hostname:ro
+    stop_grace_period: 120s
+
+  cron:
+    <<: *php-fpm
+    command: console cron:start --blocking
+
+  messenger:
+    <<: *php-fpm
+    command: console messenger:consume async -vv
+
+  redis:
+    image: redis:6.2.5-alpine
+    volumes:
+      - type: bind
+        source: ../../automagistre/redis/data
+        target: /data
+
+  postgres: &postgres
+    image: postgres:14.2-alpine
+    shm_size: 1gb
+    volumes:
+      - type: bind
+        source: ../../data/automagistre/postgres/data
+        target: /var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  postgres_backup:
+    <<: *postgres
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        apk add --no-cache tini gzip \
+        && echo $$'
+        postgres:5432:${POSTGRES_DB}:${POSTGRES_USER}:${POSTGRES_PASSWORD}
+        ' > ~/.pgpass \
+        && chmod 600 ~/.pgpass \
+        && echo $$'#!/bin/bash
+        pg_dump -h postgres -U ${POSTGRES_USER} ${POSTGRES_DB} | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_automagistre.sql.gz
+        ' > /backup.sh \
+        && chmod +x /backup.sh \
+        && echo $$'
+        10 3 * * * /backup.sh
+        ' | crontab - \
+        && exec tini -- crond -l 0 -f
+    volumes:
+      - ../../backups/postgres:/backups
+    deploy:
+      mode: replicated
+    healthcheck:
+      disable: true
+
+  nsqd:
+    image: nsqio/nsq:v1.2.1
+    command:
+      - /nsqd
+      - -data-path=/data
+    volumes:
+      - type: bind
+        source: ../../data/automagistre/nsq
+        target: /data
+
+networks:
+  traefik:
+    external: true
+    name: traefik
+  default:
+    name: automagistre
+    attachable: true
