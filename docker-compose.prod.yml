@@ -72,10 +72,12 @@ services:
         source: ../../data/automagistre/redis/data
         target: /data
 
-  postgres: &postgres
+  postgres:
     image: postgres:14.2-alpine
     restart: always
     shm_size: 1gb
+    ports:
+      - '44446:5432'
     volumes:
       - type: bind
         source: ../../data/automagistre/postgres/data
@@ -86,7 +88,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   postgres_backup:
-    <<: *postgres
+    image: postgres:14.2-alpine
     entrypoint: /bin/sh
     command:
       - -c
