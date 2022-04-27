@@ -65,7 +65,7 @@ services:
     restart: always
     volumes:
       - type: bind
-        source: ../../automagistre/redis/data
+        source: ../../data/automagistre/redis/data
         target: /data
 
   postgres: &postgres
