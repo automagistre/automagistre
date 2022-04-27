@@ -55,10 +55,14 @@ services:
   cron:
     <<: *php-fpm
     command: console cron:start --blocking
+    healthcheck:
+      disable: true
 
   messenger:
     <<: *php-fpm
     command: console messenger:consume async -vv
+    healthcheck:
+      disable: true
 
   redis:
     image: redis:6.2.5-alpine
