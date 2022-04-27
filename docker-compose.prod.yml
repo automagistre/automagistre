@@ -3,6 +3,7 @@ version: '3.7'
 services:
   nginx:
     image: automagistre-nginx
+    restart: always
     build:
       context: .
       target: nginx
@@ -29,6 +30,7 @@ services:
 
   php-fpm: &php-fpm
     image: automagistre-php
+    restart: always
     build:
       context: .
       target: php
@@ -60,6 +62,7 @@ services:
 
   redis:
     image: redis:6.2.5-alpine
+    restart: always
     volumes:
       - type: bind
         source: ../../automagistre/redis/data
@@ -67,6 +70,7 @@ services:
 
   postgres: &postgres
     image: postgres:14.2-alpine
+    restart: always
     shm_size: 1gb
     volumes:
       - type: bind
@@ -105,6 +109,7 @@ services:
 
   nsqd:
     image: nsqio/nsq:v1.2.1
+    restart: always
     command:
       - /nsqd
       - -data-path=/data
