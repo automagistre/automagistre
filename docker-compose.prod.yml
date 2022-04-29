@@ -93,6 +93,7 @@ services:
 
   postgres_backup:
     image: postgres:14.2-alpine
+    restart: always
     entrypoint: /bin/sh
     command:
       - -c
