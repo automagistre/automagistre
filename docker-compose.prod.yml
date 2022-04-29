@@ -86,6 +86,12 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER}
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   postgres_backup:
     image: postgres:14.2-alpine
