@@ -76,8 +76,6 @@ services:
     image: postgres:14.2-alpine
     restart: always
     shm_size: 1gb
-    ports:
-      - '44446:5432'
     volumes:
       - type: bind
         source: ../../data/automagistre/postgres/data
