@@ -76,6 +76,8 @@ final class OrderController extends AbstractController
 
     public function TOAction(): Response
     {
+        ini_set('max_execution_time', 300);
+
         $request = $this->request;
 
         $order = $this->findEntity(Order::class);
