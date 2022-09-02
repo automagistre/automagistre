@@ -6,7 +6,7 @@ MAKEFLAGS += --no-print-directory
 DEBUG_PREFIX=" [DEBUG] "
 DEBUG_ECHO=$(if $(MAKE_DEBUG),@echo ${DEBUG_PREFIX})
 
-BACKUP_SERVER="s3.automagistre.ru"
+BACKUP_SERVER="s4.automagistre.ru"
 
 COLOR_RESET   = \033[0m
 COLOR_INFO    = \033[32m
@@ -208,7 +208,7 @@ backup-download:
 	$(DEBUG_ECHO) @mkdir -p var/backups
 	@$(MAKE) do-backup-download
 do-backup-download:
-	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/am/backups/postgres/*automagistre.sql.gz | head -1) $(backup_file)
+	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/backups/*automagistre.sql.gz | head -1) $(backup_file)
 	$(call OK,"Backup automagistre.sql.gz downloaded.")
 
 drop: drop-connection do-drop ### Drop database
