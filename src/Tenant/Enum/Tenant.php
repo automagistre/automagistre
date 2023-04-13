@@ -135,7 +135,7 @@ final class Tenant extends Enum
 
     protected static array $yandexMapBusinessId = [
         self::DEMO => null,
-        self::MSK => '1087965654',
+        self::MSK => '186005342111',
         self::KAZAN => '72445022135',
         self::SHAVLEV => null,
     ];
