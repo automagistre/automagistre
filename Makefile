@@ -42,10 +42,10 @@ docker-hosts-updater:
 
 ###> ALIASES ###
 pull:
-	$(DEBUG_ECHO) docker-compose pull
+	$(DEBUG_ECHO) docker compose pull
 
 do-up: contrib pull composer permissions
-	$(DEBUG_ECHO) docker-compose up --detach --remove-orphans --no-build \
+	$(DEBUG_ECHO) docker compose up --detach --remove-orphans \
 	traefik \
 	crm \
 	nginx \
@@ -68,39 +68,39 @@ cli-root:
 	$(APP) sh
 
 down: ## Stop and remove all containers, volumes and networks
-	$(DEBUG_ECHO) docker-compose down -v --remove-orphans
+	$(DEBUG_ECHO) docker compose down -v --remove-orphans
 ###< ALIASES ###
 
 rector:
-	$(DEBUG_ECHO) docker-compose run --rm rector
+	$(DEBUG_ECHO) docker compose run --rm rector
 
 ###> Hasura ###
 console: ## Get terminal inside hasura-console container
-	docker-compose exec hasura-console bash
+	docker compose exec hasura-console bash
 
 up-hasura:
-	docker-compose up -d --force-recreate hasura
-	docker-compose exec postgres sh -c "until nc -z hasura 80; do sleep 0.5; done"
-	docker-compose up -d --force-recreate hasura-console
+	docker compose up -d --force-recreate hasura
+	docker compose exec postgres sh -c "until nc -z hasura 80; do sleep 0.5; done"
+	docker compose up -d --force-recreate hasura-console
 ###< Hasura ###
 
 
 ###> CRM ###
-CRM = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm ) \
+CRM = $(DEBUG_ECHO) @docker compose $(if $(EXEC),exec,run --rm ) \
 	crm
 
 crm-npm-install:
 	$(CRM) npm install
 
 up-crm: crm-npm-install
-	$(DEBUG_ECHO) docker-compose up -d crm
+	$(DEBUG_ECHO) docker compose up -d crm
 
 cli-crm:
-	$(DEBUG_ECHO) docker-compose run --rm --entrypoint sh crm
+	$(DEBUG_ECHO) docker compose run --rm --entrypoint sh crm
 ###< CRM ###
 
 ###> APP ###
-APP = $(DEBUG_ECHO) @docker-compose $(if $(EXEC),exec,run --rm )\
+APP = $(DEBUG_ECHO) @docker compose $(if $(EXEC),exec,run --rm )\
 	$(if $(ENTRYPOINT),--entrypoint "$(ENTRYPOINT)" )\
 	$(if $(APP_ENV),-e APP_ENV=$(APP_ENV) )\
 	$(if $(APP_DEBUG),-e APP_DEBUG=$(APP_DEBUG) )\
@@ -122,7 +122,7 @@ outdated: ## Show outdated composer packages
 	$(COMPOSER) $@
 
 migration: ## Run migrations
-	$(DEBUG_ECHO) @docker-compose exec hasura-console sh -c " \
+	$(DEBUG_ECHO) @docker compose exec hasura-console sh -c " \
 		hasura-cli metadata apply \
 		&& hasura-cli migrate status --database-name default \
 		&& hasura-cli migrate apply --all-databases \
@@ -145,14 +145,14 @@ schema: ### Validate database schema
 	$(COMPOSER) $@
 
 test: ## Run all checks and tests
-	$(DEBUG_ECHO) @docker-compose exec postgres sh -c "\
+	$(DEBUG_ECHO) @docker compose exec postgres sh -c "\
 		psql -U db -c \"SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'db_test' AND pid <> pg_backend_pid();\"; \
 		psql -U db -c \"DROP DATABASE IF EXISTS db_test\" \
 		&& psql -U db -c \"CREATE DATABASE db_test\" \
 		"
-	$(DEBUG_ECHO) @docker-compose up -d --force-recreate hasura-test
-	$(DEBUG_ECHO) @docker-compose exec postgres sh -c "until nc -z hasura-test 80; do sleep 0.5; done"
-	$(DEBUG_ECHO) @docker-compose exec hasura-test sh -c " \
+	$(DEBUG_ECHO) @docker compose up -d --force-recreate hasura-test
+	$(DEBUG_ECHO) @docker compose exec postgres sh -c "until nc -z hasura-test 80; do sleep 0.5; done"
+	$(DEBUG_ECHO) @docker compose exec hasura-test sh -c " \
 		hasura-cli metadata apply \
 		&& hasura-cli migrate status --database-name default \
 		&& hasura-cli migrate apply --all-databases \
@@ -219,7 +219,7 @@ do-drop:
 ###< APP ###
 
 ###> DATABASE ###
-DB=$(DEBUG_ECHO) @docker-compose exec -w /usr/local/app postgres
+DB=$(DEBUG_ECHO) @docker compose exec -w /usr/local/app postgres
 
 backup_file = var/backups/automagistre.sql.gz
 backup-restore:

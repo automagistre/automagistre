@@ -78,7 +78,10 @@ RUN set -ex \
     && pecl install apcu
 
 FROM php-build AS php-ext-xdebug
-RUN set -ex \
+RUN --mount=type=cache,target=/var/cache/apk \
+    set -ex \
+    && apk add \
+        linux-headers \
     && pecl install xdebug
 
 FROM php-build AS php-ext-uuid
@@ -314,40 +317,3 @@ WORKDIR /data
 COPY migrations migrations
 COPY metadata metadata
 COPY config.yaml config.yaml
-
-#
-# PostgrSQL
-#
-FROM postgres:14.2-bullseye as postgres
-
-WORKDIR /tmp
-
-RUN --mount=type=cache,target=/var/cache/apt set -ex \
-    && apt-get update  \
-    && apt-get install -y --no-install-recommends build-essential cmake curl git postgresql-server-dev-$PG_MAJOR libkrb5-dev libicu-dev ca-certificates netcat \
-    \
-    && curl -L https://github.com/timescale/timescaledb/archive/refs/tags/2.5.2.tar.gz | tar xz \
-    && cd timescaledb-2.5.2  \
-    && ./bootstrap \
-    && cd build && make && make install \
-    \
-    && curl -L https://github.com/theory/pgtap/archive/refs/tags/v1.2.0.tar.gz | tar xz \
-    && cd pgtap-1.2.0 \
-    && cpan TAP::Parser::SourceHandler::pgTAP \
-    && make && make install \
-    \
-    && curl -L https://github.com/okbob/plpgsql_check/archive/refs/tags/v2.1.2.tar.gz | tar xz \
-    && cd plpgsql_check-2.1.2 \
-    && make clean && make install \
-    \
-    && curl -L https://github.com/citusdata/pg_cron/archive/refs/tags/v1.4.1.tar.gz | tar xz \
-    && cd pg_cron-1.4.1 \
-    && make && make install \
-    \
-    && echo "shared_preload_libraries = 'pg_cron, plpgsql, plpgsql_check, timescaledb'" >> /usr/share/postgresql/postgresql.conf.sample \
-    && apt-get purge -y build-essential cmake curl git postgresql-server-dev-$PG_MAJOR libkrb5-dev libicu-dev \
-    && apt-get autoremove -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR $PG_DATA

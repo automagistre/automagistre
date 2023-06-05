@@ -22,7 +22,9 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
 
     crm:
-        image: harbor.grachevko.ru/automagistre/crm:base
+        build:
+            context: crm/
+            target: node-base
         labels:
             ru.grachevko.dhu: 'crm-next.automagistre.local:0:traefik'
             traefik.enable: true
@@ -41,7 +43,8 @@ services:
         user: ${UID:-1000}:${GID:-1000}
 
     nginx:
-        image: harbor.grachevko.ru/automagistre/automagistre-nginx:base
+        build:
+            target: nginx-base
         labels:
             ru.grachevko.dhu: '{callback,r,crm}.automagistre.local:0:traefik'
             traefik.enable: true
@@ -56,7 +59,8 @@ services:
             - ./etc/nginx.cors-setup.conf:/etc/nginx/cors.setup.conf
 
     php-fpm:
-        image: harbor.grachevko.ru/automagistre/automagistre:base
+        build:
+            target: php-base
         volumes:
             - ./:/usr/local/app
             - ./etc/php.ini:/usr/local/etc/php/php.ini
@@ -69,9 +73,7 @@ services:
         user: ${UID:-1000}:${GID:-1000}
 
     postgres:
-        image: harbor.grachevko.ru/automagistre/automagistre-postgres:dev
-        build:
-            target: postgres
+        image: postgres:14.2-alpine
         labels:
             ru.grachevko.dhu: 'postgres.automagistre.local'
         volumes:
