@@ -3,7 +3,6 @@ easy_admin:
         Review:
             class: App\Review\Entity\Review
             controller: App\Review\Controller\ReviewController
-            disabled_actions: [ 'show', 'edit', 'delete' ]
             list:
                 sort: 'publishAt'
                 fields:
@@ -12,13 +11,19 @@ easy_admin:
                     - { property: 'rating', label: 'Оценка', template: 'easy_admin/field_enum.html.twig', field: 'id' }
                     - { property: 'source', label: 'Источник', template: 'easy_admin/field_enum.html.twig', field: 'displayName' }
                     - { property: 'publishAt', label: 'Дата публикации' }
+            show:
+                fields:
+                    - { property: 'author', label: 'Автор' }
+                    - { property: 'text', label: 'Отзыв' }
+                    - { property: 'rating', label: 'Оценка', template: 'easy_admin/field_enum.html.twig', field: 'id' }
+                    - { property: 'source', label: 'Источник', template: 'easy_admin/field_enum.html.twig', field: 'displayName' }
+                    - { property: 'publishAt', label: 'Опубликована', type: 'date_immutable', type_options: { input: 'datetime_immutable' } }
             form:
                 fields:
                     - { property: 'author', label: 'Автор' }
-                    - { property: 'manufacturer', label: 'Производитель автомобиля' }
-                    - { property: 'model', label: 'Модель автомобиля' }
-                    - { property: 'content', label: 'Отзыв' }
-                    - { property: 'source', label: 'Источник' }
+                    - { property: 'text', label: 'Отзыв' }
+                    - { property: 'source', label: 'Источник', type: App\Review\Form\ReviewSourceType }
+                    - { property: 'rating', label: 'Оценка', type: App\Review\Form\ReviewRatingType }
                     - { property: 'publishAt', label: 'Опубликована', type: 'date_immutable', type_options: { input: 'datetime_immutable' } }
             new:
                 title: 'Создать новый Отзыв'

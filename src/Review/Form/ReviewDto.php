@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Review\Form;
 
+use App\Review\Enum\ReviewRating;
+use App\Review\Enum\ReviewSource;
 use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,24 +26,10 @@ final class ReviewDto
      *
      * @Assert\NotBlank
      */
-    public $manufacturer;
+    public $text;
 
     /**
-     * @var string
-     *
-     * @Assert\NotBlank
-     */
-    public $model;
-
-    /**
-     * @var string
-     *
-     * @Assert\NotBlank
-     */
-    public $content;
-
-    /**
-     * @var string
+     * @var ReviewSource
      *
      * @Assert\NotBlank
      * @Assert\Length(max=255)
@@ -49,9 +37,22 @@ final class ReviewDto
     public $source;
 
     /**
+     * @var ReviewRating
+     *
+     * @Assert\NotBlank
+     * @Assert\Length(max=255)
+     */
+    public $rating;
+
+    /**
      * @var DateTimeImmutable
      *
      * @Assert\NotBlank
      */
     public $publishAt;
+
+    public function __construct()
+    {
+        $this->publishAt = new DateTimeImmutable();
+    }
 }

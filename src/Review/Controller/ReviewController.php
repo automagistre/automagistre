@@ -7,8 +7,6 @@ namespace App\Review\Controller;
 use App\EasyAdmin\Controller\AbstractController;
 use App\Review\Entity\Review;
 use App\Review\Entity\ReviewId;
-use App\Review\Enum\ReviewRating;
-use App\Review\Enum\ReviewSource;
 use App\Review\Form\ReviewDto;
 use function assert;
 
@@ -34,16 +32,12 @@ final class ReviewController extends AbstractController
         $entity = new Review(
             $reviewId,
             $reviewId->toString(),
-            ReviewSource::manual(),
+            $dto->source,
             $dto->author,
-            $dto->content,
-            ReviewRating::unspecified(),
+            $dto->text,
+            $dto->rating,
             $dto->publishAt,
-            [
-                'manufacturer' => $dto->manufacturer,
-                'model' => $dto->model,
-                'source' => $dto->source,
-            ],
+            [],
         );
 
         parent::persistEntity($entity);
