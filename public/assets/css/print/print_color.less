@@ -1,6 +1,6 @@
-@red : rgba(250, 13, 28, 0.60);
-@grey: rgba(0, 0, 0, 0.1);
-@font-color: rgba(0, 0, 0, 70%);
+@red : rgba(250, 13, 28, 1);
+@grey: #d9d9d9;; 
+@font-color: #000000;
 
 @price-col: 24mm;
 @quantity-col: 12mm;
@@ -95,7 +95,6 @@ footer {
   &__logo {
     margin: 0 auto 5mm;
     text-align: center;
-    opacity: 0.7;
 
     img{
       height: 13mm;
@@ -498,7 +497,6 @@ footer {
   }
 
   &__img > img {
-    opacity: 0.7;
     width: 100%;
   }
   &__mp {
@@ -621,7 +619,8 @@ footer {
 }
 
 .page {
-  page-break-after: always;
+  page-break-inside: avoid;
+  page-break-after: auto;
 }
 
 
