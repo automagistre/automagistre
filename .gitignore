@@ -1,5 +1,6 @@
 # Dev
 /.idea/
+/.vscode/
 /docker-compose.override.yml
 /config/routes/dev/test.yaml
 /src/Command/TestCommand.php
