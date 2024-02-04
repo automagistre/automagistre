@@ -208,7 +208,7 @@ backup-download:
 	$(DEBUG_ECHO) @mkdir -p var/backups
 	@$(MAKE) do-backup-download
 do-backup-download:
-	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /opt/backups/*automagistre.sql.gz | head -1) $(backup_file)
+	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /srv/backups/*automagistre.sql.gz | head -1) $(backup_file)
 	$(call OK,"Backup automagistre.sql.gz downloaded.")
 
 drop: drop-connection do-drop ### Drop database
