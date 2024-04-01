@@ -134,5 +134,5 @@ networks:
     external: true
     name: traefik
   default:
-    name: automagistre
+    name: automagistre_crm
     attachable: true
