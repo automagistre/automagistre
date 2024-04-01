@@ -48,6 +48,7 @@ services:
       GOOGLE_CREDENTIALS_FILE: ${GOOGLE_CREDENTIALS_FILE}
       KEYCLOAK_CLI_CLIENT_SECRET: ${KEYCLOAK_CLI_CLIENT_SECRET}
       KEYCLOAK_CRM_OAUTH_CLIENT_SECRET: ${KEYCLOAK_CRM_OAUTH_CLIENT_SECRET}
+      NSQ_HOST: nsqd.automagistre_crm
     volumes:
       - /etc/hostname:/etc/hostname:ro
     stop_grace_period: 120s
