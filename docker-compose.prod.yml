@@ -48,7 +48,7 @@ services:
       GOOGLE_CREDENTIALS_FILE: ${GOOGLE_CREDENTIALS_FILE}
       KEYCLOAK_CLI_CLIENT_SECRET: ${KEYCLOAK_CLI_CLIENT_SECRET}
       KEYCLOAK_CRM_OAUTH_CLIENT_SECRET: ${KEYCLOAK_CRM_OAUTH_CLIENT_SECRET}
-      NSQ_HOST: nsqd.automagistre_crm
+      NSQ_HOST: nsqd.automagistre
     volumes:
       - /etc/hostname:/etc/hostname:ro
     stop_grace_period: 120s
@@ -135,5 +135,5 @@ networks:
     external: true
     name: traefik
   default:
-    name: automagistre_crm
+    name: automagistre
     attachable: true
