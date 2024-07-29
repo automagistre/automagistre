@@ -29,6 +29,7 @@ final class StaleStockNotifier implements MessageHandler
 
     public function __invoke(OrderItemPartCreated $event): void
     {
+        return;
         $telegramChannel = $this->state->get()->toTelegramChannel();
 
         if ('' === $telegramChannel) {
