@@ -14,12 +14,13 @@ use App\Part\Entity\PartCase;
 use App\Part\Entity\PartCaseId;
 use App\Vehicle\Entity\Model;
 use App\Vehicle\Entity\VehicleId;
+use Symfony\Component\Security\Core\Security;
 use function array_map;
 use function count;
 
 final class LinkPartCaseOnOrderClosedListener implements MessageHandler
 {
-    public function __construct(private Registry $registry)
+    public function __construct(private Registry $registry, private Security $security)
     {
     }
 
@@ -54,11 +55,18 @@ final class LinkPartCaseOnOrderClosedListener implements MessageHandler
 
         $parts = array_map(static fn (OrderItemPart $orderItemPart) => $orderItemPart->getPartId(), $parts);
 
+        $user = $this->security->getUser();
+        $userId = match (true) {
+            null === $user && 'cli' === PHP_SAPI => Costil::SERVICE_USER,
+            null !== $user => $user->getUserIdentifier(),
+            default => Costil::ANONYMOUS,
+        };
+
         foreach ($parts as $part) {
             $this->registry->connection(PartCase::class)
                 ->executeStatement(
-                    'INSERT INTO part_case (id, part_id, vehicle_id)
-                        SELECT :id, id, :vehicle
+                    'INSERT INTO part_case (id, part_id, vehicle_id, created_by)
+                        SELECT :id, id, :vehicle, :created_by
                         FROM part
                         WHERE universal IS FALSE
                         AND id = :part
@@ -68,6 +76,7 @@ final class LinkPartCaseOnOrderClosedListener implements MessageHandler
                         'id' => PartCaseId::generate(),
                         'vehicle' => $vehicleId->toString(),
                         'part' => $part,
+                        'created_by' => $userId,
                     ],
                 )
             ;
