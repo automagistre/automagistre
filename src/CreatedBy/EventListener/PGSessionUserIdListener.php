@@ -6,6 +6,8 @@ namespace App\CreatedBy\EventListener;
 
 use App\Costil;
 use App\Doctrine\Registry;
+use Symfony\Component\Console\ConsoleEvents;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -26,12 +28,34 @@ final class PGSessionUserIdListener implements EventSubscriberInterface
     {
         return [
             KernelEvents::REQUEST => ['onKernelRequest', 0],
+            ConsoleEvents::COMMAND => ['onConsoleCommand', 0],
         ];
     }
 
     public function onKernelRequest(RequestEvent $event): void
     {
         if (!$event->isMainRequest()) {
+            return;
+        }
+
+        $user = $this->security->getUser();
+        $userId = match (true) {
+            null === $user && 'cli' === PHP_SAPI => Costil::SERVICE_USER,
+            null !== $user => $user->getUserIdentifier(),
+            default => Costil::ANONYMOUS,
+        };
+
+        $this->registry->connection()->executeQuery('SET app.user_id = \''.$userId.'\'');
+    }
+
+    /**
+     * @psalm-suppress InternalMethod
+     */
+    public function onConsoleCommand(ConsoleCommandEvent $event): void
+    {
+        $command = $event->getCommand();
+
+        if (null === $command) {
             return;
         }
 
