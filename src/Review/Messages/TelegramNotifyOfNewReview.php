@@ -32,7 +32,11 @@ final class TelegramNotifyOfNewReview implements MessageHandler
         }
 
         /** @var Review $review */
-        $review = $this->registry->get(Review::class, $event->reviewId);
+        $review = $this->registry->find(Review::class, $event->reviewId);
+
+        if (null === $review) {
+            return;
+        }
 
         $author = Markdown::code($review->author);
         $sourceName = Markdown::bold($review->source->toDisplayName());
