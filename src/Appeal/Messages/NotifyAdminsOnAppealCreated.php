@@ -32,7 +32,11 @@ final class NotifyAdminsOnAppealCreated implements MessageHandler
     {
         $appealId = $event->appealId;
         /** @var AppealView $appealView */
-        $appealView = $this->registry->get(AppealView::class, $appealId);
+        $appealView = $this->registry->find(AppealView::class, $appealId);
+
+        if (null === $appealView) {
+            return;
+        }
 
         $text = Markdown::builder()
             ->p('Поступила новая заявка')
