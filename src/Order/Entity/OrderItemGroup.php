@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
+use App\Keycloak\Entity\UserId;
 use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
+use DateTimeImmutable;
 use Generator;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
@@ -29,6 +31,16 @@ class OrderItemGroup extends OrderItem implements TotalPriceInterface
      * @ORM\Column(type="boolean")
      */
     private $hideParts = false;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(UuidInterface $id, Order $order, string $name)
     {

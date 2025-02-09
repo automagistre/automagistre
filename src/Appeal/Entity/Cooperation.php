@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Appeal\Entity;
 
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 use App\Appeal\Event\AppealCreated;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
@@ -34,6 +36,16 @@ class Cooperation extends TenantEntity implements ContainsRecordedMessages
      * @ORM\Column(type="phone_number")
      */
     public PhoneNumber $phone;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(AppealId $id, string $name, PhoneNumber $phone)
     {

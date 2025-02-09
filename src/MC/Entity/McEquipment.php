@@ -11,6 +11,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -47,6 +49,16 @@ class McEquipment extends TenantEntity
      * @ORM\OrderBy(value={"position": "ASC"})
      */
     public ?Collection $lines = null;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(McEquipmentId $id)
     {

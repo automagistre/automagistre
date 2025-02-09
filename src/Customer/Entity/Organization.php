@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhone;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -74,6 +76,16 @@ class Organization extends TenantGroupEntity
      * @ORM\Column(type="boolean")
      */
     public bool $seller = false;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(OperandId $id)
     {

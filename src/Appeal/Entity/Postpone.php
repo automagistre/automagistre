@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Appeal\Entity;
 
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
@@ -27,6 +29,16 @@ class Postpone extends TenantEntity
      * @ORM\Column
      */
     public AppealId $appealId;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(UuidInterface $id, AppealId $appealId)
     {

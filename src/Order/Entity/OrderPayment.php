@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -35,6 +37,16 @@ class OrderPayment extends TenantEntity
      * @ORM\Column(nullable=true)
      */
     private ?string $description = null;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(Order $order, Money $money, ?string $description)
     {

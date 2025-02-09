@@ -9,6 +9,7 @@ use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Part\Event\PartAccrued;
 use App\Part\Event\PartDecreased;
 use App\Tenant\Entity\TenantEntity;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -47,6 +48,11 @@ class Motion extends TenantEntity implements ContainsRecordedMessages
      * @ORM\Column(type="text", length=65535, nullable=true)
      */
     private ?string $description;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         Part $part,

@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -52,6 +54,16 @@ class McLine extends TenantEntity
      * @ORM\Column(type="integer")
      */
     public int $position;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         UuidInterface $id,

@@ -8,6 +8,8 @@ use App\Costil;
 use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Currency;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -49,6 +51,16 @@ class Wallet extends TenantEntity
      * @ORM\Column(type="boolean")
      */
     public bool $defaultInManualTransaction = false;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         WalletId $walletId,

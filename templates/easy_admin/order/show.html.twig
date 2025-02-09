@@ -107,7 +107,7 @@
                                                 <tr>
                                                     <td>{{ payment.money|localize_money }}</td>
                                                     <td>{{ payment.description }}</td>
-                                                    <td>{{ created_by_view(payment.toId) }}</td>
+                                                    <td>{{ created_by_view(payment) }}</td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>
@@ -212,7 +212,7 @@
                                                 <tr>
                                                     <td>{{ suspend.till|format_date('short', '', 'GMT+3') }}</td>
                                                     <td>{{ suspend.reason }}</td>
-                                                    <td>{{ created_by_view(suspend|toUuid) }}</td>
+                                                    <td>{{ created_by_view(suspend) }}</td>
                                                 </tr>
                                             {% endfor %}
                                             </tbody>

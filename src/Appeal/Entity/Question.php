@@ -9,6 +9,8 @@ use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity(readOnly=true)
@@ -38,6 +40,16 @@ class Question extends TenantEntity implements ContainsRecordedMessages
      * @ORM\Column(type="text")
      */
     public string $question;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(AppealId $id, string $name, string $email, string $question)
     {

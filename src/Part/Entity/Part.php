@@ -8,6 +8,8 @@ use App\Manufacturer\Entity\ManufacturerId;
 use App\Part\Enum\Unit;
 use App\Storage\Entity\WarehouseId;
 use Doctrine\ORM\Mapping as ORM;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Table(name="part", uniqueConstraints={
@@ -52,6 +54,16 @@ class Part
      * @ORM\Column(nullable=true)
      */
     public ?WarehouseId $warehouseId;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         PartId $id,

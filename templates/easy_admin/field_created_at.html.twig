@@ -1,1 +1,5 @@
-{{ created_by_view(value, {'withUser': false}) }}
+{% if value is not empty %}
+    <time datetime="{{ value|date('c') }}" title="{{ value|date('r') }}">{{ value|date('d.m.Y H:i', 'GMT+3') }}</time>
+{% else %}
+    {% include 'easy_admin/default/label_null.html.twig' %}
+{% endif %}

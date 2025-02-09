@@ -19,6 +19,8 @@ use Money\Currency;
 use Money\Money;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 use function in_array;
 use function mb_convert_case;
 use function sprintf;
@@ -95,6 +97,16 @@ class Car extends TenantGroupEntity
      * @ORM\Column(nullable=true)
      */
     private ?string $gosnomer = null;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(CarId $carId)
     {

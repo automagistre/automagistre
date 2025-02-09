@@ -2,4 +2,4 @@
     {{ value.by|display_name }}
 {% endif %}
 
-{{ value.at|format_datetime('short', 'short', '', 'GMT+3') }}
+{% include 'easy_admin/field_created_at.html.twig' with {'value': value.at} only %}

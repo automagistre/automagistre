@@ -9,6 +9,8 @@ use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -40,6 +42,16 @@ class Note extends TenantEntity
      * @ORM\OneToOne(targetEntity=NoteDelete::class, mappedBy="note", cascade={"persist"})
      */
     private ?NoteDelete $delete = null;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(UuidInterface $subject, NoteType $type, string $text)
     {

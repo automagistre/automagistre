@@ -1,5 +1,5 @@
-{% if value is not empty %}
-    {{ created_by_view(value|toUuid, field_options) }}
+{% if item is not empty %}
+    {{ created_by_view(item, field_options) }}
 {% else %}
     {% include 'easy_admin/default/label_null.html.twig' %}
 {% endif %}

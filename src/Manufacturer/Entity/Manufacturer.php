@@ -6,6 +6,8 @@ namespace App\Manufacturer\Entity;
 
 use App\Costil;
 use Doctrine\ORM\Mapping as ORM;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -32,6 +34,16 @@ class Manufacturer
      * @ORM\Column(name="logo", length=25, nullable=true)
      */
     private ?string $logo;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         ManufacturerId $id = null,

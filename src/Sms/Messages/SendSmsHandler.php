@@ -44,11 +44,10 @@ final class SendSmsHandler implements MessageHandler
                 ->fetchOne(
                     'SELECT 1
                                 FROM sms_send ss
-                                    JOIN created_by cb ON cb.id = ss.sms_id
                                     JOIN sms s ON s.id = ss.sms_id
                                                       AND success IS TRUE
                                                       AND s.phone_number = :phone
-                                WHERE cb.created_at BETWEEN :start AND :end',
+                                WHERE ss.created_at BETWEEN :start AND :end',
                     [
                         'phone' => $phoneNumber,
                         'start' => (new DateTimeImmutable())->setTime(0, 0, 0),

@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Keycloak\Entity\UserId;
 
 /**
  * @ORM\Entity
@@ -37,6 +38,16 @@ class Discount extends TenantEntity
      * @ORM\Column(type="datetime_immutable")
      */
     private DateTimeImmutable $since;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(PartId $partId, Money $discount, DateTimeImmutable $since = null)
     {

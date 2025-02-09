@@ -8,6 +8,8 @@ use App\Part\Entity\PartId;
 use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -39,6 +41,16 @@ class McPart extends TenantEntity
      * @ORM\Column(type="boolean")
      */
     public bool $recommended;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(UuidInterface $id, McLine $line, PartId $partId, int $quantity, bool $recommended)
     {

@@ -7,6 +7,8 @@ namespace App\Vehicle\Entity;
 use App\Costil;
 use App\Manufacturer\Entity\ManufacturerId;
 use Doctrine\ORM\Mapping as ORM;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -54,6 +56,16 @@ class Model
      * @ORM\Column(type="smallint", nullable=true)
      */
     public ?int $yearTill = null;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         VehicleId $uuid,

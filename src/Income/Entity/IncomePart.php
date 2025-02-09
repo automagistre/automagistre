@@ -8,6 +8,8 @@ use App\Part\Entity\PartId;
 use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -39,6 +41,16 @@ class IncomePart extends TenantEntity
      * @ORM\Column(type="integer")
      */
     public int $quantity;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(IncomePartId $id, Income $income, PartId $partId, Money $price, int $quantity)
     {

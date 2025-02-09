@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
+use App\Keycloak\Entity\UserId;
 use App\Car\Entity\CarId;
 use App\Customer\Entity\OperandId;
 use App\Employee\Entity\Employee;
@@ -115,6 +116,16 @@ class Order extends TenantEntity implements ContainsRecordedMessages
      * @ORM\OrderBy({"id": "ASC"})
      */
     private $suspends;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(OrderId $orderId, int $number)
     {

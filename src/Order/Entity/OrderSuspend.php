@@ -9,6 +9,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Keycloak\Entity\UserId;
 
 /**
  * @ORM\Entity
@@ -41,6 +42,16 @@ class OrderSuspend extends TenantEntity
      * @ORM\Column
      */
     private $reason;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(Order $order, DateTimeImmutable $till, string $reason)
     {

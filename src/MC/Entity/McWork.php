@@ -7,6 +7,8 @@ namespace App\MC\Entity;
 use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 use function sprintf;
 
 /**
@@ -39,6 +41,16 @@ class McWork extends TenantEntity
      * @ORM\Embedded(class=Money::class)
      */
     public Money $price;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(McWorkId $id, string $name, ?string $description, Money $price, ?string $comment)
     {

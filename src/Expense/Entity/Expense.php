@@ -7,6 +7,8 @@ namespace App\Expense\Entity;
 use App\Tenant\Entity\TenantEntity;
 use App\Wallet\Entity\WalletId;
 use Doctrine\ORM\Mapping as ORM;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -32,6 +34,16 @@ class Expense extends TenantEntity
      * @ORM\Column(nullable=true)
      */
     public ?WalletId $walletId;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(string $name, WalletId $walletId = null)
     {
