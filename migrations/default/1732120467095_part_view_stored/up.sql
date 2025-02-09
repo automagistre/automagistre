@@ -72,7 +72,6 @@ SELECT public.add_created_by_all('note');
 SELECT public.add_created_by_all('note_delete');
 SELECT public.add_created_by_all('order_cancel');
 SELECT public.add_created_by_all('order_close');
-SELECT public.add_created_by_all('order_deal');
 SELECT public.add_created_by_all('order_item_group');
 SELECT public.add_created_by_all('order_item_part');
 SELECT public.add_created_by_all('order_item_service');
