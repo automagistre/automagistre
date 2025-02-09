@@ -118,7 +118,7 @@
                                 {% for price in prices %}
                                     <tr>
                                         <td>{{ price.price|localize_money }}</td>
-                                        <td>{{ price.since|format_datetime(timezone='+3GMT') }}</td>
+                                        <td>{{ price.since|format_datetime(timezone='Europe/Moscow') }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
@@ -154,7 +154,7 @@
                                 {% for discount in discounts %}
                                     <tr>
                                         <td>{{ discount.discount|localize_money }}</td>
-                                        <td>{{ discount.since|format_datetime(timezone='+3GMT') }}</td>
+                                        <td>{{ discount.since|format_datetime(timezone='Europe/Moscow') }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

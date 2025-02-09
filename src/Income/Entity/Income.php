@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Income\Entity;
 
+use App\Keycloak\Entity\UserId;
 use App\Customer\Entity\OperandId;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Tenant\Entity\TenantEntity;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -60,6 +62,16 @@ class Income extends TenantEntity implements ContainsRecordedMessages
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $oldId = null;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(IncomeId $incomeId, OperandId $supplierId, ?string $document)
     {

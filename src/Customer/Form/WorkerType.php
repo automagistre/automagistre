@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Customer\Form;
 
-use App\CreatedBy\Entity\CreatedBy;
 use App\Customer\Entity\CustomerView;
 use App\Customer\Entity\OperandId;
 use App\Doctrine\Registry;
 use App\Identifier\IdentifierFormatter;
 use App\Order\Entity\OrderItemService;
 use DateTime;
-use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -83,8 +81,7 @@ final class WorkerType extends AbstractType
         $services = $em->createQueryBuilder()
             ->select('entity.workerId')
             ->from(OrderItemService::class, 'entity')
-            ->join(CreatedBy::class, 'cb', Join::WITH, 'cb.id = entity.id')
-            ->where('cb.createdAt > :today')
+            ->where('entity.createdAt > :today')
             ->andWhere('entity.workerId IS NOT NULL')
             ->groupBy('entity.workerId')
             ->setParameter('today', new DateTime('-1000 hour'))

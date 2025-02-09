@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
+use App\Keycloak\Entity\UserId;
 use App\Customer\Entity\OperandId;
 use App\Money\PriceInterface;
 use App\Money\TotalPriceInterface;
 use Doctrine\ORM\Mapping as ORM;
 use DomainException;
+use DateTimeImmutable;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
 
@@ -41,6 +43,16 @@ class OrderItemService extends OrderItem implements PriceInterface, TotalPriceIn
      * @ORM\Column(type="boolean")
      */
     private bool $warranty;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         UuidInterface $id,

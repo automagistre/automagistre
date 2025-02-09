@@ -6,12 +6,10 @@ namespace App\Order\Controller;
 
 use App\Car\Entity\Car;
 use App\Car\Manager\RecommendationManager;
-use App\CreatedBy\Entity\CreatedBy;
 use App\Order\Entity\Order;
 use App\Order\Entity\OrderItem;
 use App\Order\Entity\OrderItemService;
 use App\Order\Form\OrderService;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use LogicException;
 use Money\Currency;
@@ -170,7 +168,6 @@ final class OrderItemServiceController extends OrderItemController
         }
 
         $qb = $this->createListQueryBuilder($entityClass, $sortDirection)
-            ->leftJoin(CreatedBy::class, 'createdBy', Join::WITH, 'createdBy.id = entity.id')
         ;
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
@@ -184,7 +181,7 @@ final class OrderItemServiceController extends OrderItemController
         }
 
         $qb
-            ->orderBy('createdBy.createdAt', 'ASC')
+            ->orderBy('entity.createdAt', 'ASC')
             ->addOrderBy('orders.id', 'DESC')
         ;
 

@@ -7,6 +7,8 @@ namespace App\Employee\Entity;
 use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -39,6 +41,16 @@ class Salary extends TenantEntity
      * @ORM\OneToOne(targetEntity=SalaryEnd::class, mappedBy="salary", cascade={"persist"})
      */
     private ?SalaryEnd $end;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(SalaryId $salaryId, EmployeeId $employeeId, int $payday, Money $amount)
     {

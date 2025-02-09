@@ -11,6 +11,7 @@ use App\Tenant\Entity\TenantEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
+use App\Keycloak\Entity\UserId;
 
 /**
  * @ORM\Entity
@@ -41,6 +42,16 @@ class Sms extends TenantEntity implements ContainsRecordedMessages
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     public ?DateTimeImmutable $dateSend;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(PhoneNumber $phoneNumber, string $message, DateTimeImmutable $dateSend = null)
     {

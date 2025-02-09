@@ -6,6 +6,8 @@ namespace App\Part\Entity;
 
 use App\Vehicle\Entity\VehicleId;
 use Doctrine\ORM\Mapping as ORM;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -32,6 +34,16 @@ class PartCase
      * @ORM\Column
      */
     private VehicleId $vehicleId;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(PartId $part, VehicleId $vehicleId)
     {

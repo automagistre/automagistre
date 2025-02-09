@@ -8,6 +8,8 @@ use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -30,6 +32,16 @@ class EntryOrderInfo extends TenantEntity
      * @ORM\Embedded(class=OrderInfo::class, columnPrefix=false)
      */
     private OrderInfo $orderInfo;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(CalendarEntry $entry, OrderInfo $orderInfo)
     {

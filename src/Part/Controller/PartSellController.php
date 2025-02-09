@@ -57,8 +57,7 @@ final class PartSellController extends AbstractController
             SELECT m.part_id,
                    ABS(ROUND(SUM(m.quantity::NUMERIC), 2)) AS quantity
             FROM motion m
-            JOIN created_by cb ON cb.id = m.id
-            WHERE cb.created_at BETWEEN :start AND :end
+            WHERE m.created_at BETWEEN :start AND :end
               AND m.tenant_id = :tenant
             AND m.source_type = :source_order
             GROUP BY m.part_id

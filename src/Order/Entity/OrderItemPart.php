@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Order\Entity;
 
+use App\Keycloak\Entity\UserId;
 use App\Costil;
 use App\Customer\Entity\OperandId;
 use App\MessageBus\ContainsRecordedMessages;
@@ -13,6 +14,7 @@ use App\Money\TotalPriceInterface;
 use App\Order\Event\OrderItemPartPriceChanged;
 use App\Order\Event\OrderItemPartCreated;
 use App\Part\Entity\PartId;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Money\Money;
@@ -54,6 +56,16 @@ class OrderItemPart extends OrderItem implements PriceInterface, TotalPriceInter
      * @ORM\Column(type="boolean")
      */
     private bool $warranty;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         UuidInterface $id,

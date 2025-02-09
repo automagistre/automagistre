@@ -15,6 +15,8 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -56,6 +58,16 @@ class Employee extends TenantEntity implements ContainsRecordedMessages
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $firedAt;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(EmployeeId $employeeId = null)
     {

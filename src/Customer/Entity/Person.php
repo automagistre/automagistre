@@ -7,6 +7,8 @@ namespace App\Customer\Entity;
 use App\Tenant\Entity\TenantGroupEntity;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 use function sprintf;
 
 /**
@@ -59,6 +61,16 @@ class Person extends TenantGroupEntity
      * @ORM\Column(type="boolean")
      */
     public bool $seller = false;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(OperandId $id)
     {

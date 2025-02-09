@@ -11,6 +11,7 @@ use App\Tenant\Entity\TenantEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
+use App\Keycloak\Entity\UserId;
 
 /**
  * @ORM\Entity(readOnly=true)
@@ -40,6 +41,16 @@ class Schedule extends TenantEntity implements ContainsRecordedMessages
      * @ORM\Column(type="date_immutable")
      */
     public DateTimeImmutable $date;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(AppealId $id, string $name, PhoneNumber $phone, DateTimeImmutable $date)
     {

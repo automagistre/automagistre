@@ -25,7 +25,8 @@ RUN set -ex \
 FROM php-raw AS php-build
 RUN --mount=type=cache,target=/var/cache/apk \
     set -ex \
-    && apk add --update-cache \
+    && apk update \
+    && apk add \
         $PHPIZE_DEPS
 
 FROM php-build AS php-ext-gd

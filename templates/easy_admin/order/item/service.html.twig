@@ -33,7 +33,7 @@
             </a>
 
             {% set popoverContent %}
-            Создал: {{ created_by_view(recommendation|toUuid) }} <br/>
+            Создал: {{ created_by_view(recommendation) }} <br/>
             Диагност: {{ recommendation.workerId|display_name }} <br/>
         {% if recommendation.parts is not empty %}
             Запчасти: <br/>

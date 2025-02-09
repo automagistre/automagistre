@@ -18,6 +18,10 @@ return static function (FrameworkConfig $framework, ContainerConfigurator $confi
         ->tag('doctrine.event_subscriber', ['priority' => 100500])
     ;
 
+    $services->get(App\CreatedBy\EventListener\PrePersistEventListener::class)
+        ->tag('doctrine.event_subscriber', ['priority' => -100500])
+    ;
+
     $services->get(App\CreatedBy\View\CreatedByExtension::class)
         ->arg('$cache', service('cache.created_by'))
     ;

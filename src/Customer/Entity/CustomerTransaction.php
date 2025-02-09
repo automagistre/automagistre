@@ -11,6 +11,8 @@ use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Ramsey\Uuid\UuidInterface;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -52,6 +54,16 @@ class CustomerTransaction extends TenantEntity implements ContainsRecordedMessag
      * @ORM\Column(type="text", length=65535, nullable=true)
      */
     private ?string $description;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         CustomerTransactionId $id,

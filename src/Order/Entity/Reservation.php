@@ -9,6 +9,8 @@ use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Part\Event\PartReserved;
 use App\Tenant\Entity\TenantEntity;
 use Doctrine\ORM\Mapping as ORM;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -37,6 +39,16 @@ class Reservation extends TenantEntity implements ContainsRecordedMessages
      * @ORM\JoinColumn(nullable=false)
      */
     private $orderItemPart;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(OrderItemPart $orderItemPart, int $quantity)
     {

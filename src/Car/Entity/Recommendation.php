@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Car\Entity;
 
+use App\Keycloak\Entity\UserId;
 use App\Customer\Entity\OperandId;
 use App\Money\PriceInterface;
 use App\Order\Entity\OrderItemService;
 use App\Tenant\Entity\TenantGroupEntity;
 use DateTime;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -78,6 +80,16 @@ class Recommendation extends TenantGroupEntity implements PriceInterface
      * @ORM\OrderBy({"id": "ASC"})
      */
     private $parts;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(RecommendationId $id, Car $car, string $service, Money $price, OperandId $workerId)
     {

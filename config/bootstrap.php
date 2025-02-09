@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Doctrine\DBAL\Types\Type;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\ErrorHandler\Debug;
 
@@ -27,3 +28,11 @@ if ($_SERVER['APP_DEBUG']) {
 foreach (require __DIR__.'/enums.php' as $class => [$id]) {
     Premier\Enum\Doctrine\EnumType::register($class, $id);
 }
+
+Type::overrideType('datetime', 'Doctrine\DBAL\Types\VarDateTimeType');
+Type::overrideType('datetimetz', 'Doctrine\DBAL\Types\VarDateTimeType');
+Type::overrideType('time', 'Doctrine\DBAL\Types\VarDateTimeType');
+
+Type::overrideType('datetime_immutable', 'Doctrine\DBAL\Types\VarDateTimeImmutableType');
+Type::overrideType('datetimetz_immutable', 'Doctrine\DBAL\Types\VarDateTimeImmutableType');
+Type::overrideType('time_immutable', 'Doctrine\DBAL\Types\VarDateTimeImmutableType');

@@ -19,6 +19,8 @@ use JsonSerializable;
 use libphonenumber\PhoneNumber;
 use Money\Currency;
 use Money\Money;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity(readOnly=true)
@@ -68,6 +70,16 @@ class TireFitting extends TenantEntity implements ContainsRecordedMessages
      * @ORM\Column(type="appeal_tire_fitting_work")
      */
     public TireWorkCollection $works;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         AppealId $id,

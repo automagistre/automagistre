@@ -8,6 +8,8 @@ use App\Part\Entity\PartId;
 use App\Tenant\Entity\TenantGroupEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -43,6 +45,16 @@ class RecommendationPart extends TenantGroupEntity
      * @ORM\Embedded(class=Money::class)
      */
     public Money $price;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         RecommendationPartId $id,

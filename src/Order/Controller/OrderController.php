@@ -11,7 +11,6 @@ use App\Car\Entity\Car;
 use App\Car\Entity\CarId;
 use App\Car\Entity\Recommendation;
 use App\Car\Entity\RecommendationPart;
-use App\CreatedBy\Entity\CreatedBy;
 use App\Customer\Entity\CustomerTransactionView;
 use App\Customer\Entity\CustomerView;
 use App\Customer\Entity\OperandId;
@@ -488,7 +487,6 @@ final class OrderController extends AbstractController
     ): QueryBuilder {
         $qb = parent::createListQueryBuilder($entityClass, $sortDirection, $sortField, $dqlFilter)
             ->leftJoin(OrderClose::class, 'closed', Join::WITH, 'closed.order = entity')
-            ->leftJoin(CreatedBy::class, 'closedBy', Join::WITH, 'closedBy.id = closed.id')
         ;
 
         $customerId = $this->getIdentifierOrNull(OperandId::class);
@@ -530,7 +528,7 @@ final class OrderController extends AbstractController
             $qb->where(
                 $qb->expr()->orX(
                     $qb->expr()->notIn('entity.status', ':closedStatuses'),
-                    $qb->expr()->eq('DATE(closedBy.createdAt)', ':today'),
+                    $qb->expr()->eq('DATE(entity.createdAt)', ':today'),
                 ),
             )
                 ->setParameter('closedStatuses', [OrderStatus::closed(), OrderStatus::cancelled()])
@@ -560,7 +558,6 @@ final class OrderController extends AbstractController
             ->leftJoin(CustomerView::class, 'customer', Join::WITH, 'customer.id = o.customerId')
             ->leftJoin(Model::class, 'carModel', Join::WITH, 'carModel.id = car.vehicleId')
             ->leftJoin(Manufacturer::class, 'manufacturer', Join::WITH, 'manufacturer.id = carModel.manufacturerId')
-            ->leftJoin(CreatedBy::class, 'created', Join::WITH, 'created.id = o.id')
         ;
 
         foreach (explode(' ', $searchQuery) as $key => $item) {
@@ -583,7 +580,7 @@ final class OrderController extends AbstractController
         }
 
         return $qb
-            ->orderBy('created.createdAt', 'DESC')
+            ->orderBy('o.createdAt', 'DESC')
             ->addOrderBy('o.id', 'DESC')
         ;
     }

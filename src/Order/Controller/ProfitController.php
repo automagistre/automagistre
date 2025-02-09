@@ -56,7 +56,7 @@ final class ProfitController extends AbstractController
         }
 
         $sql = '
-            SELECT DATE(order_close_by.created_at) AS closed_at,
+            SELECT DATE(order_close.created_at) AS closed_at,
                o.id,
                o.number,
                o.customer_id,
@@ -92,28 +92,25 @@ final class ProfitController extends AbstractController
                                  FROM income_part ip
                                         JOIN income i ON ip.income_id = i.id
                                         JOIN income_accrue ia ON i.id = ia.income_id
-                                        JOIN created_by iacb ON iacb.id = ia.id
-                                 WHERE iacb.created_at < o2closed.created_at
+                                 WHERE ia.created_at < order_close.created_at
                                    AND ip.part_id = oip.part_id
-                                 ORDER BY iacb.created_at DESC
+                                 ORDER BY ia.created_at DESC
                                  LIMIT 1
                                )                   AS price,
                                order_item.order_id AS order_id
                         FROM order_item_part oip
                                JOIN order_item ON oip.id = order_item.id
                                JOIN order_close ON order_close.order_id = order_item.order_id
-                               JOIN created_by o2closed ON o2closed.id = order_close.id
                       ) sub
                  WHERE sub.order_id = o.id
                ) AS part_cost
             FROM orders o
             JOIN order_close ON o.id = order_close.order_id
             JOIN order_deal ON order_close.id = order_deal.id
-            JOIN created_by order_close_by ON order_close_by.id = order_close.id
-            WHERE order_close_by.created_at BETWEEN :start AND :end
+            WHERE order_close.created_at BETWEEN :start AND :end
                 AND o.tenant_id = :tenant
-            GROUP BY o.id, order_close_by.created_at
-            ORDER BY order_close_by.created_at DESC
+            GROUP BY o.id, order_close.created_at
+            ORDER BY order_close.created_at DESC
         ';
 
         $conn = $registry->manager(Order::class)->getConnection();

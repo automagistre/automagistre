@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Appeal\Entity;
 
+use App\Keycloak\Entity\UserId;
 use App\Appeal\Event\AppealCreated;
 use App\MC\Entity\McEquipmentId;
 use App\MC\Entity\McWorkId;
@@ -77,6 +78,16 @@ class Calculator extends TenantEntity implements ContainsRecordedMessages
      * @ORM\Column(type="appeal_calculator_work")
      */
     public CalculatorWorkCollection $works;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         AppealId $id,

@@ -12,6 +12,7 @@ use App\Review\Event\ReviewReceived;
 use App\Tenant\Entity\TenantEntity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use App\Keycloak\Entity\UserId;
 
 /**
  * @ORM\Entity
@@ -65,6 +66,16 @@ class Review extends TenantEntity implements ContainsRecordedMessages
      * @ORM\Column(type="json")
      */
     public array $raw;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(
         ReviewId $id,

@@ -194,7 +194,7 @@
 
                     <div class="col-sm-10">
                         <div class="form-control">
-                            {{ created_by_view(order|toUuid) }}
+                            {{ created_by_view(order) }}
                         </div>
                     </div>
                 </div>
@@ -207,7 +207,7 @@
 
                         <div class="col-sm-10">
                             <div class="form-control">
-                                {{ created_by_view(order.getClose|toUuid) }}
+                                {{ created_by_view(order.getClose) }}
                             </div>
                         </div>
                     </div>

@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Money\Money;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use App\Keycloak\Entity\UserId;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity(readOnly=true)
@@ -35,6 +37,16 @@ class IncomeAccrue extends TenantEntity implements ContainsRecordedMessages
      * @ORM\Embedded(class=Money::class)
      */
     public Money $amount;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
+
+    /**
+     * @ORM\Column(type="datetimetz_immutable")
+     */
+    public DateTimeImmutable $createdAt;
 
     public function __construct(Income $income, Money $amount)
     {
