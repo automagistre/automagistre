@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Storage\Entity;
 
+use App\Keycloak\Entity\UserId;
 use App\MessageBus\ContainsRecordedMessages;
 use App\MessageBus\PrivateMessageRecorderCapabilities;
 use App\Part\Event\PartAccrued;
@@ -48,6 +49,11 @@ class Motion extends TenantEntity implements ContainsRecordedMessages
      * @ORM\Column(type="text", length=65535, nullable=true)
      */
     private ?string $description;
+
+    /**
+     * @ORM\Column
+     */
+    public UserId $createdBy;
 
     /**
      * @ORM\Column(type="datetimetz_immutable")
