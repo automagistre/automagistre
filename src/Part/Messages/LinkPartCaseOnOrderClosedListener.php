@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Part\Messages;
 
+use App\Costil;
 use App\Car\Entity\Car;
 use App\Doctrine\Registry;
 use App\MessageBus\MessageHandler;
