@@ -48,8 +48,8 @@ final class CreatedByExtension extends AbstractExtension
             ),
             new TwigFunction(
                 'created_at',
-                function (UuidInterface $uuid): DateTimeImmutable {
-                    return $this->registry->get(CreatedBy::class, $uuid)->createdAt;
+                function (mixed $entity): DateTimeImmutable {
+                    return $entity->createdAt;
                 },
             ),
         ];
