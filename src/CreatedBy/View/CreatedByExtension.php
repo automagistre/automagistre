@@ -7,6 +7,7 @@ namespace App\CreatedBy\View;
 use App\CreatedBy\Entity\CreatedBy;
 use App\Doctrine\Registry;
 use DateTimeImmutable;
+use Psr\Cache\CacheItemInterface;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Twig\Environment;
@@ -33,13 +34,20 @@ final class CreatedByExtension extends AbstractExtension
             new TwigFunction(
                 'created_by_view',
                 function (Environment $twig, mixed $entity, array $options = []): string {
-                    return $twig->render('easy_admin/created_by/created_by_view.html.twig', [
-                        'value' => [
-                            'at' => $entity->createdAt,
-                            'by' => $entity->createdBy,
-                        ],
-                        'withUser' => $options['withUser'] ?? true,
-                    ]);
+                    $key = sprintf('created_by_view.%s.%s', $entity->toId()->toString(), http_build_query($options));
+
+                    return $this->cache->get(
+                        $key,
+                        function (CacheItemInterface $item) use ($twig, $entity, $options): string {
+                            return $twig->render('easy_admin/created_by/created_by_view.html.twig', [
+                                'value' => [
+                                    'at' => $entity->createdAt,
+                                    'by' => $entity->createdBy,
+                                ],
+                                'withUser' => $options['withUser'] ?? true,
+                            ]);
+                        },
+                    );
                 },
                 [
                     'needs_environment' => true,
