@@ -81,8 +81,22 @@ AS
 $$
 BEGIN
     IF (tg_op = 'INSERT') THEN
-        PERFORM public.part_view_initial(new.id);
+        PERFORM public.part_view_initial(new);
 
+        UPDATE public.part_view AS p
+        SET manufacturer_id             = new.manufacturer_id,
+            manufacturer_name           = m.name,
+            manufacturer_localized_name = m.localized_name,
+            name                        = new.name,
+            number                      = new.number,
+            is_universal                = new.universal,
+            unit                        = new.unit,
+            warehouse_id                = new.warehouse_id
+        FROM public.manufacturer m
+        WHERE p.id = new.id
+          AND m.id = new.manufacturer_id;
+
+        PERFORM public.part_view_search_update(new.id);
     ELSEIF (tg_op = 'UPDATE') THEN
         UPDATE public.part_view
         SET manufacturer_id = new.manufacturer_id,
