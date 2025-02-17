@@ -549,16 +549,14 @@ BEGIN
                        part_supply.tenant_id,
                        part_supply.supplier_id,
                        SUM(part_supply.quantity)  AS quantity,
-                       MAX(created_by.created_at) AS updated_at
-                FROM (public.part_supply
-                    LEFT JOIN public.created_by
-                      ON ((created_by.id = part_supply.id)))
+                       MAX(part_supply.created_at) AS updated_at
+                FROM public.part_supply
                 GROUP BY part_supply.part_id,
                          part_supply.tenant_id,
                          part_supply.supplier_id
                 HAVING (SUM(part_supply.quantity) <> 0)) sub
           GROUP BY sub.part_id, sub.tenant_id) sub
-    WHERE part_view.id = sub.part_id
+    WHERE part_view.tenant_id = sub.tenant_id
       AND part_view.id = sub.part_id;
 END ;
 $$;
