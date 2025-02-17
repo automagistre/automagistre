@@ -532,7 +532,7 @@ EXECUTE PROCEDURE public.part_view_part_required_availability_sync_trigger();
 
 --- Sync part_supply
 
-CREATE FUNCTION public.part_view_part_supply_sync() RETURNS void
+CREATE OR REPLACE FUNCTION public.part_view_part_supply_sync(_part_id uuid, _tenant_id uuid) RETURNS void
     LANGUAGE plpgsql AS
 $$
 BEGIN
@@ -540,40 +540,48 @@ BEGIN
     SET supplies          = COALESCE(sub.json, '[]'::json),
         supplies_quantity = COALESCE(sub.quantity, (0)::numeric)
     FROM (SELECT JSON_AGG(JSON_BUILD_OBJECT(
-            'supplier_id', sub.supplier_id, 'quantity', sub.quantity, 'updatedAt',
-            sub.updated_at))       AS json,
-                 sub.tenant_id,
-                 sub.part_id,
+            'supplier_id', sub.supplier_id,
+            'quantity', sub.quantity,
+            'updatedAt', sub.updated_at
+                          ))       AS json,
                  SUM(sub.quantity) AS quantity
-          FROM (SELECT part_supply.part_id,
-                       part_supply.tenant_id,
-                       part_supply.supplier_id,
-                       SUM(part_supply.quantity)  AS quantity,
+          FROM (SELECT part_supply.supplier_id,
+                       SUM(part_supply.quantity)   AS quantity,
                        MAX(part_supply.created_at) AS updated_at
                 FROM public.part_supply
-                GROUP BY part_supply.part_id,
-                         part_supply.tenant_id,
-                         part_supply.supplier_id
-                HAVING (SUM(part_supply.quantity) <> 0)) sub
-          GROUP BY sub.part_id, sub.tenant_id) sub
-    WHERE part_view.tenant_id = sub.tenant_id
-      AND part_view.id = sub.part_id;
+                WHERE part_supply.part_id = _part_id
+                  AND part_supply.tenant_id = _tenant_id
+                GROUP BY part_supply.supplier_id
+                HAVING SUM(part_supply.quantity) > 0) sub) sub
+    WHERE part_view.tenant_id = _tenant_id
+      AND part_view.id = _part_id;
 END ;
 $$;
 
-CREATE FUNCTION public.part_view_part_supply_sync_trigger() RETURNS trigger
+CREATE OR REPLACE FUNCTION public.part_view_part_supply_sync_trigger() RETURNS trigger
     LANGUAGE plpgsql
 AS
 $$
+DECLARE
+    _part_id   uuid;
+    _tenant_id uuid;
 BEGIN
-    PERFORM public.part_view_part_supply_sync();
+    IF (tg_op = 'INSERT') OR (tg_op = 'UPDATE') THEN
+        _part_id = new.part_id;
+        _tenant_id = new.tenant_id;
+    ELSEIF (tg_op = 'DELETE') THEN
+        _part_id = old.part_id;
+        _tenant_id = old.tenant_id;
+    END IF;
+
+    PERFORM public.part_view_part_supply_sync(_part_id, _tenant_id);
 
     RETURN new;
 END;
 $$;
 
 CREATE TRIGGER part_view_part_supply_sync
-    AFTER INSERT OR UPDATE OF quantity
+    AFTER INSERT OR UPDATE OF quantity OR DELETE
     ON public.part_supply
     FOR EACH ROW
 EXECUTE PROCEDURE public.part_view_part_supply_sync_trigger();
