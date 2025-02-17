@@ -396,33 +396,15 @@ EXECUTE PROCEDURE public.part_view_part_price_sync_trigger();
 
 --- Sync discount
 
-CREATE FUNCTION public.part_view_part_discount_sync() RETURNS void
-    LANGUAGE plpgsql AS
-$$
-BEGIN
-    UPDATE public.part_view
-    SET discount = COALESCE(sub.discount_amount, (0)::bigint)
-    FROM (SELECT ROW_NUMBER()
-                 OVER (PARTITION BY pd.part_id, pd.tenant_id ORDER BY pd.id DESC) AS rownum,
-                 pd.id,
-                 pd.part_id,
-                 pd.since,
-                 pd.tenant_id,
-                 pd.discount_amount,
-                 pd.discount_currency_code
-          FROM public.part_discount pd) sub
-    WHERE part_view.id = sub.part_id
-      AND sub.rownum = 1;
-
-END ;
-$$;
-
-CREATE FUNCTION public.part_view_part_discount_sync_trigger() RETURNS trigger
+CREATE OR REPLACE FUNCTION public.part_view_part_discount_sync_trigger() RETURNS trigger
     LANGUAGE plpgsql
 AS
 $$
 BEGIN
-    PERFORM public.part_view_part_discount_sync();
+    UPDATE public.part_view
+    SET discount = new.discount_amount
+    WHERE id = new.part_id
+      AND tenant_id = new.tenant_id;
 
     RETURN new;
 END;
