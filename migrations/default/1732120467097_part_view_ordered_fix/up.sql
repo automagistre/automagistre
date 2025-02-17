@@ -68,7 +68,6 @@ BEGIN
         _order_id = old.order_id;
     END IF;
 
-    RAISE WARNING '% %', _order_id, old;
     PERFORM public.part_view_order_item_part_sync(_order_id);
 
     RETURN NULL; -- возвращаемое значение для триггера AFTER игнорируется
