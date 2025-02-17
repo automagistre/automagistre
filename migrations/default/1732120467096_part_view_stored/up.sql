@@ -374,39 +374,22 @@ EXECUTE PROCEDURE public.note_part_view_sync_trigger();
 
 --- Sync price
 
-CREATE FUNCTION public.part_view_part_price_sync() RETURNS void
-    LANGUAGE plpgsql AS
-$$
-BEGIN
-    UPDATE public.part_view
-    SET price = COALESCE(sub.price_amount, (0)::bigint)
-    FROM (SELECT ROW_NUMBER()
-                 OVER (PARTITION BY pp.part_id, pp.tenant_id ORDER BY pp.id DESC) AS rownum,
-                 pp.id,
-                 pp.part_id,
-                 pp.since,
-                 pp.tenant_id,
-                 pp.price_amount,
-                 pp.price_currency_code
-          FROM public.part_price pp) sub
-    WHERE part_view.id = sub.part_id
-      AND sub.rownum = 1;
-END ;
-$$;
-
-CREATE FUNCTION public.part_view_part_price_sync_trigger() RETURNS trigger
+CREATE OR REPLACE FUNCTION public.part_view_part_price_sync_trigger() RETURNS trigger
     LANGUAGE plpgsql
 AS
 $$
 BEGIN
-    PERFORM public.part_view_part_price_sync();
+    UPDATE public.part_view
+    SET price = new.price_amount
+    WHERE id = new.part_id
+      AND tenant_id = new.tenant_id;
 
     RETURN new;
 END;
 $$;
 
 CREATE TRIGGER part_view_part_price_sync
-    AFTER INSERT OR UPDATE
+    AFTER INSERT
     ON public.part_price
     FOR EACH ROW
 EXECUTE PROCEDURE public.part_view_part_price_sync_trigger();
