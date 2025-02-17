@@ -459,32 +459,16 @@ EXECUTE PROCEDURE public.part_view_income_part_sync_trigger();
 
 --- Sync part_required_availability
 
-CREATE FUNCTION public.part_view_part_required_availability_sync() RETURNS void
-    LANGUAGE plpgsql AS
-$$
-BEGIN
-    UPDATE public.part_view
-    SET order_from_quantity  = COALESCE(sub.order_from_quantity, 0),
-        order_up_to_quantity = COALESCE(sub.order_up_to_quantity, 0)
-    FROM (SELECT ROW_NUMBER()
-                 OVER (PARTITION BY pra.part_id, pra.tenant_id ORDER BY pra.id DESC) AS rownum,
-                 pra.id,
-                 pra.part_id,
-                 pra.order_from_quantity,
-                 pra.order_up_to_quantity,
-                 pra.tenant_id
-          FROM public.part_required_availability pra) sub
-    WHERE part_view.id = sub.part_id
-      AND sub.rownum = 1;
-END ;
-$$;
-
 CREATE FUNCTION public.part_view_part_required_availability_sync_trigger() RETURNS trigger
     LANGUAGE plpgsql
 AS
 $$
 BEGIN
-    PERFORM public.part_view_part_required_availability_sync();
+    UPDATE public.part_view
+    SET order_from_quantity  = new.order_from_quantity,
+        order_up_to_quantity = new.order_up_to_quantity
+    WHERE id = new.part_id
+      AND tenant_id = new.tenant_id;
 
     RETURN new;
 END;
