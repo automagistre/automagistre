@@ -434,7 +434,8 @@ BEGIN
                  income_part.price_amount,
                  income_part.price_currency_code
           FROM public.income_part) sub
-    WHERE part_view.id = sub.part_id
+    WHERE part_view.tenant_id = sub.tenant_id
+      AND part_view.id = sub.part_id
       AND sub.rownum = 1;
 END ;
 $$;
