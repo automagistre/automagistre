@@ -82,7 +82,10 @@ CREATE OR REPLACE FUNCTION public.part_view_order_close_sync_trigger() RETURNS t
 AS
 $$
 BEGIN
-    PERFORM public.part_view_order_item_part_sync(new.order_id);
+    PERFORM public.part_view_order_item_part_sync(oip.part_id, new.tenant_id)
+    FROM public.order_item_part oip
+    WHERE oip.order_id =
+          new.order_id;
 
     RETURN NULL; -- возвращаемое значение для триггера AFTER игнорируется
 END;
