@@ -29,28 +29,21 @@ EXECUTE PROCEDURE public.order_item_part_order_id_sync_trigger();
 
 --- update by order_id
 
-DROP FUNCTION public.part_view_order_item_part_sync();
-
-CREATE FUNCTION public.part_view_order_item_part_sync(_order_id uuid) RETURNS void
+CREATE FUNCTION public.part_view_order_item_part_sync(_part_id uuid, _tenant_id uuid) RETURNS void
     LANGUAGE plpgsql AS
 $$
 BEGIN
     UPDATE public.part_view
     SET ordered = COALESCE(sub.quantity, (0)::bigint)
-    FROM (SELECT order_item_part.part_id,
-                 order_item.tenant_id,
-                 CASE
-                     WHEN order_close.id IS NULL THEN SUM(order_item_part.quantity)
-                     ELSE 0
-                     END AS quantity
-          FROM ((public.order_item_part JOIN public.order_item
-                 ON ((order_item.id = order_item_part.id)))
-              LEFT JOIN public.order_close
-                ON ((order_item.order_id = order_close.order_id)))
-          WHERE order_item.order_id = _order_id
-          GROUP BY order_item_part.part_id, order_item.tenant_id, order_close.id) sub
-    WHERE part_view.id = sub.part_id
-      AND part_view.tenant_id = sub.tenant_id;
+    FROM (SELECT SUM(oip.quantity) AS quantity
+          FROM order_item_part oip
+                   JOIN order_item oi ON oip.id = oi.id
+                   LEFT JOIN order_close od ON oi.order_id = od.order_id
+          WHERE oip.part_id = _part_id
+            AND oi.tenant_id = _tenant_id
+            AND od.id IS NULL) sub
+    WHERE part_view.id = _part_id
+      AND part_view.tenant_id = _tenant_id;
 END ;
 $$;
 
@@ -59,21 +52,23 @@ CREATE OR REPLACE FUNCTION public.part_view_order_item_part_sync_trigger() RETUR
 AS
 $$
 DECLARE
-    _order_id uuid;
+    _part_id   uuid;
+    _tenant_id uuid;
 BEGIN
     IF (tg_op = 'INSERT') OR (tg_op = 'UPDATE') THEN
-        SELECT order_id INTO _order_id FROM order_item WHERE id = new.id;
+        _part_id = new.part_id;
+        SELECT tenant_id INTO _tenant_id FROM orders WHERE id = new.order_id;
     ELSEIF (tg_op = 'DELETE') THEN
-        _order_id = old.order_id;
+        _part_id = old.part_id;
+        SELECT tenant_id INTO _tenant_id FROM orders WHERE id = old.order_id;
     END IF;
 
-    PERFORM public.part_view_order_item_part_sync(_order_id);
+    PERFORM public.part_view_order_item_part_sync(_part_id, _tenant_id);
 
     RETURN NULL; -- возвращаемое значение для триггера AFTER игнорируется
 END;
 $$;
 
-DROP TRIGGER part_view_order_item_part_sync ON public.order_item_part;
 CREATE TRIGGER part_view_order_item_part_sync
     AFTER INSERT OR UPDATE OF quantity OR DELETE
     ON public.order_item_part
