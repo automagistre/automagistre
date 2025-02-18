@@ -105,6 +105,10 @@ function registerWidgetButtons() {
 
 function doubleSubmitProblem() {
   document.querySelectorAll('form').forEach((form) => {
+    if (form.classList.contains('is-listening')) {
+      return
+    }
+
     form.addEventListener('submit', (e) => {
       if (form.classList.contains('is-submitting')) {
         e.preventDefault();
@@ -115,6 +119,8 @@ function doubleSubmitProblem() {
 
       form.classList.add('is-submitting');
     });
+
+    form.classList.add('is-listening');
   });
 }
 
