@@ -13,17 +13,16 @@ CREATE OR REPLACE FUNCTION public.order_item_part_order_id_sync_trigger() RETURN
 AS
 $$
 BEGIN
-    UPDATE public.order_item_part
-    SET order_id = order_item.order_id
-    FROM order_item
-    WHERE order_item.id = new.id;
+    new.order_id = (SELECT order_item.order_id
+                    FROM order_item
+                    WHERE order_item.id = new.id);
 
-    RETURN NULL; -- возвращаемое значение для триггера AFTER игнорируется
+    RETURN new;
 END;
 $$;
 
 CREATE TRIGGER order_item_part_order_id_sync_trigger
-    AFTER INSERT
+    BEFORE INSERT
     ON public.order_item_part
     FOR EACH ROW
 EXECUTE PROCEDURE public.order_item_part_order_id_sync_trigger();
