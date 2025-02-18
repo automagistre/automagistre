@@ -56,17 +56,21 @@ final class TelegramNotifyOfNewReview implements MessageHandler
 
         $markdown->p(sprintf('Оценка: %s', $review->rating->toId()));
 
-        $this->httpClient->request(
-            'POST',
-            sprintf('https://api.telegram.org/bot%s/sendMessage', $this->telegramBotToken),
-            [
-                'json' => [
-                    'chat_id' => $telegramChannel,
-                    'disable_web_page_preview' => 1,
-                    'parse_mode' => 'Markdown',
-                    'text' => $markdown->getMarkdown(),
+        try {
+            $this->httpClient->request(
+                'POST',
+                sprintf('https://api.telegram.org/bot%s/sendMessage', $this->telegramBotToken),
+                [
+                    'json' => [
+                        'chat_id' => $telegramChannel,
+                        'disable_web_page_preview' => 1,
+                        'parse_mode' => 'Markdown',
+                        'text' => $markdown->getMarkdown(),
+                    ],
                 ],
-            ],
-        );
+            );
+        } catch (Throwable $e) {
+            // skip
+        }
     }
 }
