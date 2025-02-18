@@ -124,6 +124,7 @@ services:
       - /nsqd
       - -data-path=/data
       - -max-heartbeat-interval=2m
+      - -msg-timeout=2m
     volumes:
       - type: bind
         source: ../../data/automagistre/nsq
