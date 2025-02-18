@@ -51,7 +51,7 @@ easy_admin:
             js:
                 - 'assets/js/collection-autocomplete.js'
                 - 'https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js'
-                - 'assets/js/sto_v3.js?hash=v1'
+                - 'assets/js/sto_v3.js?hash=17fee2f7-b21b-4cd4-aac4-36d293ef37a4'
         menu:
             - { entity: 'Appeal', label: 'Заявки', icon: 'fire' }
             - { label: 'Заказы' }
