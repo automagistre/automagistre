@@ -123,6 +123,7 @@ services:
     command:
       - /nsqd
       - -data-path=/data
+      - -max-heartbeat-interval 2m
     volumes:
       - type: bind
         source: ../../data/automagistre/nsq
