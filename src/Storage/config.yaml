@@ -8,6 +8,7 @@ easy_admin:
                 list: 'easy_admin/motion/list.html.twig'
             list:
                 title: 'Движения по складу'
+                sort: 'createdAt'
                 max_results: 100
                 fields:
                     - { property: 'part', label: 'Наименование', template: 'easy_admin/storage/field_part.html.twig', stock: true }
