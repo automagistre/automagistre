@@ -12,6 +12,7 @@ use App\Tenant\State;
 use Premier\MarkdownBuilder\Markdown;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function sprintf;
+use Throwable;
 
 final class TelegramNotifyOfNewReview implements MessageHandler
 {
