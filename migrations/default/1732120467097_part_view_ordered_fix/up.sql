@@ -97,7 +97,51 @@ CREATE TRIGGER part_view_order_close_sync_trigger
     FOR EACH ROW
 EXECUTE PROCEDURE public.part_view_order_close_sync_trigger();
 
--- Fix old data on closed orders
+--- Sync stock
 
-SELECT public.part_view_order_item_part_sync(order_id)
-FROM public.order_close;
+DROP FUNCTION public.part_view_motion_sync();
+CREATE FUNCTION public.part_view_motion_sync(_part_id uuid, _tenant_id uuid) RETURNS void
+    LANGUAGE plpgsql AS
+$$
+BEGIN
+    WITH sum AS (SELECT SUM(quantity) AS quantity
+                 FROM public.motion
+                 WHERE part_id = _part_id
+                   AND tenant_id = _tenant_id
+                 GROUP BY part_id)
+    UPDATE public.part_view pv
+    SET quantity = sm.quantity
+    FROM sum sm
+    WHERE pv.id = _part_id
+      AND pv.tenant_id = _tenant_id;
+END ;
+$$;
+
+CREATE OR REPLACE FUNCTION public.part_view_motion_sync_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    _part_id   uuid;
+    _tenant_id uuid;
+BEGIN
+    IF (tg_op = 'INSERT') OR (tg_op = 'UPDATE') THEN
+        _part_id = new.part_id;
+        _tenant_id = new.tenant_id;
+    ELSEIF (tg_op = 'DELETE') THEN
+        _part_id = old.part_id;
+        _tenant_id = old.tenant_id;
+    END IF;
+
+    PERFORM public.part_view_motion_sync(_part_id, _tenant_id);
+
+    RETURN new;
+END;
+$$;
+
+DROP TRIGGER motion_part_view_sync ON public.motion;
+CREATE TRIGGER motion_part_view_sync
+    AFTER INSERT OR UPDATE OR DELETE
+    ON public.motion
+    FOR EACH ROW
+EXECUTE PROCEDURE public.part_view_motion_sync_trigger();
