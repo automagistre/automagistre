@@ -195,3 +195,24 @@ CREATE TRIGGER part_view_reservation_sync
     ON public.reservation
     FOR EACH ROW
 EXECUTE PROCEDURE public.part_view_reservation_sync_trigger();
+
+--- Sync income
+
+DROP FUNCTION public.part_view_income_part_sync();
+CREATE OR REPLACE FUNCTION public.part_view_income_part_sync_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    UPDATE public.part_view SET income = new.price_amount WHERE id = new.part_id AND tenant_id = new.tenant_id;
+
+    RETURN NULL; -- возвращаемое значение для триггера AFTER игнорируется
+END;
+$$;
+
+DROP TRIGGER part_view_income_part_sync ON public.income_part;
+CREATE TRIGGER part_view_income_part_sync
+    AFTER INSERT OR UPDATE OF price_amount
+    ON public.income_part
+    FOR EACH ROW
+EXECUTE PROCEDURE public.part_view_income_part_sync_trigger();
