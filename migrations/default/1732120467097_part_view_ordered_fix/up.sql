@@ -135,7 +135,7 @@ BEGIN
 
     PERFORM public.part_view_motion_sync(_part_id, _tenant_id);
 
-    RETURN new;
+    RETURN NULL; -- возвращаемое значение для триггера AFTER игнорируется
 END;
 $$;
 
@@ -145,3 +145,53 @@ CREATE TRIGGER motion_part_view_sync
     ON public.motion
     FOR EACH ROW
 EXECUTE PROCEDURE public.part_view_motion_sync_trigger();
+
+--- Sync reserved
+
+DROP FUNCTION public.part_view_reservation_sync();
+CREATE FUNCTION public.part_view_reservation_sync(_part_id uuid, _tenant_id uuid) RETURNS void
+    LANGUAGE plpgsql AS
+$$
+BEGIN
+    WITH sum AS (SELECT SUM(reservation.quantity) AS quantity
+                 FROM public.reservation
+                          JOIN order_item_part oip ON oip.id = reservation.order_item_part_id
+                 WHERE oip.part_id = _part_id
+                   AND reservation.tenant_id = _tenant_id
+                 GROUP BY oip.part_id)
+    UPDATE public.part_view
+    SET reserved = sum.quantity
+    FROM sum
+    WHERE part_view.id = _part_id
+      AND part_view.tenant_id = _tenant_id;
+END ;
+$$;
+
+CREATE OR REPLACE FUNCTION public.part_view_reservation_sync_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE
+    _part_id   uuid;
+    _tenant_id uuid;
+BEGIN
+    IF (tg_op = 'INSERT') OR (tg_op = 'UPDATE') THEN
+        SELECT part_id INTO _part_id FROM order_item_part oip WHERE oip.id = new.order_item_part_id;
+        _tenant_id = new.tenant_id;
+    ELSEIF (tg_op = 'DELETE') THEN
+        SELECT part_id INTO _part_id FROM order_item_part oip WHERE oip.id = old.order_item_part_id;
+        _tenant_id = old.tenant_id;
+    END IF;
+
+    PERFORM public.part_view_reservation_sync(_part_id, _tenant_id);
+
+    RETURN NULL; -- возвращаемое значение для триггера AFTER игнорируется
+END;
+$$;
+
+DROP TRIGGER part_view_reservation_sync ON public.reservation;
+CREATE TRIGGER part_view_reservation_sync
+    AFTER INSERT OR UPDATE OR DELETE
+    ON public.reservation
+    FOR EACH ROW
+EXECUTE PROCEDURE public.part_view_reservation_sync_trigger();
