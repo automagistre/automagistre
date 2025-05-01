@@ -40,6 +40,11 @@ class NoteView extends TenantEntity
     public string $text;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    public string $isPublic;
+
+    /**
      * @ORM\Embedded(class=Blamable::class)
      */
     public Blamable $created;

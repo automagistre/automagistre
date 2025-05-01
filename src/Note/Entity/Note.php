@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Note\Entity;
 
+use App\Keycloak\Entity\UserId;
 use App\Note\Enum\NoteType;
 use App\Tenant\Entity\TenantEntity;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use App\Keycloak\Entity\UserId;
-use DateTimeImmutable;
 
 /**
  * @ORM\Entity
@@ -39,6 +39,11 @@ class Note extends TenantEntity
     public string $text;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    public bool $isPublic;
+
+    /**
      * @ORM\OneToOne(targetEntity=NoteDelete::class, mappedBy="note", cascade={"persist"})
      */
     private ?NoteDelete $delete = null;
@@ -53,12 +58,13 @@ class Note extends TenantEntity
      */
     public DateTimeImmutable $createdAt;
 
-    public function __construct(UuidInterface $subject, NoteType $type, string $text)
+    public function __construct(UuidInterface $subject, NoteType $type, string $text, bool $isPublic)
     {
         $this->id = Uuid::uuid6();
         $this->subject = $subject;
         $this->type = $type;
         $this->text = $text;
+        $this->isPublic = $isPublic;
     }
 
     public function delete(string $description): void

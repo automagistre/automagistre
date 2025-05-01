@@ -345,6 +345,7 @@
     <div class="form-group {% if not valid %}has-error{% endif %} field-{{ block_prefixes|slice(-2)|first }}">
         {{- form_widget(form) -}}
         {{- form_errors(form) -}}
+        {{- form_help(form) -}}
     </div>
 {%- endblock checkbox_row %}
 

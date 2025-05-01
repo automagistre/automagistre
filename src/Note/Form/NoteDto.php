@@ -25,4 +25,11 @@ final class NoteDto
      * @Assert\NotBlank
      */
     public $text;
+
+    /**
+     * @var bool
+     *
+     * @Assert\NotBlank
+     */
+    public $isPublic;
 }

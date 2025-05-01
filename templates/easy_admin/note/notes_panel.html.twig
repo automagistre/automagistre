@@ -15,6 +15,7 @@
                     <tr>
                         <th>Тип</th>
                         <th>Текст</th>
+                        <th>Публичная</th>
                         <th>Создано</th>
                         <td>Действия</td>
                     </tr>
@@ -25,6 +26,7 @@
                         <tr>
                             <td>{{ note.type.toName }}</td>
                             <td>{{ note.text }}</td>
+                            <td>{% include 'easy_admin/default/field_boolean.html.twig' with {'value': note.isPublic} only %}</td>
                             <td>{% include 'easy_admin/created_by/created_by_view.html.twig' with {'value': note.created} only %}</td>
                             <td>
                                 <a href="{{ easyadmin_path('Note', 'remove', {'id': note.id.toString, referer: true}) }}" style="color: red" title="Удалить">

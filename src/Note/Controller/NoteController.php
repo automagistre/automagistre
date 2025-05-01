@@ -10,6 +10,7 @@ use App\Note\Form\NoteDeleteDto;
 use App\Note\Form\NoteDto;
 use App\Note\Form\NoteTypeType;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -38,6 +39,10 @@ final class NoteController extends AbstractController
             ->add('text', TextType::class, [
                 'label' => 'Текст',
             ])
+            ->add('isPublic', CheckboxType::class, [
+                'label' => 'Публичная',
+                'help' => 'Показывать заказчику?',
+            ])
             ->getForm()
             ->handleRequest($this->request)
         ;
@@ -50,6 +55,7 @@ final class NoteController extends AbstractController
                     Uuid::fromString($subject),
                     $dto->type,
                     $dto->text,
+                    $dto->isPublic,
                 ),
             );
 
