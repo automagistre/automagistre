@@ -118,7 +118,8 @@ FROM part
                            income_part.tenant_id,
                            income_part.price_amount,
                            income_part.price_currency_code
-                    FROM income_part) income ON income.part_id = part.id AND income.rownum = 1
+                    FROM income_part) income
+                   ON income.part_id = part.id AND income.rownum = 1 AND income.tenant_id = tenant.id
          LEFT JOIN (SELECT motion.part_id,
                            motion.tenant_id,
                            SUM(motion.quantity) AS quantity
