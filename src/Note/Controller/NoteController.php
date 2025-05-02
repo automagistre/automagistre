@@ -42,6 +42,7 @@ final class NoteController extends AbstractController
             ->add('isPublic', CheckboxType::class, [
                 'label' => 'Публичная',
                 'help' => 'Показывать заказчику?',
+                'required' => false,
             ])
             ->getForm()
             ->handleRequest($this->request)

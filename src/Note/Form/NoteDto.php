@@ -29,7 +29,7 @@ final class NoteDto
     /**
      * @var bool
      *
-     * @Assert\NotBlank
+     * @Assert\Type("bool")
      */
     public $isPublic;
 }
