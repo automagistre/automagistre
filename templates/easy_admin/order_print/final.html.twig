@@ -81,11 +81,25 @@
                     {{ order_table_header() }}
 {% endblock %}
 
-{% block order_last_page_end %}
-                    {{ order_table_total(order, balance) }}
+{% block order_breake_page_with_notes %}
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="page portrait order-fonts js-order-page">
+        <main class="portrait">
+            <div class="main-table">
+{% endblock %}
+
+{% block order_table_end %}
+{{ order_table_total(order, balance) }}
                     {{ order_table_total(order, balance, false, true) }}
                 </div>
             </div>
+{% endblock %}
+
+{% block order_last_page_end %}
+            {{ block('order_notes') }}
         </main>
         {{ block('order_page_footer') }}
     </div>
@@ -121,6 +135,22 @@
     </div>
 {% endblock %}
 
+{% block order_notes %}
+    {% if notes|length %}
+        <div class="order-notes-container">
+            <div class="order-notes-title">Информация по заказу</div>
+            <div class="order-notes">
+                {% for note in notes %}
+                <div class="order-notes__item">
+                    <div class="order-notes__item-content">
+                        <p>{{ note.text }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
 
 {% block content %}
     <div class="page-settings portrait page-order order-fonts">
@@ -159,7 +189,10 @@
                 {{ order_table_item(item) }}
                 {% set row = row + next_block_length %}
             {% endfor %}
-
+            {{ block('order_table_end') }}
+            {% if row > 21 and notes|length %}
+                {{ block('order_breake_page_with_notes') }}
+            {% endif %}
             {{ block('order_last_page_end') }}
         {% endif %}
 

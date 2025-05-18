@@ -2,23 +2,29 @@
   box-sizing: border-box;
 }
 @font-face {
-  font-family: 'Circe';
-  src: url('../fonts/circe/300/circe_light.eot');
-  src: url('../fonts/circe/300/circe_light.eot?#iefix') format('embedded-opentype'), url('../fonts/circe/300/circe_light.woff') format('woff');
+  font-family: "Circe";
+  src: url("../fonts/circe/300/circe_light.eot");
+  src: url("../fonts/circe/300/circe_light.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/circe/300/circe_light.woff") format("woff");
   font-weight: 300;
   font-style: normal;
 }
 @font-face {
-  font-family: 'Circe';
-  src: url('../fonts/circe/400/circe_regular.eot');
-  src: url('../fonts/circe/400/circe_regular.eot?#iefix') format('embedded-opentype'), url('../fonts/circe/400/circe_regular.woff') format('woff');
+  font-family: "Circe";
+  src: url("../fonts/circe/400/circe_regular.eot");
+  src: url("../fonts/circe/400/circe_regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/circe/400/circe_regular.woff") format("woff");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
-  font-family: 'Circe';
-  src: url('../fonts/circe/700/circe_bold.eot');
-  src: url('../fonts/circe/700/circe_bold.eot?#iefix') format('embedded-opentype'), url('../fonts/circe/700/circe_bold.woff') format('woff');
+  font-family: "Circe";
+  src: url("../fonts/circe/700/circe_bold.eot");
+  src: url("../fonts/circe/700/circe_bold.eot?#iefix")
+      format("embedded-opentype"),
+    url("../fonts/circe/700/circe_bold.woff") format("woff");
   font-weight: 700;
   font-style: normal;
 }
@@ -37,7 +43,7 @@
   border-style: solid;
   border-width: 0 0 3px;
   box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
-  color: #FFFFFF;
+  color: #ffffff;
   border-radius: 6px;
   cursor: pointer;
   display: inline-block;
@@ -57,28 +63,28 @@
   text-transform: capitalize;
 }
 .btn.blue {
-  border-color: #326E99;
-  background-color: #3F8ABF;
+  border-color: #326e99;
+  background-color: #3f8abf;
 }
 .btn.blue:hover {
-  background-color: #397CAC;
-  border-color: #326E99;
+  background-color: #397cac;
+  border-color: #326e99;
 }
 .btn.red {
-  background-color: #ED5A5A !important;
-  border-color: #EA4343 !important;
+  background-color: #ed5a5a !important;
+  border-color: #ea4343 !important;
 }
 .btn.red:hover {
-  background: none repeat scroll 0 0 #EB4848 !important;
-  border-color: #E83131 !important;
+  background: none repeat scroll 0 0 #eb4848 !important;
+  border-color: #e83131 !important;
 }
 .btn.green {
-  border-color: #3AC162;
-  background-color: #5FCF80;
+  border-color: #3ac162;
+  background-color: #5fcf80;
 }
 .btn.green:hover {
-  background-color: #4BC970;
-  border-color: #3AC162;
+  background-color: #4bc970;
+  border-color: #3ac162;
 }
 .label--checkbox {
   position: relative;
@@ -89,7 +95,7 @@
 .checkbox {
   position: relative;
   top: rem(-6);
-  margin: 0 1rem 0 0 ;
+  margin: 0 1rem 0 0;
   cursor: pointer;
 }
 .checkbox:before {
@@ -286,11 +292,11 @@
   margin-top: 5mm;
   font-size: 0.8em;
 }
-.upd-contract-info > div:nth-child(3n+2) {
+.upd-contract-info > div:nth-child(3n + 2) {
   border-bottom: 1px solid black;
   padding-left: 1mm;
 }
-.upd-contract-info > div:nth-child(3n+3) {
+.upd-contract-info > div:nth-child(3n + 3) {
   text-align: center;
 }
 .upd-table {
@@ -436,7 +442,7 @@ html {
   margin: 0 auto;
 }
 body {
-  background-color: #EAEAEA;
+  background-color: #eaeaea;
   overflow-y: scroll;
 }
 .content {
@@ -753,7 +759,7 @@ footer {
   position: relative;
 }
 .table__item.cell-check:before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0.45em;
   left: 0.4em;
@@ -915,6 +921,27 @@ footer {
   page-break-inside: avoid;
   page-break-after: auto;
 }
+.order-notes-container {
+  margin-top: 5mm;
+  border-bottom: 1px solid #fa0d1c;
+  margin-bottom: 5mm;
+}
+.order-notes-title {
+  font-size: 1.3em;
+  font-weight: 700;
+  text-align: left;
+  border-bottom: 1px solid #fa0d1c;
+  padding-left: 2mm;
+}
+.order-notes {
+  font-size: 1em;
+  line-height: 0.7em;
+  padding-left: 2mm;
+}
+.order-notes__item:first-letter {
+  text-transform: uppercase;
+}
+
 @media print {
   * {
     -webkit-print-color-adjust: exact;
