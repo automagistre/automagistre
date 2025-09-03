@@ -29,8 +29,8 @@ services:
             context: .
         labels:
             traefik.enable: true
-            traefik.http.routers.nginx.rule: Host(`crm.automagistre.host`)
-            traefik.http.routers.nginx.entrypoints: http
+            traefik.http.routers.nginx.rule: Host(`crm.automagistre.local`)
+            traefik.http.routers.nginx.entrypoints: web 
             traefik.http.services.nginx.loadbalancer.server.port: 80
         environment:
             PHP_FPM_HOST: php-fpm
