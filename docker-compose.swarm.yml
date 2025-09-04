@@ -104,12 +104,12 @@ services:
           - node.hostname == automagistre-stack
       restart_policy:
         condition: on-failure
-        delay: 5s
-        max_attempts: 3
+        delay: 10s
+        max_attempts: 5
         window: 120s
-    environment:
-      NSQ_HOST: automagistre-crm_nsqd
     command: console cron:start --blocking
+    depends_on:
+      - nsqd
     healthcheck:
       disable: true
 
@@ -122,11 +122,11 @@ services:
           - node.hostname == automagistre-stack
       restart_policy:
         condition: on-failure
-        delay: 5s
-        max_attempts: 3
+        delay: 10s
+        max_attempts: 5
         window: 120s
     environment:
-      NSQ_HOST: automagistre-crm_nsqd
+      NSQ_HOST: tasks.nsqd
     command: console messenger:consume async -vv
     depends_on:
       - nsqd
