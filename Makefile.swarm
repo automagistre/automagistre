@@ -1,0 +1,97 @@
+# Makefile для Docker Swarm деплоя
+
+REGISTRY := harbor.automagistre.ru/automagistre/crm
+VERSION ?= $(shell git rev-parse --short HEAD)
+STACK_NAME := automagistre-crm
+
+.PHONY: build push deploy clean
+
+# Сборка образов
+build:
+	@echo "Building images with version: $(VERSION)"
+	docker build --target php -t $(REGISTRY):php-$(VERSION) .
+	docker build --target nginx -t $(REGISTRY):nginx-$(VERSION) .
+	docker tag $(REGISTRY):php-$(VERSION) $(REGISTRY):php-latest
+	docker tag $(REGISTRY):nginx-$(VERSION) $(REGISTRY):nginx-latest
+
+# Отправка в Harbor
+push: build
+	@echo "Pushing images to Harbor..."
+	docker push $(REGISTRY):php-$(VERSION)
+	docker push $(REGISTRY):nginx-$(VERSION)
+	docker push $(REGISTRY):php-latest
+	docker push $(REGISTRY):nginx-latest
+
+# Деплой в Docker Swarm
+deploy: push
+	@echo "Deploying stack $(STACK_NAME) with version $(VERSION)..."
+	@echo "Pulling images on all nodes..."
+	docker service ls --format "table {{.Name}}" | grep $(STACK_NAME) | xargs -I {} docker service update --image $(REGISTRY):php-$(VERSION) --image $(REGISTRY):nginx-$(VERSION) {} 2>/dev/null || true
+	VERSION=$(VERSION) docker stack deploy -c docker-compose.swarm.yml $(STACK_NAME) --with-registry-auth
+
+# Обновление стека
+update: push
+	@echo "Updating stack $(STACK_NAME) with version $(VERSION)..."
+	docker service update --image $(REGISTRY):php-$(VERSION) --with-registry-auth $(STACK_NAME)_php-fpm
+	docker service update --image $(REGISTRY):php-$(VERSION) --with-registry-auth $(STACK_NAME)_cron
+	docker service update --image $(REGISTRY):php-$(VERSION) --with-registry-auth $(STACK_NAME)_messenger
+	docker service update --image $(REGISTRY):nginx-$(VERSION) --with-registry-auth $(STACK_NAME)_nginx
+
+# Удаление стека
+remove:
+	@echo "Removing stack $(STACK_NAME)..."
+	docker stack rm $(STACK_NAME)
+
+# Просмотр статуса
+status:
+	@echo "Stack services status:"
+	docker stack services $(STACK_NAME)
+	@echo ""
+	@echo "Stack processes:"
+	docker stack ps $(STACK_NAME)
+
+# Логи сервисов
+logs-php:
+	docker service logs -f $(STACK_NAME)_php-fpm
+
+logs-nginx:
+	docker service logs -f $(STACK_NAME)_nginx
+
+logs-cron:
+	docker service logs -f $(STACK_NAME)_cron
+
+logs-messenger:
+	docker service logs -f $(STACK_NAME)_messenger
+
+# Очистка локальных образов
+clean:
+	docker image prune -f
+	docker rmi -f $(shell docker images $(REGISTRY) -q) 2>/dev/null || true
+
+# Принудительный pull образов на всех узлах
+force-pull:
+	@echo "Force pulling images on all nodes..."
+	docker service update --image $(REGISTRY):php-$(VERSION) --force $(STACK_NAME)_php-fpm
+	docker service update --image $(REGISTRY):php-$(VERSION) --force $(STACK_NAME)_cron
+	docker service update --image $(REGISTRY):php-$(VERSION) --force $(STACK_NAME)_messenger
+	docker service update --image $(REGISTRY):nginx-$(VERSION) --force $(STACK_NAME)_nginx
+
+# Полная пересборка и деплой
+redeploy: clean deploy
+
+help:
+	@echo "Available targets:"
+	@echo "  build      - Build Docker images"
+	@echo "  push       - Push images to Harbor registry"
+	@echo "  deploy     - Deploy stack to Docker Swarm"
+	@echo "  update     - Update running services with new images"
+	@echo "  remove     - Remove the stack"
+	@echo "  status     - Show stack status"
+	@echo "  logs-*     - Show logs for specific service"
+	@echo "  force-pull - Force pull images on all nodes"
+	@echo "  clean      - Clean local images"
+	@echo "  redeploy   - Clean, build and deploy"
+	@echo ""
+	@echo "Variables:"
+	@echo "  VERSION    - Image version (default: git short hash)"
+	@echo "  REGISTRY   - Docker registry (default: $(REGISTRY))"

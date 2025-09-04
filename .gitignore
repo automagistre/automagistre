@@ -21,3 +21,10 @@
 # Node
 /node_modules
 /public/assets/build
+
+# Docker Swarm migration
+MIGRATION_TO_SWARM.md
+SWARM_QUICK_START.md
+migrate_database.sh
+*.backup.sql
+.env.swarm.production

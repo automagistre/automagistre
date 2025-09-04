@@ -191,6 +191,10 @@ ENV PCOV_ENABLED 1
 
 FROM php-base as php
 
+LABEL org.opencontainers.image.source="https://github.com/automagistre/automagistre"
+LABEL org.opencontainers.image.title="Automagistre CRM PHP"
+LABEL org.opencontainers.image.description="Automagistre CRM PHP-FPM container"
+
 ENV APP_ENV prod
 ENV APP_DEBUG 0
 ENV PHP_OPCACHE_ENABLE 1
@@ -275,6 +279,10 @@ RUN --mount=type=cache,target=/var/cache/apk \
     && apk del .build-deps
 
 FROM nginx-base AS nginx
+
+LABEL org.opencontainers.image.source="https://github.com/automagistre/automagistre"
+LABEL org.opencontainers.image.title="Automagistre CRM Nginx"
+LABEL org.opencontainers.image.description="Automagistre CRM Nginx container"
 
 ENV NGINX_ENTRYPOINT_QUIET_LOGS 1
 ENV PHP_FPM_HOST 127.0.0.1
