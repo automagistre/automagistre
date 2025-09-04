@@ -24,6 +24,22 @@ services:
         delay: 10s
         failure_action: pause
         order: stop-first
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`)"
+        - "traefik.http.routers.automagistre-crm.entrypoints=websecure"
+        - "traefik.http.routers.automagistre-crm.tls=true"
+        - "traefik.http.routers.automagistre-crm.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.automagistre-crm-redirect.rule=Host(`r.automagistre.ru`)"
+        - "traefik.http.routers.automagistre-crm-redirect.entrypoints=websecure"
+        - "traefik.http.routers.automagistre-crm-redirect.tls=true"
+        - "traefik.http.routers.automagistre-crm-redirect.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.automagistre-crm-callback.rule=Host(`callback.automagistre.ru`)"
+        - "traefik.http.routers.automagistre-crm-callback.entrypoints=websecure"
+        - "traefik.http.routers.automagistre-crm-callback.tls=true"
+        - "traefik.http.routers.automagistre-crm-callback.tls.certresolver=letsencrypt"
+        - "traefik.http.services.automagistre-crm.loadbalancer.server.port=80"
+        - "traefik.swarm.network=traefik-public"
     environment:
       PHP_FPM_HOST: automagistre-crm_php-fpm 
     networks:
@@ -31,22 +47,6 @@ services:
       - traefik-public
     depends_on:
       - php-fpm
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`)"
-      - "traefik.http.routers.automagistre-crm.entrypoints=websecure"
-      - "traefik.http.routers.automagistre-crm.tls=true"
-      - "traefik.http.routers.automagistre-crm.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.automagistre-crm-redirect.rule=Host(`r.automagistre.ru`)"
-      - "traefik.http.routers.automagistre-crm-redirect.entrypoints=websecure"
-      - "traefik.http.routers.automagistre-crm-redirect.tls=true"
-      - "traefik.http.routers.automagistre-crm-redirect.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.automagistre-crm-callback.rule=Host(`callback.automagistre.ru`)"
-      - "traefik.http.routers.automagistre-crm-callback.entrypoints=websecure"
-      - "traefik.http.routers.automagistre-crm-callback.tls=true"
-      - "traefik.http.routers.automagistre-crm-callback.tls.certresolver=letsencrypt"
-      - "traefik.http.services.automagistre-crm.loadbalancer.server.port=80"
-      - "traefik.swarm.network=traefik-public"
 
   php-fpm: &php-fpm
     image: harbor.automagistre.ru/automagistre/crm:php-${VERSION:-latest}
@@ -124,6 +124,8 @@ services:
         max_attempts: 3
         window: 120s
     command: console messenger:consume async -vv
+    depends_on:
+      - nsqd
     healthcheck:
       disable: true
 
