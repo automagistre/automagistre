@@ -25,10 +25,12 @@ services:
         failure_action: pause
         order: stop-first
     environment:
-      PHP_FPM_HOST: php-fpm
+      PHP_FPM_HOST: tasks.automagistre-crm_php-fpm
     networks:
       - automagistre-crm
       - traefik-public
+    depends_on:
+      - php-fpm
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`)"
@@ -70,9 +72,7 @@ services:
         failure_action: pause
         order: stop-first
     networks:
-      automagistre-crm:
-        aliases:
-          - php-fpm
+      - automagistre-crm
     environment:
       APP_SECRET: ${APP_SECRET}
       APP_VERSION: ${VERSION:-latest}
