@@ -25,7 +25,7 @@ services:
         failure_action: pause
         order: stop-first
     environment:
-      PHP_FPM_HOST: tasks.php-fpm
+      PHP_FPM_HOST: automagistre-crm_php-fpm 
     networks:
       - automagistre-crm
       - traefik-public
@@ -50,6 +50,7 @@ services:
 
   php-fpm: &php-fpm
     image: harbor.automagistre.ru/automagistre/crm:php-${VERSION:-latest}
+    hostname: php-fpm
     deploy:
       replicas: 3
       placement:
