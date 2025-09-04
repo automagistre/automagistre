@@ -25,7 +25,7 @@ services:
         failure_action: pause
         order: stop-first
     environment:
-      PHP_FPM_HOST: tasks.automagistre-crm_php-fpm
+      PHP_FPM_HOST: automagistre-crm_php-fpm
     networks:
       - automagistre-crm
       - traefik-public
