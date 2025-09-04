@@ -25,7 +25,7 @@ services:
         failure_action: pause
         order: stop-first
     environment:
-      PHP_FPM_HOST: automagistre-crm_php-fpm
+      PHP_FPM_HOST: php-fpm
     networks:
       - automagistre-crm
       - traefik-public
@@ -70,7 +70,9 @@ services:
         failure_action: pause
         order: stop-first
     networks:
-      - automagistre-crm
+      automagistre-crm:
+        aliases:
+          - php-fpm
     environment:
       APP_SECRET: ${APP_SECRET}
       APP_VERSION: ${VERSION:-latest}
