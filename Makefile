@@ -6,7 +6,7 @@ MAKEFLAGS += --no-print-directory
 DEBUG_PREFIX=" [DEBUG] "
 DEBUG_ECHO=$(if $(MAKE_DEBUG),@echo ${DEBUG_PREFIX})
 
-BACKUP_SERVER="s4.automagistre.ru"
+BACKUP_SERVER="192.168.55.80"
 
 COLOR_RESET   = \033[0m
 COLOR_INFO    = \033[32m
@@ -202,14 +202,14 @@ backup: database backup-restore ### Restore local backup then run migrations
 backup-update: backup-fresh backup-download backup ### Backup production database then download and restore it
 backup-latest: backup-download backup ### Download latest backup from server then restore it
 backup-fresh:
-	$(DEBUG_ECHO) @ssh ${BACKUP_SERVER} 'docker exec -i $$(docker ps --filter name=automagistre-postgres_backup-1 -q | head -1) /backup.sh'
-	$(call OK,"Backups creating on ${BACKUP_SERVER}")
+	$(DEBUG_ECHO) @ssh ${BACKUP_SERVER} 'sudo -u postgres pg_dump automagistre_crm | gzip > /tmp/automagistre_crm.sql.gz'
+	$(call OK,"Backup creating on ${BACKUP_SERVER}")
 backup-download:
 	$(DEBUG_ECHO) @mkdir -p var/backups
 	@$(MAKE) do-backup-download
 do-backup-download:
-	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:$$(ssh ${BACKUP_SERVER} ls -t /srv/backups/*automagistre.sql.gz | head -1) $(backup_file)
-	$(call OK,"Backup automagistre.sql.gz downloaded.")
+	$(DEBUG_ECHO) @scp -q -o LogLevel=QUIET ${BACKUP_SERVER}:/tmp/automagistre_crm.sql.gz $(backup_file)
+	$(call OK,"Backup automagistre_crm.sql.gz downloaded.")
 
 drop: drop-connection do-drop ### Drop database
 drop-connection:
@@ -221,7 +221,7 @@ do-drop:
 ###> DATABASE ###
 DB=$(DEBUG_ECHO) @docker compose exec -w /usr/local/app postgres
 
-backup_file = var/backups/automagistre.sql.gz
+backup_file = var/backups/automagistre_crm.sql.gz
 backup-restore:
 ifneq (,$(wildcard $(backup_file)))
 	@$(DB) bash -c "gunzip < $(backup_file) | psql -U db"
