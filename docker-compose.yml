@@ -58,6 +58,24 @@ services:
                 tmpfs:
                     size: 64mb
 
+    nsqd:
+        image: nsqio/nsq:v1.2.0
+        command: /nsqd
+
+    nsq_tail:
+        image: nsqio/nsq:v1.2.0
+        command:
+            - /nsq_tail
+            - -topic=symfony-messenger
+            - -channel=tail
+            - -nsqd-tcp-address=nsqd:4150
+
+    nsqadmin:
+        image: nsqio/nsq:v1.2.0
+        labels:
+            ru.grachevko.dhu: 'nsq.automagistre.local'
+        command: /nsqadmin --nsqd-http-address=nsqd:4151 --http-address=0.0.0.0:80
+
     host.docker.internal:
         image: alpine/socat:1.7.3.4-r0
         entrypoint: sh
