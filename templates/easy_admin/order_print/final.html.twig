@@ -117,9 +117,9 @@
 {% block recommendations_page_breake %}
                 </div>
             </div>
-        </main>
+        </main >
     </div>
-    <div class="page html2pdf__page-break-after js-recommendations-page">
+    <div class="page html2pdf__page-break-after portrait order-fonts js-recommendations-page">
         <main>
             <div>
                 {{ order_info('рекомендации', order, customer, car, requisite) }}
@@ -181,7 +181,7 @@
 
                 {% if page == 1 and row == 1 %}
                     {{ block('order_first_page_begin') }}
-                {% elseif next_block_length + row > 25 %}
+                {% elseif next_block_length + row > 22 %}
                     {{ block('order_breake_page') }}
                     {% set row = 1 %}
                     {% set page = page + 1 %}
