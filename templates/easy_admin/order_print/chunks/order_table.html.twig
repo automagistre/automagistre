@@ -102,7 +102,7 @@
         <div class="table__item cell-subtotal__total right">В т.ч. НДС 5%</div>
         <div class="table__item cell-subtotal__total">
             {{
-                (order.totalForPayment(withBalance ? balance|default(null) : null).multiply(5).divide(100))
+                (order.totalForPayment(withBalance ? balance|default(null) : null).multiply(5).divide(105))
                 |localize_money(true)
                 |number_format(0, '.', ' ')
             }}
