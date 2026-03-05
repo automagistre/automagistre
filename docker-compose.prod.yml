@@ -59,8 +59,9 @@ services:
     command: console cron:start --blocking
     healthcheck:
       disable: true
-    deploy:
-      replicas: 1
+    depends_on:
+      nsqd:
+        condition: service_healthy
 
   messenger:
     <<: *php-fpm
@@ -68,6 +69,9 @@ services:
     healthcheck:
       disable: true
     restart: always
+    depends_on:
+      nsqd:
+        condition: service_healthy
 
   nsqd:
     image: nsqio/nsq:v1.2.1
