@@ -1,139 +1,97 @@
 services:
   nginx:
-    image: automagistre-nginx
-    restart: always
-    build:
-      context: .
-      target: nginx
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`)"
-      - "traefik.http.routers.automagistre-crm.entrypoints=websecure"
-      - "traefik.http.routers.automagistre-crm.tls=true"
-      - "traefik.http.routers.automagistre-crm.tls.certresolver=leresolver"
-      - "traefik.http.routers.automagistre-crm-redirect.rule=Host(`r.automagistre.ru`)"
-      - "traefik.http.routers.automagistre-crm-redirect.entrypoints=websecure"
-      - "traefik.http.routers.automagistre-crm-redirect.tls=true"
-      - "traefik.http.routers.automagistre-crm-redirect.tls.certresolver=leresolver"
-      - "traefik.http.routers.automagistre-crm-callback.rule=Host(`callback.automagistre.ru`)"
-      - "traefik.http.routers.automagistre-crm-callback.entrypoints=websecure"
-      - "traefik.http.routers.automagistre-crm-callback.tls=true"
-      - "traefik.http.routers.automagistre-crm-callback.tls.certresolver=leresolver"
-      - "traefik.http.services.automagistre-crm-callback-service.loadbalancer.server.port=80"
+    image: harbor.automagistre.ru/automagistre/crm:nginx-${VERSION:-latest}
     environment:
       PHP_FPM_HOST: php-fpm
     networks:
-      - default
-      - traefik
+      - automagistre-crm
+      - traefik-public
+    depends_on:
+      - php-fpm
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`)"
+      - "traefik.http.routers.automagistre-crm.entrypoints=websecure"
+      - "traefik.http.routers.automagistre-crm.tls=true"
+      - "traefik.http.routers.automagistre-crm.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.automagistre-crm-redirect.rule=Host(`r.automagistre.ru`)"
+      - "traefik.http.routers.automagistre-crm-redirect.entrypoints=websecure"
+      - "traefik.http.routers.automagistre-crm-redirect.tls=true"
+      - "traefik.http.routers.automagistre-crm-redirect.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.automagistre-crm-callback.rule=Host(`callback.automagistre.ru`)"
+      - "traefik.http.routers.automagistre-crm-callback.entrypoints=websecure"
+      - "traefik.http.routers.automagistre-crm-callback.tls=true"
+      - "traefik.http.routers.automagistre-crm-callback.tls.certresolver=letsencrypt"
+      - "traefik.http.services.automagistre-crm.loadbalancer.server.port=80"
+    restart: always
 
   php-fpm: &php-fpm
-    image: automagistre-php
-    restart: always
-    build:
-      context: .
-      target: php
+    image: harbor.automagistre.ru/automagistre/crm:php-${VERSION:-latest}
+    hostname: php-fpm
     networks:
-      - default
+      - automagistre-crm
     environment:
       APP_SECRET: ${APP_SECRET}
-      APP_VERSION: legacy
-      POSTGRES_DATABASE: ${POSTGRES_DB}
+      APP_VERSION: ${VERSION:-latest}
+      POSTGRES_HOST: ${POSTGRES_HOST:-192.168.55.80}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST:-192.168.55.80}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
       SENTRY_DSN: ${SENTRY_DSN}
       SMSAERO_AUTH: ${SMSAERO_AUTH}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
       GOOGLE_CREDENTIALS_FILE: ${GOOGLE_CREDENTIALS_FILE}
       KEYCLOAK_CLI_CLIENT_SECRET: ${KEYCLOAK_CLI_CLIENT_SECRET}
       KEYCLOAK_CRM_OAUTH_CLIENT_SECRET: ${KEYCLOAK_CRM_OAUTH_CLIENT_SECRET}
-      NSQ_HOST: nsqd.automagistre
+      NSQ_HOST: nsqd
     volumes:
       - /etc/hostname:/etc/hostname:ro
     stop_grace_period: 120s
+    restart: always
 
   cron:
     <<: *php-fpm
     command: console cron:start --blocking
     healthcheck:
       disable: true
+    deploy:
+      replicas: 1
 
   messenger:
     <<: *php-fpm
     command: console messenger:consume async -vv
     healthcheck:
       disable: true
-
-  redis:
-    image: redis:6.2.5-alpine
     restart: always
-    volumes:
-      - type: bind
-        source: ../../data/automagistre/redis/data
-        target: /data
-
-  postgres:
-    image: postgres:14.2-alpine
-    restart: always
-    shm_size: 1gb
-    volumes:
-      - type: bind
-        source: ../../data/automagistre/postgres/data
-        target: /var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    healthcheck:
-      test: pg_isready -U ${POSTGRES_USER}
-      interval: 5s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
-
-  postgres_backup:
-    image: postgres:14.2-alpine
-    restart: always
-    entrypoint: /bin/sh
-    command:
-      - -c
-      - |
-        apk add --no-cache tini gzip \
-        && echo $$'
-        postgres:5432:${POSTGRES_DB}:${POSTGRES_USER}:${POSTGRES_PASSWORD}
-        ' > ~/.pgpass \
-        && chmod 600 ~/.pgpass \
-        && echo $$'#!/bin/bash
-        pg_dump -h postgres -U ${POSTGRES_USER} ${POSTGRES_DB} | gzip > /backups/$$(date +"%Y%m%d_%H%M%S")_automagistre.sql.gz
-        ' > /backup.sh \
-        && chmod +x /backup.sh \
-        && echo $$'
-        10 3 * * * /backup.sh
-        ' | crontab - \
-        && exec tini -- crond -l 0 -f
-    volumes:
-      - ../../backups:/backups
-    deploy:
-      mode: replicated
-    healthcheck:
-      disable: true
 
   nsqd:
     image: nsqio/nsq:v1.2.1
-    restart: always
     command:
       - /nsqd
       - -data-path=/data
       - -max-heartbeat-interval=2m
       - -msg-timeout=2m
+      - -sync-every=2500
+      - -sync-timeout=2s
+    networks:
+      - automagistre-crm
     volumes:
-      - type: bind
-        source: ../../data/automagistre/nsq
-        target: /data
+      - ./data/nsq:/data
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4151/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: always
 
 networks:
-  traefik:
+  traefik-public:
     external: true
-    name: traefik
-  default:
-    name: automagistre
-    attachable: true
+  automagistre-crm:
+    name: automagistre-crm
