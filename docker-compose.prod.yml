@@ -11,7 +11,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-public"
-      - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`)"
+      - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`) && (PathPrefix(`/msk`) || PathPrefix(`/kazan`) || PathPrefix(`/shavlev`) || PathPrefix(`/demo`) || PathPrefix(`/oauth2`) || PathPrefix(`/login`) || PathPrefix(`/logout`) || PathPrefix(`/metrics`) || PathPrefix(`/healthcheck`))"
+      - "traefik.http.routers.automagistre-crm.priority=20"
       - "traefik.http.routers.automagistre-crm.entrypoints=websecure"
       - "traefik.http.routers.automagistre-crm.tls=true"
       - "traefik.http.routers.automagistre-crm.tls.certresolver=letsencrypt"
