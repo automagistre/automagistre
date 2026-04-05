@@ -11,15 +11,28 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-public"
-      - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`) && (PathPrefix(`/msk`) || PathPrefix(`/kazan`) || PathPrefix(`/shavlev`) || PathPrefix(`/demo`) || PathPrefix(`/oauth2`) || PathPrefix(`/login`) || PathPrefix(`/logout`) || PathPrefix(`/metrics`) || PathPrefix(`/healthcheck`))"
-      - "traefik.http.routers.automagistre-crm.priority=20"
+      # API и служебные пути — остаются на старой CRM
+      - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`) && (PathPrefix(`/msk/api`) || PathPrefix(`/kazan/api`) || PathPrefix(`/shavlev/api`) || PathPrefix(`/demo/api`) || PathPrefix(`/oauth2`) || PathPrefix(`/login`) || PathPrefix(`/logout`) || PathPrefix(`/metrics`) || PathPrefix(`/healthcheck`))"
+      - "traefik.http.routers.automagistre-crm.priority=25"
       - "traefik.http.routers.automagistre-crm.entrypoints=websecure"
       - "traefik.http.routers.automagistre-crm.tls=true"
       - "traefik.http.routers.automagistre-crm.tls.certresolver=letsencrypt"
+      # Веб-интерфейс старой CRM — редирект на новый admin
+      - "traefik.http.routers.automagistre-crm-ui-redirect.rule=Host(`crm.automagistre.ru`) && (PathPrefix(`/msk`) || PathPrefix(`/kazan`) || PathPrefix(`/shavlev`) || PathPrefix(`/demo`))"
+      - "traefik.http.routers.automagistre-crm-ui-redirect.priority=20"
+      - "traefik.http.routers.automagistre-crm-ui-redirect.entrypoints=websecure"
+      - "traefik.http.routers.automagistre-crm-ui-redirect.tls=true"
+      - "traefik.http.routers.automagistre-crm-ui-redirect.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.automagistre-crm-ui-redirect.middlewares=crm-ui-redirect"
+      - "traefik.http.middlewares.crm-ui-redirect.redirectregex.regex=^https://crm\\.automagistre\\.ru/(msk|kazan|shavlev|demo)(/.*)?$$"
+      - "traefik.http.middlewares.crm-ui-redirect.redirectregex.replacement=https://crm.automagistre.ru/"
+      - "traefik.http.middlewares.crm-ui-redirect.redirectregex.permanent=false"
+      # r.automagistre.ru
       - "traefik.http.routers.automagistre-crm-redirect.rule=Host(`r.automagistre.ru`)"
       - "traefik.http.routers.automagistre-crm-redirect.entrypoints=websecure"
       - "traefik.http.routers.automagistre-crm-redirect.tls=true"
       - "traefik.http.routers.automagistre-crm-redirect.tls.certresolver=letsencrypt"
+      # callback.automagistre.ru
       - "traefik.http.routers.automagistre-crm-callback.rule=Host(`callback.automagistre.ru`)"
       - "traefik.http.routers.automagistre-crm-callback.entrypoints=websecure"
       - "traefik.http.routers.automagistre-crm-callback.tls=true"
