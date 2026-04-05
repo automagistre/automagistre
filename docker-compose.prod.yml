@@ -12,7 +12,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-public"
       # API и служебные пути — остаются на старой CRM
-      - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`) && (PathPrefix(`/msk/api`) || PathPrefix(`/kazan/api`) || PathPrefix(`/shavlev/api`) || PathPrefix(`/demo/api`) || PathPrefix(`/oauth2`) || PathPrefix(`/login`) || PathPrefix(`/logout`) || PathPrefix(`/metrics`) || PathPrefix(`/healthcheck`))"
+      - "traefik.http.routers.automagistre-crm.rule=Host(`crm.automagistre.ru`) && (PathPrefix(`/msk/api`) || PathPrefix(`/msk/uiscom`) || PathPrefix(`/kazan/api`) || PathPrefix(`/kazan/uiscom`) || PathPrefix(`/shavlev/api`) || PathPrefix(`/shavlev/uiscom`) || PathPrefix(`/demo/api`) || PathPrefix(`/demo/uiscom`) || PathPrefix(`/oauth2`) || PathPrefix(`/login`) || PathPrefix(`/logout`) || PathPrefix(`/metrics`) || PathPrefix(`/healthcheck`))"
       - "traefik.http.routers.automagistre-crm.priority=25"
       - "traefik.http.routers.automagistre-crm.entrypoints=websecure"
       - "traefik.http.routers.automagistre-crm.tls=true"
